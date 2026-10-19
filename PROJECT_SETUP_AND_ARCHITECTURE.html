@@ -1,61 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airbnb Clone — Project Architecture, Workflows & Problem Solutions</title>
+  <title>Airbnb Clone — Project Architecture & Workflow Guide (Eye-Care Edition)</title>
   <style>
-    :root {
-      --primary: #FF385C;
-      --primary-dark: #D70466;
-      --primary-light: #FFF8F6;
-      --text-main: #222222;
-      --text-muted: #717171;
-      --bg-light: #F7F7F7;
-      --bg-white: #FFFFFF;
-      --border-color: #EBEBEB;
-      --border-dark: #DDDDDD;
-      --success: #008A05;
-      --success-bg: #F0FDF4;
-      --danger: #C13515;
-      --danger-bg: #FEF2F2;
-      --info: #0284C7;
-      --info-bg: #F0F9FF;
-      --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-      --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+    /* ========================================================================= */
+    /* 1. EYE-CARE THEME SYSTEM (Zero Glare, Calibrated Contrast for Long Reading)*/
+    /* ========================================================================= */
+    
+    /* Default: Dark Dimmed Slate (Optimal for night reading & zero eye fatigue) */
+    :root, [data-theme="dark"] {
+      --bg-body: #0B0F19;
+      --bg-surface: #131B2E;
+      --bg-surface-elevated: #1A243B;
+      --bg-surface-subtle: #0F1626;
+      --border-subtle: #202D45;
+      --border-strong: #2E3E5D;
+      
+      --text-heading: #F1F5F9;
+      --text-body: #CBD5E1;
+      --text-muted: #8494AB;
+      --text-faint: #4E617E;
+
+      --primary: #FF5A78;
+      --primary-hover: #FF738D;
+      --primary-subtle: rgba(255, 90, 120, 0.12);
+      --primary-border: rgba(255, 90, 120, 0.3);
+
+      --success: #34D399;
+      --success-subtle: rgba(52, 211, 153, 0.12);
+      --success-border: rgba(52, 211, 153, 0.3);
+
+      --danger: #FB7185;
+      --danger-subtle: rgba(251, 113, 133, 0.12);
+      --danger-border: rgba(251, 113, 133, 0.3);
+
+      --info: #38BDF8;
+      --info-subtle: rgba(56, 189, 248, 0.12);
+      --info-border: rgba(56, 189, 248, 0.3);
+
+      --warning: #FBBF24;
+      --warning-subtle: rgba(251, 191, 36, 0.12);
+      --warning-border: rgba(251, 191, 36, 0.3);
+
+      --code-bg: #070B13;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.45);
     }
 
+    /* Theme 2: Warm Sepia / Reading Paper (Zero blue-light fatigue) */
+    [data-theme="sepia"] {
+      --bg-body: #F4EFEA;
+      --bg-surface: #EDE5DC;
+      --bg-surface-elevated: #E4DACF;
+      --bg-surface-subtle: #F8F5F1;
+      --border-subtle: #D8CCC0;
+      --border-strong: #C4B5A5;
+
+      --text-heading: #2E2721;
+      --text-body: #4A3E36;
+      --text-muted: #78685C;
+      --text-faint: #A49384;
+
+      --primary: #D9405E;
+      --primary-hover: #C22F4C;
+      --primary-subtle: rgba(217, 64, 94, 0.12);
+      --primary-border: rgba(217, 64, 94, 0.3);
+
+      --success: #2B8A5A;
+      --success-subtle: rgba(43, 138, 90, 0.12);
+      --success-border: rgba(43, 138, 90, 0.3);
+
+      --danger: #B9382B;
+      --danger-subtle: rgba(185, 56, 43, 0.12);
+      --danger-border: rgba(185, 56, 43, 0.3);
+
+      --info: #2275A4;
+      --info-subtle: rgba(34, 117, 164, 0.12);
+      --info-border: rgba(34, 117, 164, 0.3);
+
+      --warning: #B47814;
+      --warning-subtle: rgba(180, 120, 20, 0.12);
+      --warning-border: rgba(180, 120, 20, 0.3);
+
+      --code-bg: #322A24;
+      --card-shadow: 0 4px 16px rgba(60, 40, 30, 0.06);
+      --card-shadow-hover: 0 8px 24px rgba(60, 40, 30, 0.12);
+    }
+
+    /* Theme 3: Soft Low-Glare Light (Muted gray-cream instead of harsh pure white) */
+    [data-theme="light"] {
+      --bg-body: #ECEEF2;
+      --bg-surface: #F8F9FA;
+      --bg-surface-elevated: #FFFFFF;
+      --bg-surface-subtle: #F1F3F6;
+      --border-subtle: #D5DBE4;
+      --border-strong: #BDC6D4;
+
+      --text-heading: #1A2230;
+      --text-body: #334155;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+
+      --primary: #E11D48;
+      --primary-hover: #BE123C;
+      --primary-subtle: rgba(225, 29, 72, 0.08);
+      --primary-border: rgba(225, 29, 72, 0.25);
+
+      --success: #059669;
+      --success-subtle: rgba(5, 150, 105, 0.08);
+      --success-border: rgba(5, 150, 105, 0.25);
+
+      --danger: #DC2626;
+      --danger-subtle: rgba(220, 38, 38, 0.08);
+      --danger-border: rgba(220, 38, 38, 0.25);
+
+      --info: #0284C7;
+      --info-subtle: rgba(2, 132, 199, 0.08);
+      --info-border: rgba(2, 132, 199, 0.25);
+
+      --warning: #D97706;
+      --warning-subtle: rgba(217, 119, 6, 0.08);
+      --warning-border: rgba(217, 119, 6, 0.25);
+
+      --code-bg: #1E293B;
+      --card-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      --card-shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Base Reset */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text-main);
-      background-color: #FAFAFA;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+      color: var(--text-body);
+      background-color: var(--bg-body);
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
     }
 
     /* Header Nav */
     header.site-header {
-      background: var(--bg-white);
-      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      backdrop-filter: blur(8px);
     }
 
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
     }
 
     .logo-badge {
@@ -65,95 +174,157 @@
       text-decoration: none;
       color: var(--primary);
       font-weight: 700;
-      font-size: 20px;
+      font-size: 19px;
+      letter-spacing: -0.3px;
     }
 
-    .badge-pill {
-      background: var(--primary-light);
-      color: var(--primary);
+    .theme-switcher {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
       font-size: 12px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 56, 92, 0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
     }
 
-    /* Container */
+    .theme-btn:hover {
+      color: var(--text-heading);
+    }
+
+    .theme-btn.active {
+      background: var(--bg-surface-elevated);
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Main Container */
     .container {
-      max-width: 1200px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 32px 24px 64px 24px;
+      padding: 36px 24px 0 24px;
     }
 
-    /* Hero Banner */
+    /* Eye-Care Hero */
     .hero {
-      background: linear-gradient(135deg, #FFF0F2 0%, #FFFFFF 100%);
-      border: 1px solid #FFE4E8;
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-surface-elevated) 100%);
+      border: 1px solid var(--border-subtle);
       border-radius: 20px;
-      padding: 40px;
-      margin-bottom: 40px;
+      padding: 36px 40px;
+      margin-bottom: 36px;
       box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--primary-subtle);
+      border-radius: 50%;
+      filter: blur(50px);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-border);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .hero h1 {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
-      color: var(--text-main);
+      color: var(--text-heading);
       margin-bottom: 12px;
       letter-spacing: -0.5px;
+      line-height: 1.3;
     }
 
     .hero p {
-      font-size: 17px;
+      font-size: 16px;
       color: var(--text-muted);
-      max-width: 900px;
+      max-width: 860px;
       margin-bottom: 24px;
+      line-height: 1.6;
     }
 
     .hero-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     .tag {
-      background: white;
-      border: 1px solid var(--border-dark);
-      padding: 6px 14px;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 12px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--text-body);
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
 
-    /* Section Styles */
+    /* Section Headings */
     section {
       margin-bottom: 48px;
     }
 
     .section-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 12px;
-      color: var(--text-main);
+      color: var(--text-heading);
+      letter-spacing: -0.3px;
     }
 
     .section-title span.number {
       background: var(--primary);
       color: white;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
 
     .section-subtitle {
@@ -164,44 +335,45 @@
 
     /* Cards */
     .card {
-      background: var(--bg-white);
-      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: 16px;
       padding: 24px;
       margin-bottom: 24px;
       box-shadow: var(--card-shadow);
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .card:hover {
       box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-strong);
     }
 
     .card-title {
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-main);
+      margin-bottom: 12px;
+      color: var(--text-heading);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
     }
 
-    /* Diagrams (Block Layouts) */
+    /* Eye-Friendly Block Diagrams */
     .diagram-wrapper {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      padding: 24px;
-      margin: 20px 0;
+      padding: 22px;
+      margin: 18px 0;
       overflow-x: auto;
     }
 
     .diagram-title {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #64748B;
+      color: var(--text-muted);
       font-weight: 700;
       margin-bottom: 16px;
       display: flex;
@@ -217,38 +389,39 @@
     }
 
     .block {
-      background: white;
-      border: 2px solid #CBD5E1;
+      background: var(--bg-surface-elevated);
+      border: 1.5px solid var(--border-subtle);
       border-radius: 10px;
-      padding: 14px 18px;
+      padding: 12px 16px;
       font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      min-width: 140px;
+      font-size: 13px;
+      color: var(--text-heading);
+      min-width: 130px;
       text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .block.accent {
-      border-color: var(--primary);
-      background: #FFF5F7;
+      border-color: var(--primary-border);
+      background: var(--primary-subtle);
       color: var(--primary);
     }
 
     .block.success {
-      border-color: var(--success);
-      background: var(--success-bg);
+      border-color: var(--success-border);
+      background: var(--success-subtle);
       color: var(--success);
     }
 
     .block.danger {
-      border-color: var(--danger);
-      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      background: var(--danger-subtle);
       color: var(--danger);
     }
 
     .block.info {
-      border-color: var(--info);
-      background: var(--info-bg);
+      border-color: var(--info-border);
+      background: var(--info-subtle);
       color: var(--info);
     }
 
@@ -261,16 +434,16 @@
     }
 
     .arrow {
-      color: #94A3B8;
-      font-size: 20px;
+      color: var(--text-faint);
+      font-size: 18px;
       font-weight: bold;
     }
 
-    /* Comparison Box */
+    /* Before vs After Comparison Grid */
     .comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 18px;
       margin: 16px 0;
     }
 
@@ -282,22 +455,22 @@
 
     .compare-card {
       border-radius: 12px;
-      padding: 18px;
+      padding: 16px;
       border: 1px solid;
     }
 
     .compare-card.bad {
-      background: #FFF9F9;
-      border-color: #FFC7C7;
+      background: var(--danger-subtle);
+      border-color: var(--danger-border);
     }
 
     .compare-card.good {
-      background: #F4FDF6;
-      border-color: #B4ECC1;
+      background: var(--success-subtle);
+      border-color: var(--success-border);
     }
 
     .compare-header {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       margin-bottom: 8px;
       display: flex;
@@ -313,82 +486,70 @@
       color: var(--success);
     }
 
-    /* Pill list */
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .pill {
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: #E2E8F0;
-      color: #334155;
-      font-family: monospace;
-    }
-
-    /* Code Snippet */
+    /* Code Snippet - Dimmed with gentle highlight */
     pre.code-snippet {
-      background: #1E293B;
-      color: #F8FAFC;
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      color: #93C5FD;
       padding: 14px 18px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
       overflow-x: auto;
-      margin: 12px 0;
+      margin: 14px 0;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      line-height: 1.5;
     }
 
-    /* Table Styles */
+    /* Tables */
     table.spec-table {
       width: 100%;
       border-collapse: collapse;
       margin: 16px 0;
-      font-size: 14px;
-      background: white;
-      border-radius: 8px;
+      font-size: 13px;
+      background: var(--bg-surface);
+      border-radius: 10px;
       overflow: hidden;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-subtle);
     }
 
     table.spec-table th, table.spec-table td {
       padding: 12px 16px;
       text-align: left;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     table.spec-table th {
-      background: #F8FAFC;
+      background: var(--bg-surface-subtle);
       font-weight: 700;
-      color: #475569;
+      color: var(--text-heading);
     }
 
     table.spec-table tr:last-child td {
       border-bottom: none;
     }
 
+    /* Table of contents */
     .toc {
-      background: white;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
     }
 
     .toc h3 {
-      font-size: 16px;
+      font-size: 15px;
       margin-bottom: 12px;
-      color: var(--text-main);
+      color: var(--text-heading);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .toc ul {
       list-style-type: none;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 16px;
+      gap: 10px 20px;
     }
 
     @media (max-width: 640px) {
@@ -400,37 +561,80 @@
     .toc a {
       color: var(--info);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 500;
     }
 
     .toc a:hover {
       text-decoration: underline;
+      color: var(--primary);
+    }
+
+    .badge-pill {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-border);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-heading);
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. Header -->
+  <!-- Top Sticky Header with Theme Switcher -->
   <header class="site-header">
     <div class="header-container">
       <a href="/" class="logo-badge">
-        <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor">
+        <svg viewBox="0 0 32 32" width="24" height="24" fill="currentColor">
           <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.011.319c0 4.14-3.238 7.375-7.464 7.375-2.046 0-3.957-.768-5.467-2.179-.176-.164-.347-.336-.513-.514-.166.178-.337.35-.513.514-1.51 1.411-3.421 2.179-5.467 2.179-4.226 0-7.464-3.235-7.464-7.375 0-1.127.284-2.285.971-3.715l.145-.353c.986-2.296 5.146-11.006 7.1-14.836l.533-1.025C12.537 1.963 13.992 1 16 1zm0 2c-1.397 0-2.395.666-3.466 2.58l-.513.987c-1.93 3.782-6.071 12.451-7.042 14.717-.597 1.242-.879 2.18-.879 3.091 0 3.09 2.378 5.375 5.464 5.375 1.764 0 3.394-.783 4.549-2.16l.451-.555.451.555c1.155 1.377 2.785 2.16 4.549 2.16 3.086 0 5.464-2.285 5.464-5.375 0-.911-.282-1.849-.879-3.091-.971-2.266-5.112-10.935-7.042-14.717l-.513-.987C18.395 3.666 17.397 3 16 3zm0 15c1.657 0 3 1.343 3 3 0 1.543-1.168 2.814-2.658 2.977l-.173.007c-1.543 0-2.814-1.168-2.977-2.658l-.007-.173c0-1.657 1.343-3 3-3zm0 2c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"/>
         </svg>
-        <span>Airbnb Clone Architecture Guide</span>
+        <span>Airbnb Clone Guide</span>
       </a>
-      <span class="badge-pill">Production Ready • Next.js 16</span>
+
+      <!-- 3 Eye-Friendly Color Modes -->
+      <div class="theme-switcher">
+        <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')">
+          🌙 Dark Dimmed
+        </button>
+        <button class="theme-btn" id="btn-sepia" onclick="setTheme('sepia')">
+          ☕ Warm Sepia
+        </button>
+        <button class="theme-btn" id="btn-light" onclick="setTheme('light')">
+          ☀️ Soft Light
+        </button>
+      </div>
     </div>
   </header>
 
   <div class="container">
 
-    <!-- Hero -->
+    <!-- Hero Card -->
     <div class="hero">
-      <h1>Complete Project Workflows & Problem Solutions</h1>
+      <div class="hero-badge">Zero Eye Strain Edition</div>
+      <h1>Project Architecture, Workflows & Problem Solutions</h1>
       <p>
-        An easy-to-understand visual guide explaining how our Airbnb Clone works, the step-by-step user journeys, every single technical bug we faced, why it happened, and how we solved it using clean architectural block diagrams.
+        A calm, comfortable visual guide designed for long reading without eye fatigue. Explains how our Airbnb clone works, every single bug faced, why it happened, and how we solved it with simple block diagrams.
       </p>
       <div class="hero-tags">
         <span class="tag">⚡ Next.js 16.4 (App Router)</span>
@@ -444,7 +648,7 @@
 
     <!-- Table of Contents -->
     <div class="toc">
-      <h3>Quick Table of Contents</h3>
+      <h3>Quick Navigation</h3>
       <ul>
         <li><a href="#architecture">1. Big Picture System Architecture</a></li>
         <li><a href="#workflows">2. Complete User Workflows</a></li>
@@ -453,20 +657,20 @@
         <li><a href="#problem3">5. Problem 3: Bento Grid Photo Mismatch</a></li>
         <li><a href="#problem4">6. Problem 4: Browser Back Button Bug</a></li>
         <li><a href="#problem5">7. Problem 5: Floating Sticky Category Titles</a></li>
-        <li><a href="#problem6">8. Problem 6: Header Morphing Vibration</a></li>
+        <li><a href="#problem6">8. Problem 6: Header Morphing Jitter</a></li>
         <li><a href="#problem7">9. Problem 7: Mobile SubNavbar Overlap</a></li>
         <li><a href="#problem8">10. Problem 8: Meet Your Host Card Sizing</a></li>
       </ul>
     </div>
 
-    <!-- SECTION 1: ARCHITECTURE -->
+    <!-- 1. BIG PICTURE ARCHITECTURE -->
     <section id="architecture">
       <div class="section-title">
         <span class="number">1</span>
         <h2>Big Picture Architecture (How Code is Organized)</h2>
       </div>
       <p class="section-subtitle">
-        We use <strong>Feature-Sliced Domain Architecture</strong>. Instead of putting hundreds of files into one giant folder, we divide code by business features.
+        We use <strong>Feature-Sliced Domain Architecture</strong>. Code is cleanly separated into modular features instead of being dumped into one large folder.
       </p>
 
       <div class="card">
@@ -480,7 +684,7 @@
             <div class="arrow">⇄</div>
             <div class="block info">
               NEXT.JS 16 APP ROUTER
-              <small>App Router + Turbopack</small>
+              <small>Server & Client Components</small>
             </div>
             <div class="arrow">⇄</div>
             <div class="block">
@@ -498,7 +702,7 @@
         <table class="spec-table">
           <thead>
             <tr>
-              <th>Folder</th>
+              <th>Feature Directory</th>
               <th>What Lives Inside?</th>
               <th>Why It Is Kept Separate</th>
             </tr>
@@ -507,41 +711,41 @@
             <tr>
               <td><code>src/features/home/</code></td>
               <td>HomeHeader, ListingCarousel, DestinationCarousel, InspirationSection</td>
-              <td>Keeps all Home Page discovery logic self-contained.</td>
+              <td>Keeps the discovery feed and category tabs isolated from room details.</td>
             </tr>
             <tr>
               <td><code>src/features/listing/</code></td>
               <td>PhotoBentoGrid, PropertyOverview, ListingHeader, SubNavbar</td>
-              <td>Encapsulates room display and bento grid layout.</td>
+              <td>Encapsulates the 5-photo bento grid and room specifications.</td>
             </tr>
             <tr>
               <td><code>src/features/photo-tour/</code></td>
-              <td>PhotoTourOverlay, 43 categorized images & 9 room sections</td>
-              <td>Full-screen scrollable gallery with floating sticky titles.</td>
+              <td>PhotoTourOverlay, 43 categorized photos across 9 room sections</td>
+              <td>Manages the full-screen photo modal with sticky floating headers.</td>
             </tr>
             <tr>
               <td><code>src/features/lightbox/</code></td>
               <td>LightboxModal, keyboard navigation hook (Esc, ←, →)</td>
-              <td>Dedicated single-photo viewer without cluttering other views.</td>
+              <td>Focuses on single-photo viewing with zero clutter.</td>
             </tr>
             <tr>
               <td><code>src/features/booking/</code></td>
               <td>StickyBookingWidget, dynamic price calculation hook</td>
-              <td>Calculates nights, base rate, fees, and grand total in real-time.</td>
+              <td>Recalculates nights, base rate, fees, and grand total in real-time.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- SECTION 2: WORKFLOWS -->
+    <!-- 2. USER WORKFLOWS -->
     <section id="workflows">
       <div class="section-title">
         <span class="number">2</span>
         <h2>Complete End-to-End User Workflows</h2>
       </div>
       <p class="section-subtitle">
-        Here is what happens step-by-step when a user interacts with the website:
+        Here is what happens step-by-step when a user navigates and interacts with the app:
       </p>
 
       <!-- Workflow A -->
@@ -551,20 +755,20 @@
           <span class="badge-pill">Home Page</span>
         </div>
         <p style="margin-bottom: 12px; color: var(--text-muted);">
-          When you open <code>localhost:3000/</code>, the header is large (180px tall) with big 3D category icons. When you scroll down, it smoothly morphs into a compact 80px bar.
+          When you load <code>localhost:3000/</code>, the header starts tall (180px) with 3D icons. As you scroll down, it gracefully morphs into an 80px compact pill.
         </p>
 
         <div class="diagram-wrapper">
           <div class="diagram-title">Header Morphing Flow Diagram</div>
           <div class="block-flow">
             <div class="block">
-              1. User at top of page (0px)
+              1. User at top (0px)
               <small>Height = 180px (Expanded)</small>
             </div>
             <div class="arrow">→</div>
             <div class="block info">
-              2. User scrolls down > 30px
-              <small>Trigger Deadband Threshold</small>
+              2. Scroll down > 30px
+              <small>Hysteresis threshold triggered</small>
             </div>
             <div class="arrow">→</div>
             <div class="block accent">
@@ -574,7 +778,7 @@
             <div class="arrow">→</div>
             <div class="block success">
               4. Compact Bar Stays Pinned
-              <small>Spacers adjust in lockstep</small>
+              <small>Bottom spacer adjusts in lockstep</small>
             </div>
           </div>
         </div>
@@ -587,31 +791,31 @@
           <span class="badge-pill">Listing Page</span>
         </div>
         <p style="margin-bottom: 12px; color: var(--text-muted);">
-          When you click on a listing card, you land on <code>/rooms/terracotta-serene-candolim</code>. Here is how photos open:
+          On the room page (<code>/rooms/terracotta-serene-candolim</code>), tapping any photo opens that exact photo in the single-photo Lightbox, while clicking "Show all photos" opens the 43-photo tour.
         </p>
 
         <div class="diagram-wrapper">
           <div class="diagram-title">Photo Interaction Block Diagram</div>
           <div class="block-flow">
             <div class="block">
-              Room Detail Page
-              <small>5-Photo Bento Grid</small>
+              5-Photo Bento Grid
+              <small>Living, Couch, Jacuzzi, Bedroom, Exterior</small>
             </div>
             <div class="arrow">Tap Photo →</div>
             <div class="block accent">
               Lightbox Modal
-              <small>Full screen dark photo (e.g. Jacuzzi)</small>
+              <small>Shows exact photo clicked</small>
             </div>
-            <div class="arrow">← Press Esc / Close</div>
+            <div class="arrow">← Press Esc</div>
             <div class="block">
               Back to Room Page
-              <small>Clean state restored</small>
+              <small>Clean state preserved</small>
             </div>
           </div>
           <div class="block-flow" style="margin-top: 16px;">
             <div class="block">
-              Room Detail Page
-              <small>5-Photo Bento Grid</small>
+              5-Photo Bento Grid
+              <small>Bottom-right tile button</small>
             </div>
             <div class="arrow">Click "Show all photos" →</div>
             <div class="block success">
@@ -628,43 +832,43 @@
       </div>
     </section>
 
-    <!-- SECTION 3: PROBLEMS & SOLUTIONS -->
+    <!-- 3. PROBLEMS & SOLUTIONS -->
     <section id="problems">
       <div class="section-title">
         <span class="number">3</span>
         <h2>Engineering Problems, Why They Happened & How We Solved Them</h2>
       </div>
       <p class="section-subtitle">
-        Every technical hurdle we met, the root cause, the chosen technology, and before/after comparisons.
+        Every technical hurdle encountered during development, the root cause, and the clean solution with block diagrams.
       </p>
 
       <!-- Problem 1 -->
       <div class="card" id="problem1">
         <div class="card-title">
           <span>Problem 1: Header Logo & Controls Misalignment Across Pages</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">Visual Bug</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">Visual Bug</span>
         </div>
-        <p><strong>Why We Faced It:</strong> The Home page header was set to <code>max-w-[1760px]</code> with <code>px-20</code> padding and negative margin <code>-ml-8</code> on the logo, while the Room detail page was set to <code>max-w-7xl</code> (1280px). When switching pages, the logo jumped sideways by over 130px.</p>
+        <p><strong>Why We Faced It:</strong> The Home page header was set to <code>max-w-[1760px]</code> with <code>px-20</code> and negative margin <code>-ml-8</code> on the logo, whereas the Room detail page was set to <code>max-w-7xl</code> (1280px). When navigating between pages, the logo jumped sideways by more than 130px.</p>
 
         <div class="comparison-grid">
           <div class="compare-card bad">
             <div class="compare-header">❌ BEFORE (Misaligned Containers)</div>
-            <p style="font-size: 13px;">Home: <code>max-w-[1760px] -ml-8 pt-2</code> (Logo is far left)</p>
-            <p style="font-size: 13px;">Room: <code>max-w-7xl -ml-2 pt-0</code> (Logo is pushed inward by 130px)</p>
+            <p style="font-size: 13px;">Home: <code>max-w-[1760px] -ml-8 pt-2</code> (Logo sits far left)</p>
+            <p style="font-size: 13px;">Room: <code>max-w-7xl -ml-2 pt-0</code> (Logo sits 130px further inward)</p>
             <div class="diagram-wrapper" style="padding: 10px; margin: 10px 0;">
-              <div style="font-size: 11px; color: var(--danger); font-weight: bold;">[Home Logo: 80px from left] ----------- [Room Logo: 210px from left]</div>
+              <div style="font-size: 11px; color: var(--danger); font-weight: bold;">[Home Logo: 80px from edge] ≠ [Room Logo: 210px from edge]</div>
             </div>
           </div>
           <div class="compare-card good">
-            <div class="compare-header">✅ AFTER (Unified Layout in Tailwind)</div>
+            <div class="compare-header">✅ AFTER (Unified Responsive Layout)</div>
             <p style="font-size: 13px;">Both pages: <code>max-w-[1760px] px-8 md:px-12 min-[1138px]:px-20</code></p>
-            <p style="font-size: 13px;">Added balanced inner row padding <code>px-2 sm:px-4</code> and zero negative margins.</p>
+            <p style="font-size: 13px;">Removed negative margins; added <code>px-2 sm:px-4</code> inner breathing room.</p>
             <div class="diagram-wrapper" style="padding: 10px; margin: 10px 0;">
               <div style="font-size: 11px; color: var(--success); font-weight: bold;">[Both Logos: Exact Same Coordinate Across Both Pages!]</div>
             </div>
           </div>
         </div>
-        <p style="font-size: 14px; color: var(--text-muted);">
+        <p style="font-size: 13px; color: var(--text-muted);">
           <strong>Technology Solution:</strong> Tailwind CSS responsive container tokens + unified 80px (<code>h-20</code>) header height.
         </p>
       </div>
@@ -673,21 +877,21 @@
       <div class="card" id="problem2">
         <div class="card-title">
           <span>Problem 2: Corrupted / Broken Image in Noida Carousel (HTTP 404)</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">CDN Failure</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">CDN Failure</span>
         </div>
-        <p><strong>Why We Faced It:</strong> In the "Check out homes in Noida" section, card 4 ("Room in Sector 75") had an Unsplash URL that was deleted on the external server, returning an <strong>HTTP 404 Not Found</strong> and showing an ugly broken image box.</p>
+        <p><strong>Why We Faced It:</strong> In the "Check out homes in Noida" section, card 4 ("Room in Sector 75") pointed to an Unsplash photo that was deleted on the CDN, returning an <strong>HTTP 404 Not Found</strong> and rendering an exposed broken image icon.</p>
 
         <div class="diagram-wrapper">
-          <div class="diagram-title">Resilient Image Fallback Diagram</div>
+          <div class="diagram-title">Resilient Image Fallback Flow</div>
           <div class="block-flow">
             <div class="block danger">
-              1. Broken CDN URL
+              1. Dead CDN Link
               <small>Unsplash returns 404</small>
             </div>
             <div class="arrow">→</div>
             <div class="block info">
-              2. React onError Triggers
-              <small>Synthetic event caught</small>
+              2. React onError Catches
+              <small>Synthetic event intercepted</small>
             </div>
             <div class="arrow">→</div>
             <div class="block success">
@@ -696,14 +900,14 @@
             </div>
             <div class="arrow">→</div>
             <div class="block">
-              4. Perfect UI Rendered
+              4. Clean UI Restored
               <small>Zero broken icons!</small>
             </div>
           </div>
         </div>
 
         <pre class="code-snippet">
-// The Resilient Solution in React:
+// Resilient Image Fallback in React:
 &lt;img
   src={item.images[0]}
   alt={item.title}
@@ -720,9 +924,9 @@
       <div class="card" id="problem3">
         <div class="card-title">
           <span>Problem 3: Bento Grid Photo Mismatch & Wrong Lightbox Photo</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">State Desync</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">State Desync</span>
         </div>
-        <p><strong>Why We Faced It:</strong> In the Room page Bento Grid, the user clicked on the Jacuzzi photo (or Bedroom / Exterior), but the Lightbox opened showing photo 1 (Living room 1) or Kitchen! This happened because <code>ALL_43_PHOTOS</code> had Kitchen at position 4 and Jacuzzi at position 3, while the click handler used hardcoded <code>idx + 1</code> numbers.</p>
+        <p><strong>Why We Faced It:</strong> In the Room page Bento Grid, clicking on the Jacuzzi photo (or Bedroom / Exterior) opened the Lightbox showing Photo 1 (Living room 1) or Kitchen. This occurred because <code>ALL_43_PHOTOS</code> had Kitchen at position 4 and Jacuzzi at position 3, while the click handler used hardcoded <code>idx + 1</code> numbers.</p>
 
         <div class="comparison-grid">
           <div class="compare-card bad">
@@ -746,7 +950,7 @@
           <div class="diagram-title">Dynamic ID Resolution</div>
           <div class="block-flow">
             <div class="block">
-              User Clicks Jacuzzi Tile
+              User Taps Jacuzzi Tile
               <small>id = 'img-03'</small>
             </div>
             <div class="arrow">→</div>
@@ -767,11 +971,11 @@
       <div class="card" id="problem4">
         <div class="card-title">
           <span>Problem 4: Browser Back Button Exited Website Instead of Closing Modal</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">Routing Bug</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">Routing Bug</span>
         </div>
-        <p><strong>Why We Faced It:</strong> In typical React apps, modals are just <code>isOpen = true</code> in state. If a user opened the Photo Tour and pressed the browser's Back button, the browser had no history entry for the modal, so it closed the entire website!</p>
+        <p><strong>Why We Faced It:</strong> In traditional React apps, modal state lives in component memory (<code>isOpen = true</code>). When a user opened the Photo Tour and pressed the browser's Back button, the browser had no history entry for the modal, causing the user to navigate completely away from the page.</p>
 
-        <p style="margin: 12px 0;"><strong>How We Solved It:</strong> We wired the modal to the <strong>HTML5 History API</strong> using <code>window.history.pushState</code> and <code>popstate</code> listeners in <code>useViewState.ts</code>:</p>
+        <p style="margin: 12px 0;"><strong>How We Solved It:</strong> We integrated the modal with the <strong>HTML5 History API</strong> using <code>window.history.pushState</code> and <code>popstate</code> listeners in <code>useViewState.ts</code>:</p>
 
         <div class="diagram-wrapper">
           <div class="diagram-title">History Stack Block Diagram</div>
@@ -783,12 +987,12 @@
             <div class="arrow">Push State →</div>
             <div class="block accent">
               2. Photo Tour Modal
-              <small>/rooms/candolim?modal=PHOTO_TOUR_SCROLLABLE</small>
+              <small>?modal=PHOTO_TOUR_SCROLLABLE</small>
             </div>
-            <div class="arrow">User Clicks Browser Back ←</div>
+            <div class="arrow">Press Browser Back ←</div>
             <div class="block success">
-              3. Popstate Event Closes Modal
-              <small>User stays safely on /rooms/candolim!</small>
+              3. Popstate Closes Modal
+              <small>User stays safely on room page!</small>
             </div>
           </div>
         </div>
@@ -798,11 +1002,11 @@
       <div class="card" id="problem5">
         <div class="card-title">
           <span>Problem 5: Floating Sticky Category Headings in 43-Photo Tour</span>
-          <span class="tag" style="color: var(--info); border-color: #BAE6FD;">UX Innovation</span>
+          <span class="badge-pill" style="color: var(--info); border-color: var(--info-border); background: var(--info-subtle);">UX Innovation</span>
         </div>
-        <p><strong>Why We Faced It:</strong> In a huge 43-photo tour covering 9 rooms, users scrolling down would easily get lost and forget which room's photos they were inspecting.</p>
+        <p><strong>Why We Faced It:</strong> In a large 43-photo gallery containing 9 room categories, users scrolling down lost context regarding which room they were examining.</p>
 
-        <p style="margin: 12px 0;"><strong>How We Solved It:</strong> We designed a two-column responsive layout where the left room title column uses CSS <code>position: sticky; top: 96px;</code>. As you scroll through 5 pictures of "Full kitchen", the kitchen heading stays pinned on your left, and smoothly unsticks when the next room arrives!</p>
+        <p style="margin: 12px 0;"><strong>How We Solved It:</strong> We structured a two-column responsive layout where the left column uses CSS <code>position: sticky; top: 96px;</code>. As the user scrolls through the photos of "Full kitchen", the kitchen heading stays pinned on the left and smoothly unsticks when the next room arrives.</p>
 
         <div class="diagram-wrapper">
           <div class="diagram-title">Sticky Headings Diagram</div>
@@ -813,7 +1017,7 @@
             </div>
             <div class="block" style="flex: 1;">
               Right Column (8 cols)
-              <small>Photo 1, Photo 2, Photo 3, Photo 4<br>Scrolls naturally with user thumb / mouse</small>
+              <small>Photo 1, Photo 2, Photo 3, Photo 4<br>Scrolls naturally with thumb / mouse</small>
             </div>
           </div>
         </div>
@@ -823,9 +1027,9 @@
       <div class="card" id="problem6">
         <div class="card-title">
           <span>Problem 6: Header Morphing Jitter & Scroll Flickering</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">Animation Bug</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">Animation Bug</span>
         </div>
-        <p><strong>Why We Faced It:</strong> Using a simple check like <code>if (scrollY > 20) setIsScrolled(true)</code> caused the header to rapidly flash and bounce between 180px and 80px whenever the user scrolled slowly around 20px.</p>
+        <p><strong>Why We Faced It:</strong> A single scroll threshold (e.g. <code>scrollY > 20</code>) caused the header to rapidly flash and bounce between 180px and 80px whenever the user scrolled slowly near 20px.</p>
 
         <p style="margin: 12px 0;"><strong>How We Solved It:</strong> We implemented a <strong>Deadband Hysteresis Algorithm</strong>:</p>
 
@@ -854,9 +1058,9 @@
       <div class="card" id="problem7">
         <div class="card-title">
           <span>Problem 7: Mobile SubNavbar & Reserve CTA Overlap</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">Mobile Layout Collision</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">Mobile Collision</span>
         </div>
-        <p><strong>Why We Faced It:</strong> On smartphone viewports, the sticky SubNavbar tabs collided with the floating bottom Reserve button, causing buttons to overlap and become untappable.</p>
+        <p><strong>Why We Faced It:</strong> On phone screens, the sticky SubNavbar tabs collided with the bottom fixed reserve button, causing buttons to overlap and become untappable.</p>
 
         <p style="margin: 12px 0;"><strong>How We Solved It:</strong> Used clean responsive breakpoints (<code>hidden md:flex</code> on the top SubNavbar, and <code>md:hidden</code> on the bottom mobile reserve sheet) with separate z-index stacking layers.</p>
       </div>
@@ -865,7 +1069,7 @@
       <div class="card" id="problem8">
         <div class="card-title">
           <span>Problem 8: "Meet Your Host" Card Distortion & Low-Res Co-Host Avatars</span>
-          <span class="tag" style="color: var(--danger); border-color: #FECACA;">Visual Distortion</span>
+          <span class="badge-pill" style="color: var(--danger); border-color: var(--danger-border); background: var(--danger-subtle);">Visual Distortion</span>
         </div>
         <p><strong>Why We Faced It:</strong> The host card stretched across the entire screen width on desktop screens, looking bloated, and co-host portraits were low-resolution generic placeholders.</p>
 
@@ -874,14 +1078,14 @@
 
     </section>
 
-    <!-- SECTION 4: HOW TO RUN & VERIFY -->
+    <!-- 4. HOW TO RUN -->
     <section id="verify">
       <div class="section-title">
         <span class="number">4</span>
         <h2>How to Run, Build & Verify</h2>
       </div>
       <div class="card">
-        <p style="margin-bottom: 16px;">Run these simple commands in your terminal to start or build the application:</p>
+        <p style="margin-bottom: 14px;">Run these simple commands in your terminal to start or build the application:</p>
         <pre class="code-snippet">
 # 1. Install dependencies
 npm install
@@ -897,11 +1101,11 @@ npm run build
         <div style="margin-top: 16px;">
           <strong>Quick Health Checklist:</strong>
           <div class="pill-list">
-            <span class="pill" style="background: var(--success-bg); color: var(--success); font-weight: bold;">✓ 0 TypeScript Errors</span>
-            <span class="pill" style="background: var(--success-bg); color: var(--success); font-weight: bold;">✓ 0 Linter Warnings</span>
-            <span class="pill" style="background: var(--success-bg); color: var(--success); font-weight: bold;">✓ Turbopack Enabled</span>
-            <span class="pill" style="background: var(--success-bg); color: var(--success); font-weight: bold;">✓ 100% Mobile Responsive</span>
-            <span class="pill" style="background: var(--success-bg); color: var(--success); font-weight: bold;">✓ Synchronized GitHub Repo</span>
+            <span class="pill" style="border-color: var(--success-border); color: var(--success);">✓ 0 TypeScript Errors</span>
+            <span class="pill" style="border-color: var(--success-border); color: var(--success);">✓ 0 Linter Warnings</span>
+            <span class="pill" style="border-color: var(--success-border); color: var(--success);">✓ Turbopack Enabled</span>
+            <span class="pill" style="border-color: var(--success-border); color: var(--success);">✓ 100% Mobile Responsive</span>
+            <span class="pill" style="border-color: var(--success-border); color: var(--success);">✓ Synchronized GitHub Repo</span>
           </div>
         </div>
       </div>
@@ -909,9 +1113,25 @@ npm run build
 
   </div>
 
-  <footer style="text-align: center; padding: 32px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 13px;">
-    Airbnb Clone Architecture Guide • Built with Next.js 16, React 19 & Tailwind CSS v4 • Production Ready
+  <footer style="text-align: center; padding: 28px; border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 13px;">
+    Airbnb Clone Architecture Guide • Eye-Care Edition (Dark Dimmed / Warm Sepia / Soft Light) • Production Ready
   </footer>
+
+  <script>
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-' + theme);
+      if (activeBtn) activeBtn.classList.add('active');
+      localStorage.setItem('airbnb_guide_theme', theme);
+    }
+
+    // Auto-restore user preferred theme
+    (function() {
+      const saved = localStorage.getItem('airbnb_guide_theme') || 'dark';
+      setTheme(saved);
+    })();
+  </script>
 
 </body>
 </html>
