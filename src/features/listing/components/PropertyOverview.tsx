@@ -229,7 +229,7 @@ export function PropertyOverview({
             Hosted by {listing.host.name}
           </div>
           <div className="text-[14px] text-[#717171] mt-0.5">
-            Superhost · 7 months hosting
+            Superhost · {listing.host.yearsHosting} years hosting
           </div>
         </div>
       </div>
@@ -254,7 +254,7 @@ export function PropertyOverview({
           </div>
         </div>
 
-        {/* Hitesh is a Superhost */}
+        {/* Superhost highlight */}
         <div className="flex items-start gap-4">
           <div className="text-[#222222] pt-0.5">
             <svg viewBox="0 0 32 32" className="w-6 h-6 stroke-[#222222] stroke-[2] fill-none">
@@ -263,7 +263,7 @@ export function PropertyOverview({
             </svg>
           </div>
           <div>
-            <div className="text-[16px] font-semibold text-[#222222]">Hitesh is a Superhost</div>
+            <div className="text-[16px] font-semibold text-[#222222]">{listing.host.name} is a Superhost</div>
             <div className="text-[14px] text-[#717171] mt-0.5">
               Superhosts are experienced, highly rated hosts.
             </div>

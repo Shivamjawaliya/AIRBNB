@@ -28,6 +28,7 @@ import {
   ChevronLeft,
   Lightbulb,
   GraduationCap,
+  Heart,
 } from 'lucide-react';
 
 export default function ListingPage() {
@@ -307,7 +308,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/amit.jpg"
+                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/amit.jpg'; }}
                   alt="Amit"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -334,7 +336,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/aheesh.jpg"
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/aheesh.jpg'; }}
                   alt="Aheesh"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -364,7 +367,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/samiksha.jpg"
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/samiksha.jpg'; }}
                   alt="Samiksha"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -391,7 +395,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/vedant.jpg"
+                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/vedant.jpg'; }}
                   alt="Vedant"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -421,7 +426,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/vaibhav.jpg"
+                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/vaibhav.jpg'; }}
                   alt="Vaibhav S"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -448,7 +454,8 @@ export default function ListingPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
-                  src="/reviews/mohd.jpg"
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80"
+                  onError={(e) => { e.currentTarget.src = '/reviews/mohd.jpg'; }}
                   alt="Mohd"
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -560,62 +567,68 @@ export default function ListingPage() {
           </div>
         </div>
 
-        {/* 8. Meet your host Section matching Screenshot 2 */}
+        {/* 8. Meet your host Section matching Screenshot */}
         <div className="mt-14 pt-12 border-t border-[#dddddd]">
           <h3 className="text-[22px] font-semibold text-[#222222] mb-6">
             Meet your host
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-start">
-            {/* Left Card Column */}
-            <div className="lg:col-span-5">
-              <div className="bg-white rounded-3xl p-7 sm:p-8 border border-[#dddddd] shadow-[0_6px_16px_rgba(0,0,0,0.08)] flex items-center justify-between">
-                <div>
-                  <img
-                    src="/icons/mirashya-logo.png"
-                    alt="Mirashya Homes"
-                    className="w-18 h-18 rounded-full object-cover"
-                  />
-                  <h4 className="text-[22px] font-bold text-[#222222] mt-3 leading-tight">
-                    Mirashya Homes
+            {/* Left Column: Fixed-size Card matching reference screenshot */}
+            <div className="lg:col-span-5 flex flex-col items-start">
+              <div className="w-full max-w-[332px] bg-white rounded-3xl p-6 border border-[#dddddd] shadow-[0_6px_20px_rgba(0,0,0,0.08)] flex items-center justify-between">
+                {/* Left side of Card: Avatar and Centered Host Name */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center pr-3">
+                  <div className="w-[104px] h-[104px] flex items-center justify-center">
+                    <img
+                      src="/icons/mirashya-avatar-full.png"
+                      alt="Mirashya Homes"
+                      className="w-[104px] h-[104px] object-contain"
+                    />
+                  </div>
+                  <h4 className="text-[24px] font-bold text-[#222222] mt-3 leading-tight">
+                    Mirashya<br />Homes
                   </h4>
-                  <p className="text-[14px] text-[#717171] mt-0.5 font-normal">
+                  <p className="text-[14px] text-[#717171] mt-1 font-normal">
                     Host
                   </p>
                 </div>
 
-                <div className="text-right space-y-2">
+                {/* Right side of Card: Stats with Horizontal Dividers */}
+                <div className="w-[90px] flex flex-col justify-between py-1">
                   <div>
-                    <div className="text-[20px] font-bold text-[#222222] leading-none">1,463</div>
-                    <div className="text-[10px] text-[#717171] uppercase tracking-tight mt-1 font-semibold">Reviews</div>
+                    <div className="text-[22px] font-bold text-[#222222] leading-none">1,463</div>
+                    <div className="text-[10px] text-[#222222] font-semibold mt-1">Reviews</div>
                   </div>
-                  <div className="h-[1px] bg-slate-100" />
+                  <div className="h-[1px] bg-[#EBEBEB] w-full my-3" />
                   <div>
-                    <div className="text-[20px] font-bold text-[#222222] leading-none">4.68★</div>
-                    <div className="text-[10px] text-[#717171] uppercase tracking-tight mt-1 font-semibold">Rating</div>
+                    <div className="text-[22px] font-bold text-[#222222] leading-none flex items-center">
+                      4.68<span className="text-[14px] ml-0.5">★</span>
+                    </div>
+                    <div className="text-[10px] text-[#222222] font-semibold mt-1">Rating</div>
                   </div>
-                  <div className="h-[1px] bg-slate-100" />
+                  <div className="h-[1px] bg-[#EBEBEB] w-full my-3" />
                   <div>
-                    <div className="text-[20px] font-bold text-[#222222] leading-none">2</div>
-                    <div className="text-[10px] text-[#717171] uppercase tracking-tight mt-1 font-semibold">Years hosting</div>
+                    <div className="text-[22px] font-bold text-[#222222] leading-none">2</div>
+                    <div className="text-[10px] text-[#222222] font-semibold mt-1">Years hosting</div>
                   </div>
                 </div>
               </div>
 
               {/* Host details under card */}
               <div className="mt-6 space-y-3.5 text-[15px] text-[#222222]">
-                <div className="flex items-center gap-3">
-                  <Lightbulb className="w-5 h-5 text-[#222222] flex-shrink-0" />
+                <div className="flex items-center gap-3.5">
+                  <Lightbulb className="w-5 h-5 text-[#222222] flex-shrink-0 stroke-[1.8]" />
                   <span>Born in the 80s</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <GraduationCap className="w-5 h-5 text-[#222222] flex-shrink-0" />
+                <div className="flex items-center gap-3.5">
+                  <GraduationCap className="w-5 h-5 text-[#222222] flex-shrink-0 stroke-[1.8]" />
                   <span>Where I went to school: NICMAR GOA</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Details Column */}
+            {/* Right Details Column: Co-hosts, Host details, Message host button */}
             <div className="lg:col-span-7">
               <h4 className="text-[18px] font-semibold text-[#222222] mb-4">
                 Co-Hosts
@@ -623,54 +636,54 @@ export default function ListingPage() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-1.jpg" alt="Sharath" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/sharath.png" alt="Sharath" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Sharath</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-2.jpg" alt="Aman Dev Pahwa" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/aman.png" alt="Aman Dev Pahwa" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Aman Dev Pahwa</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-3.jpg" alt="Maria Karen Priyanka" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/maria.png" alt="Maria Karen Priyanka" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Maria Karen Priyanka</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-4.jpg" alt="Simran" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/simran.png" alt="Simran" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Simran</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-5.jpg" alt="Pallavi" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/pallavi.png" alt="Pallavi" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Pallavi</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/cohost-6.jpg" alt="Sanyukta" className="w-8 h-8 rounded-full object-cover" />
+                  <img src="/hosts/sanyukta.png" alt="Sanyukta" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                   <span>Sanyukta</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <span className="w-8 h-8 rounded-full bg-pink-100 text-pink-700 font-semibold text-[13px] flex items-center justify-center">S</span>
+                  <span className="w-8 h-8 rounded-full bg-pink-100 text-[#D70466] font-semibold text-[13px] flex items-center justify-center flex-shrink-0">S</span>
                   <span>Shruti</span>
                 </div>
                 <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-semibold text-[13px] flex items-center justify-center">A</span>
+                  <span className="w-8 h-8 rounded-full bg-[#E8F0FE] text-[#1A73E8] font-semibold text-[13px] flex items-center justify-center flex-shrink-0">A</span>
                   <span>Amisha</span>
                 </div>
               </div>
 
-              <div className="mt-8 pt-2">
+              <div className="mt-8">
                 <h4 className="text-[18px] font-semibold text-[#222222] mb-3">
                   Host details
                 </h4>
-                <div className="space-y-1 text-[15px] text-[#222222]">
+                <div className="space-y-1.5 text-[15px] text-[#222222]">
                   <p>Response rate: 100%</p>
                   <p>Responds within an hour</p>
                 </div>
 
-                <button className="mt-6 px-6 py-3 rounded-xl bg-[#F7F7F7] hover:bg-[#EBEBEB] text-[#222222] font-semibold text-[15px] transition cursor-pointer border border-[#222222] active:scale-98">
+                <button className="mt-6 px-6 py-3 rounded-lg bg-[#F0F0F0] hover:bg-[#E5E5E5] text-[#222222] font-semibold text-[14px] transition cursor-pointer active:scale-98">
                   Message host
                 </button>
 
-                <div className="mt-6 flex items-start gap-3 text-[12px] text-[#717171] max-w-lg">
-                  <ShieldCheck className="w-6 h-6 text-[#717171] flex-shrink-0" />
+                <div className="mt-7 flex items-start gap-3 text-[12px] text-[#717171] leading-relaxed max-w-lg">
+                  <Shield className="w-5 h-5 text-[#222222] flex-shrink-0 stroke-[1.5] mt-0.5" />
                   <span>To help protect your payment, always use Airbnb to send money and communicate with hosts.</span>
                 </div>
               </div>
