@@ -22,7 +22,10 @@ export function PhotoBentoGrid({
       {/* 1. Large Hero Photo (Left 2 columns, full height) */}
       {heroPhotos[0] && (
         <div
-          onClick={() => onOpenLightbox(0)}
+          onClick={() => {
+            const idx = photos.findIndex((p) => p.id === heroPhotos[0].id);
+            onOpenLightbox(idx >= 0 ? idx : 0);
+          }}
           className="md:col-span-2 h-full relative cursor-pointer group overflow-hidden"
         >
           <img
@@ -30,19 +33,39 @@ export function PhotoBentoGrid({
             alt={heroPhotos[0].alt}
             className="w-full h-full object-cover group-hover:brightness-95 transition-all duration-300"
           />
+
+          {/* Mobile "Show all photos" button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenPhotoTour();
+            }}
+            className="md:hidden absolute bottom-3 right-3 bg-white hover:bg-[#F7F7F7] active:scale-[0.98] text-[#222222] border border-[#222222] px-2.5 py-1 rounded-lg text-[12px] font-medium shadow-xs flex items-center gap-1.5 transition cursor-pointer select-none"
+          >
+            <svg
+              viewBox="0 0 16 16"
+              className="w-3.5 h-3.5 fill-current flex-shrink-0"
+              aria-hidden="true"
+            >
+              <path d="m3 1.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm-13 6.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm-13 6.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0z" />
+            </svg>
+            <span>Show all photos</span>
+          </button>
         </div>
       )}
 
       {/* 2x2 Grid of 4 Photos (Right 2 columns) */}
       <div className="hidden md:grid col-span-2 grid-cols-2 grid-rows-2 gap-2 h-full">
         {heroPhotos.slice(1, 5).map((photo, idx) => {
-          const photoIndex = idx + 1;
-          const isLast = photoIndex === 4;
+          const isLast = idx === 3;
 
           return (
             <div
               key={photo.id}
-              onClick={() => onOpenLightbox(photoIndex)}
+              onClick={() => {
+                const targetIdx = photos.findIndex((p) => p.id === photo.id);
+                onOpenLightbox(targetIdx >= 0 ? targetIdx : idx + 1);
+              }}
               className="relative cursor-pointer group overflow-hidden h-full"
             >
               <img
