@@ -17,7 +17,7 @@ export function PhotoBentoGrid({
   const heroPhotos = photos.slice(0, 5);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-4 gap-2 h-[280px] sm:h-[340px] md:h-[390px] bg-slate-100">
+    <div className="relative rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-4 gap-2 h-[340px] sm:h-[420px] md:h-[460px] lg:h-[480px] bg-slate-100">
       
       {/* 1. Large Hero Photo (Left 2 columns, full height) */}
       {heroPhotos[0] && (

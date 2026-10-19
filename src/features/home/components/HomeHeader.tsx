@@ -462,7 +462,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         {/* ========================================================================= */}
         <div className={`hidden md:block mx-auto h-full relative ${
           isRoomsMode
-            ? 'max-w-[1120px] px-4 sm:px-8 md:px-12 lg:px-16'
+             ? 'max-w-7xl px-4 sm:px-8'
             : 'max-w-[1760px] px-6 md:px-8 min-[1138px]:px-20'
         }`}>
           
