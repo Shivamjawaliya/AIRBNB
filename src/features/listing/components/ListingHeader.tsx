@@ -21,18 +21,18 @@ export function ListingHeader({ title }: ListingHeaderProps) {
   };
 
   return (
-    <div className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <h1 className="text-[26px] leading-[30px] font-semibold text-[#222222] tracking-[-0.02em]">
+    <div className="pt-5 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <h1 className="text-[19px] sm:text-[21px] md:text-[23px] leading-[26px] font-semibold text-[#222222] tracking-[-0.015em]">
         {title}
       </h1>
 
-      <div className="flex items-center gap-4 text-[14px] font-semibold text-[#222222]">
+      <div className="flex items-center gap-3 text-[13px] font-medium text-[#222222]">
         {/* Share Button */}
         <button
           onClick={handleShare}
-          className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 transition cursor-pointer select-none"
+          className="flex items-center gap-1.5 py-1 px-2 rounded-lg hover:bg-slate-100 transition cursor-pointer select-none"
         >
-          <svg viewBox="0 0 32 32" className="w-4 h-4 fill-none stroke-[#222222] stroke-[2.4]" aria-hidden="true">
+          <svg viewBox="0 0 32 32" className="w-3.5 h-3.5 fill-none stroke-[#222222] stroke-[2.2]" aria-hidden="true">
             <path d="M27 22v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6M16 2v20M8 10l8-8 8 8" />
           </svg>
           <span className="underline underline-offset-2">{copied ? 'Link Copied!' : 'Share'}</span>
@@ -41,11 +41,11 @@ export function ListingHeader({ title }: ListingHeaderProps) {
         {/* Save (Heart) Button */}
         <button
           onClick={() => setIsSaved(!isSaved)}
-          className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 transition cursor-pointer select-none"
+          className="flex items-center gap-1.5 py-1 px-2 rounded-lg hover:bg-slate-100 transition cursor-pointer select-none"
         >
           <Heart
             className={cn(
-              'w-4 h-4 stroke-[2.4] transition-colors',
+              'w-3.5 h-3.5 stroke-[2.2] transition-colors',
               isSaved ? 'fill-[#FF385C] text-[#FF385C]' : 'text-[#222222]'
             )}
           />
