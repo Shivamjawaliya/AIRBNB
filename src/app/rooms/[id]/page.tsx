@@ -168,6 +168,7 @@ export default function ListingPage() {
   const {
     activeView,
     activePhotoIndex,
+    activeRoomCategory,
     openPhotoTour,
     openLightbox,
     closeToPhotoTour,
@@ -954,6 +955,7 @@ export default function ListingPage() {
       <PhotoTourOverlay
         isOpen={activeView === 'photo-tour'}
         photos={MOCK_LISTING_DATA.photos}
+        initialSection={activeRoomCategory}
         onClose={closeToListing}
         onSelectPhoto={(idx) => openLightbox(idx)}
       />

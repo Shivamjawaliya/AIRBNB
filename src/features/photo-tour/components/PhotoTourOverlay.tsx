@@ -13,12 +13,15 @@ import {
 interface PhotoTourOverlayProps {
   isOpen: boolean;
   photos?: ListingPhoto[];
+  initialSection?: string;
   onClose: () => void;
   onSelectPhoto: (index: number) => void;
 }
 
 export function PhotoTourOverlay({
   isOpen,
+  photos,
+  initialSection,
   onClose,
   onSelectPhoto,
 }: PhotoTourOverlayProps) {
@@ -26,7 +29,18 @@ export function PhotoTourOverlay({
   const [isSaved, setIsSaved] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  // URL and history synchronization is managed centrally by useViewState
+  // Auto-scroll to requested section on open if specified and not 'all'
+  useEffect(() => {
+    if (isOpen && initialSection && initialSection !== 'all') {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(`section-${initialSection}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, initialSection]);
 
   // Handle Escape key listener
   useEffect(() => {

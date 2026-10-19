@@ -23,6 +23,7 @@ export default function HomePage() {
   const {
     activeView,
     activePhotoIndex,
+    activeRoomCategory,
     openLightbox,
     closeToPhotoTour,
     closeToListing,
@@ -94,6 +95,7 @@ export default function HomePage() {
       <PhotoTourOverlay
         isOpen={activeView === 'photo-tour'}
         photos={ALL_43_PHOTOS}
+        initialSection={activeRoomCategory}
         onClose={closeToListing}
         onSelectPhoto={(idx) => openLightbox(idx)}
       />
