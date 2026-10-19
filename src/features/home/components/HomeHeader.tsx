@@ -641,7 +641,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                 setActiveSegment(null);
               }
             }}
-            className={`absolute top-4 left-1/2 -translate-x-1/2 rounded-full border border-slate-200 flex items-center z-30 cursor-pointer overflow-visible transition-colors duration-150 ${
+            className={`absolute ${isRoomsMode ? 'top-[15px]' : 'top-4'} left-1/2 -translate-x-1/2 rounded-full border border-slate-200 flex items-center z-30 cursor-pointer overflow-visible transition-colors duration-150 ${
               isEndpoint2 ? 'hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]' : ''
             }`}
           >

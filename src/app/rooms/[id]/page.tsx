@@ -104,11 +104,11 @@ export default function ListingPage() {
         {/* The sticky widget is bound strictly to this container and floats on display until after the calendar */}
         <div
           ref={mainSectionRef}
-          className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-12 relative"
+          className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 relative"
         >
           
-          {/* Left Column (2 Cols): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
-          <div className="lg:col-span-2">
+          {/* Left Column (7 Cols on desktop): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
+          <div className="lg:col-span-7">
             <PropertyOverview
               listing={MOCK_LISTING_DATA}
               startDate={dateRange.startDate}
@@ -128,8 +128,8 @@ export default function ListingPage() {
             </div>
           </div>
 
-          {/* Right Column (1 Col): Floating Sticky Booking Widget */}
-          <div className="hidden lg:block lg:col-span-1 relative">
+          {/* Right Column (5 Cols on desktop): Floating Sticky Booking Widget */}
+          <div className="hidden lg:block lg:col-span-5 relative">
             <div className="sticky top-20">
               <StickyBookingWidget
                 listing={MOCK_LISTING_DATA}
