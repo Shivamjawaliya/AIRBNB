@@ -78,13 +78,13 @@ export function SubNavbar({
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#dddddd] shadow-[0_2px_4px_rgba(0,0,0,0.04)] select-none"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-3 sm:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 overflow-hidden">
         
-        {/* Left: Navigation Tabs with refined, smaller font size */}
-        <div className="flex items-center gap-5 sm:gap-7 h-full">
+        {/* Left: Navigation Tabs with horizontal scroll support and compact mobile spacing */}
+        <div className="flex items-center gap-3.5 sm:gap-6 md:gap-7 h-full overflow-x-auto no-scrollbar scroll-smooth flex-1 min-w-0 pr-1">
           <button
             onClick={() => scrollTo('photos', 'photos')}
-            className={`h-full flex items-center text-[13px] transition cursor-pointer relative ${
+            className={`h-full flex items-center text-[12px] sm:text-[13px] transition cursor-pointer relative shrink-0 whitespace-nowrap ${
               activeTab === 'photos'
                 ? 'text-[#222222] font-semibold'
                 : 'text-[#717171] font-medium hover:text-[#222222]'
@@ -98,7 +98,7 @@ export function SubNavbar({
 
           <button
             onClick={() => scrollTo('amenities', 'amenities')}
-            className={`h-full flex items-center text-[13px] transition cursor-pointer relative ${
+            className={`h-full flex items-center text-[12px] sm:text-[13px] transition cursor-pointer relative shrink-0 whitespace-nowrap ${
               activeTab === 'amenities'
                 ? 'text-[#222222] font-semibold'
                 : 'text-[#717171] font-medium hover:text-[#222222]'
@@ -112,7 +112,7 @@ export function SubNavbar({
 
           <button
             onClick={() => scrollTo('reviews', 'reviews')}
-            className={`h-full flex items-center text-[13px] transition cursor-pointer relative ${
+            className={`h-full flex items-center text-[12px] sm:text-[13px] transition cursor-pointer relative shrink-0 whitespace-nowrap ${
               activeTab === 'reviews'
                 ? 'text-[#222222] font-semibold'
                 : 'text-[#717171] font-medium hover:text-[#222222]'
@@ -126,7 +126,7 @@ export function SubNavbar({
 
           <button
             onClick={() => scrollTo('location', 'location')}
-            className={`h-full flex items-center text-[13px] transition cursor-pointer relative ${
+            className={`h-full flex items-center text-[12px] sm:text-[13px] transition cursor-pointer relative shrink-0 whitespace-nowrap ${
               activeTab === 'location'
                 ? 'text-[#222222] font-semibold'
                 : 'text-[#717171] font-medium hover:text-[#222222]'
@@ -139,8 +139,8 @@ export function SubNavbar({
           </button>
         </div>
 
-        {/* Right: Floating mini reservation block with refined font sizes */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        {/* Right: Floating mini reservation block with responsive button and shrink-0 */}
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0 pl-1">
           <div className="text-right hidden sm:block">
             <div className="text-[14px] leading-tight text-[#222222]">
               <span className="font-semibold">{formatCurrency(totalPrice)}</span>
@@ -160,7 +160,7 @@ export function SubNavbar({
 
           <button
             onClick={onReserveClick}
-            className="px-6 py-2.5 sm:px-7 sm:py-2.5 rounded-full bg-gradient-to-r from-[#E61E4D] via-[#E31C5F] to-[#D70466] text-white font-semibold text-[14px] transition cursor-pointer active:scale-98 shadow-xs hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#E00B41]"
+            className="px-4 py-2 sm:px-6 sm:py-2.5 rounded-full bg-gradient-to-r from-[#E61E4D] via-[#E31C5F] to-[#D70466] text-white font-semibold text-[13px] sm:text-[14px] transition cursor-pointer active:scale-98 shadow-xs hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#E00B41] shrink-0"
           >
             Reserve
           </button>

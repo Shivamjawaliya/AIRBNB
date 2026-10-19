@@ -31,6 +31,90 @@ import {
   Heart,
 } from 'lucide-react';
 
+interface NearbyStay {
+  id: string;
+  title: string;
+  price: string;
+  rating: string;
+  imageUrl: string;
+}
+
+const NEARBY_STAYS_PAGE_1: NearbyStay[] = [
+  {
+    id: 'stay-1',
+    title: 'Beautiful Studio with a view to die for',
+    price: '₹23,600',
+    rating: '4.91',
+    imageUrl: '/stays/stay-1.jpg',
+  },
+  {
+    id: 'stay-2',
+    title: 'NAQAB - 1bhk with private pool',
+    price: '₹42,218',
+    rating: '4.95',
+    imageUrl: '/stays/stay-2.jpg',
+  },
+  {
+    id: 'stay-3',
+    title: 'Greentique Luxury Flat with plunge pool, Calangute',
+    price: '₹44,506',
+    rating: '4.94',
+    imageUrl: '/stays/stay-3.jpg',
+  },
+  {
+    id: 'stay-4',
+    title: 'The Tropical Studio | 5 mins to Beach',
+    price: '₹22,824',
+    rating: '4.96',
+    imageUrl: '/stays/stay-4.jpg',
+  },
+  {
+    id: 'stay-5',
+    title: 'Luxury Casa Bella 1BHK with plunge pool, Calangute',
+    price: '₹39,942',
+    rating: '4.95',
+    imageUrl: '/stays/stay-5.jpg',
+  },
+];
+
+const NEARBY_STAYS_PAGE_2: NearbyStay[] = [
+  {
+    id: 'stay-6',
+    title: 'Villa Sol - Luxury 2BHK with Private Jacuzzi',
+    price: '₹34,200',
+    rating: '4.98',
+    imageUrl: '/stays/stay-6.jpg',
+  },
+  {
+    id: 'stay-7',
+    title: 'The Glass House Studio | Sea Breeze & Sunset',
+    price: '₹19,850',
+    rating: '4.92',
+    imageUrl: '/stays/stay-7.jpg',
+  },
+  {
+    id: 'stay-8',
+    title: 'Amor De Candolim - Heritage Portuguese Villa',
+    price: '₹52,000',
+    rating: '4.97',
+    imageUrl: '/stays/stay-8.jpg',
+  },
+  {
+    id: 'stay-9',
+    title: 'Boho Chic Garden Suite with Plunge Pool',
+    price: '₹27,400',
+    rating: '4.89',
+    imageUrl: '/stays/stay-9.jpg',
+  },
+  {
+    id: 'stay-10',
+    title: 'Skyline Penthouse with Infinity View',
+    price: '₹48,900',
+    rating: '4.96',
+    imageUrl: '/stays/stay-10.jpg',
+  },
+];
+
 export default function ListingPage() {
   const {
     activeView,
@@ -49,7 +133,14 @@ export default function ListingPage() {
   });
 
   const [showStickyNav, setShowStickyNav] = useState(false);
+  const [nearbyPage, setNearbyPage] = useState<number>(1);
+  const [savedStays, setSavedStays] = useState<Record<string, boolean>>({});
   const mainSectionRef = useRef<HTMLDivElement>(null);
+
+  const toggleSaveStay = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    setSavedStays((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const nights = dateRange.startDate && dateRange.endDate
     ? Math.max(1, Math.round((dateRange.endDate.getTime() - dateRange.startDate.getTime()) / (1000 * 60 * 60 * 24)))
@@ -579,12 +670,18 @@ export default function ListingPage() {
               <div className="w-full max-w-[332px] bg-white rounded-3xl p-6 border border-[#dddddd] shadow-[0_6px_20px_rgba(0,0,0,0.08)] flex items-center justify-between">
                 {/* Left side of Card: Avatar and Centered Host Name */}
                 <div className="flex-1 flex flex-col items-center justify-center text-center pr-3">
-                  <div className="w-[104px] h-[104px] flex items-center justify-center">
+                  <div className="relative inline-block">
                     <img
-                      src="/icons/mirashya-avatar-full.png"
+                      src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
                       alt="Mirashya Homes"
-                      className="w-[104px] h-[104px] object-contain"
+                      className="w-[104px] h-[104px] rounded-full object-cover shadow-sm"
                     />
+                    {/* Pink Verified Superhost Badge */}
+                    <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#E00B41] rounded-full border-2 border-white flex items-center justify-center text-white shadow-md">
+                      <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 fill-none stroke-white stroke-[2.5]" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" />
+                      </svg>
+                    </div>
                   </div>
                   <h4 className="text-[24px] font-bold text-[#222222] mt-3 leading-tight">
                     Mirashya<br />Homes
@@ -741,92 +838,81 @@ export default function ListingPage() {
         </div>
 
         {/* 10. More stays nearby Section matching Screenshot 5 */}
-        <div className="mt-14 pt-12 pb-16 border-t border-[#dddddd]">
+        <div id="more-stays" className="mt-14 pt-12 pb-16 border-t border-[#dddddd]">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-[22px] font-semibold text-[#222222]">
               More stays nearby
             </h3>
             <div className="flex items-center gap-3">
-              <span className="text-[14px] text-[#222222] font-medium">1 / 2</span>
-              <button className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:border-black transition cursor-pointer">
+              <span className="text-[14px] text-[#222222] font-medium">{nearbyPage} / 2</span>
+              <button
+                onClick={() => setNearbyPage((prev) => Math.max(1, prev - 1))}
+                disabled={nearbyPage === 1}
+                aria-label="Previous page"
+                className={`w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center transition cursor-pointer ${
+                  nearbyPage === 1
+                    ? 'opacity-30 cursor-not-allowed text-slate-400'
+                    : 'text-slate-700 hover:border-black active:scale-95'
+                }`}
+              >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:border-black transition cursor-pointer">
+              <button
+                onClick={() => setNearbyPage((prev) => Math.min(2, prev + 1))}
+                disabled={nearbyPage === 2}
+                aria-label="Next page"
+                className={`w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center transition cursor-pointer ${
+                  nearbyPage === 2
+                    ? 'opacity-30 cursor-not-allowed text-slate-400'
+                    : 'text-slate-700 hover:border-black active:scale-95'
+                }`}
+              >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {/* Stay 1 */}
-            <div className="group cursor-pointer">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
-                <img src="/stays/stay-1.jpg" alt="Beautiful Studio with a view to die for" className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200" />
-              </div>
-              <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight">
-                Beautiful Studio with a view to die for
-              </h4>
-              <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
-                <span><strong className="font-semibold">₹23,600</strong></span>
-                <span className="flex items-center gap-0.5"><Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> 4.91</span>
-              </div>
-            </div>
+            {(nearbyPage === 1 ? NEARBY_STAYS_PAGE_1 : NEARBY_STAYS_PAGE_2).map((stay) => {
+              const isSaved = !!savedStays[stay.id];
+              return (
+                <div key={stay.id} className="group cursor-pointer">
+                  {/* Photo container with zoom on hover and heart button */}
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
+                    <img
+                      src={stay.imageUrl}
+                      alt={stay.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
 
-            {/* Stay 2 */}
-            <div className="group cursor-pointer">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
-                <img src="/stays/stay-2.jpg" alt="NAQAB - 1bhk with private pool" className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200" />
-              </div>
-              <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight">
-                NAQAB - 1bhk with private pool
-              </h4>
-              <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
-                <span><strong className="font-semibold">₹42,218</strong></span>
-                <span className="flex items-center gap-0.5"><Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> 4.95</span>
-              </div>
-            </div>
+                    {/* Heart button */}
+                    <button
+                      onClick={(e) => toggleSaveStay(e, stay.id)}
+                      className="absolute top-2.5 right-2.5 w-7 h-7 flex items-center justify-center text-white/90 hover:scale-110 active:scale-90 transition cursor-pointer drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+                      aria-label={isSaved ? 'Unsave stay' : 'Save stay'}
+                    >
+                      <Heart
+                        className={`w-5 h-5 stroke-[2] transition-colors ${
+                          isSaved ? 'fill-[#FF385C] text-[#FF385C]' : 'fill-black/25 stroke-white'
+                        }`}
+                      />
+                    </button>
+                  </div>
 
-            {/* Stay 3 */}
-            <div className="group cursor-pointer">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
-                <img src="/stays/stay-3.jpg" alt="Greentique Luxury Flat with plunge pool, Calangute" className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200" />
-              </div>
-              <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight">
-                Greentique Luxury Flat with plunge pool, Calangute
-              </h4>
-              <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
-                <span><strong className="font-semibold">₹44,506</strong></span>
-                <span className="flex items-center gap-0.5"><Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> 4.94</span>
-              </div>
-            </div>
-
-            {/* Stay 4 */}
-            <div className="group cursor-pointer">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
-                <img src="/stays/stay-4.jpg" alt="The Tropical Studio | 5 mins to Beach" className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200" />
-              </div>
-              <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight">
-                The Tropical Studio | 5 mins to Beach
-              </h4>
-              <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
-                <span><strong className="font-semibold">₹22,824</strong></span>
-                <span className="flex items-center gap-0.5"><Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> 4.96</span>
-              </div>
-            </div>
-
-            {/* Stay 5 */}
-            <div className="group cursor-pointer">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-2.5">
-                <img src="/stays/stay-5.jpg" alt="Luxury Casa Bella 1BHK with plunge pool, Calangute" className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-200" />
-              </div>
-              <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight">
-                Luxury Casa Bella 1BHK with plunge pool, Calangute
-              </h4>
-              <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
-                <span><strong className="font-semibold">₹39,942</strong></span>
-                <span className="flex items-center gap-0.5"><Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> 4.95</span>
-              </div>
-            </div>
+                  <h4 className="text-[14px] font-semibold text-[#222222] truncate leading-tight" title={stay.title}>
+                    {stay.title}
+                  </h4>
+                  <div className="text-[13px] text-[#222222] mt-1 flex items-center justify-between">
+                    <span>
+                      <strong className="font-semibold">{stay.price}</strong>
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      <Star className="w-3 h-3 fill-[#222222] text-[#222222]" /> {stay.rating}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </main>
