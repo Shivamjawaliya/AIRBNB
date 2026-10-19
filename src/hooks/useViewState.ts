@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ViewState } from '@/types';
 
 /**
@@ -15,6 +15,21 @@ export function useViewState(initialPhotoIndex: number = 0) {
     activePhotoIndex: initialPhotoIndex,
     activeRoomCategory: 'all',
   });
+
+  // Automatically open photo tour if ?modal=PHOTO_TOUR_SCROLLABLE is present in URL
+  useEffect(() => {
+    const checkUrlModal = () => {
+      if (typeof window === 'undefined') return;
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('modal') === 'PHOTO_TOUR_SCROLLABLE') {
+        setState((prev) => (prev.activeView === 'photo-tour' ? prev : { ...prev, activeView: 'photo-tour' }));
+      }
+    };
+
+    checkUrlModal();
+    window.addEventListener('popstate', checkUrlModal);
+    return () => window.removeEventListener('popstate', checkUrlModal);
+  }, []);
 
   const openPhotoTour = useCallback((category: string = 'all') => {
     setState((prev) => ({

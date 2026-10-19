@@ -1,4 +1,5 @@
 import { ListingDetail } from '@/types';
+import { ALL_43_PHOTOS } from '@/features/photo-tour/data/photoTourData';
 
 export const MOCK_LISTING_DATA: ListingDetail = {
   id: 'terracotta-serene-candolim',
@@ -109,48 +110,7 @@ PS5 is also available on request at an additional charge.`,
     { id: 'a30', title: 'First aid kit', category: 'Home safety', available: true, iconName: 'ShieldAlert' },
     { id: 'a31', title: 'Fire extinguisher', category: 'Home safety', available: true, iconName: 'ShieldAlert' },
   ],
-  photos: [
-    {
-      id: 'p1',
-      url: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80',
-      alt: 'Cozy living room with comfortable couch, coffee table, and warm lighting',
-      category: 'hero',
-      roomLabel: 'Living room',
-      caption: 'Spacious 2BHK living room with smart TV and ambient lighting',
-    },
-    {
-      id: 'p2',
-      url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-      alt: 'Private balcony relaxation area with beanbags and turf',
-      category: 'exterior',
-      roomLabel: 'Balcony',
-      caption: 'Private balcony with beanbags for relaxing evenings',
-    },
-    {
-      id: 'p3',
-      url: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80',
-      alt: 'Bedroom 1 with wooden wardrobe, vanity mirror, and plush queen bed',
-      category: 'bedroom',
-      roomLabel: 'Bedroom 1',
-      caption: 'Master bedroom with orthopedic queen mattress and wardrobe',
-    },
-    {
-      id: 'p4',
-      url: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
-      alt: 'Bedroom 2 with large window, wardrobe, and queen bed',
-      category: 'bedroom',
-      roomLabel: 'Bedroom 2',
-      caption: 'Second bedroom with sunny window and floor lamp',
-    },
-    {
-      id: 'p5',
-      url: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80',
-      alt: 'Well-equipped modern kitchen with appliances and cookware',
-      category: 'kitchen',
-      roomLabel: 'Kitchen',
-      caption: 'Fully equipped kitchen with refrigerator and microwave',
-    },
-  ],
+  photos: ALL_43_PHOTOS,
   host: {
     id: 'host-hitesh',
     name: 'Hitesh',

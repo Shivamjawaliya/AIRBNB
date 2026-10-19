@@ -100,15 +100,15 @@ export default function ListingPage() {
           />
         </div>
 
-        {/* 4. Two-Column Layout Container: Left Details vs Right Sticky Widget */}
+        {/* 4. Two-Column Layout Container: Left Details (7.5 cols) vs Right Sticky Widget (4.5 cols) */}
         {/* The sticky widget is bound strictly to this container and floats on display until after the calendar */}
         <div
           ref={mainSectionRef}
-          className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 relative"
+          className="mt-8 grid grid-cols-1 lg:grid-cols-[7.5fr_4.5fr] gap-8 lg:gap-10 xl:gap-14 relative"
         >
           
-          {/* Left Column (7 Cols on desktop): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
-          <div className="lg:col-span-7">
+          {/* Left Column (7.5 of 12 cols = 62.5%): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
+          <div className="w-full min-w-0">
             <PropertyOverview
               listing={MOCK_LISTING_DATA}
               startDate={dateRange.startDate}
@@ -128,8 +128,8 @@ export default function ListingPage() {
             </div>
           </div>
 
-          {/* Right Column (5 Cols on desktop): Floating Sticky Booking Widget */}
-          <div className="hidden lg:block lg:col-span-5 relative">
+          {/* Right Column (4.5 of 12 cols = 37.5%): Floating Sticky Booking Widget */}
+          <div className="hidden lg:block relative">
             <div className="sticky top-20">
               <StickyBookingWidget
                 listing={MOCK_LISTING_DATA}

@@ -8,6 +8,10 @@ import { ListingCarousel } from '@/features/home/components/ListingCarousel';
 import { DestinationCarousel } from '@/features/home/components/DestinationCarousel';
 import { InspirationSection } from '@/features/home/components/InspirationSection';
 import { HomeFooter } from '@/features/home/components/HomeFooter';
+import { useViewState } from '@/hooks/useViewState';
+import { PhotoTourOverlay } from '@/features/photo-tour/components/PhotoTourOverlay';
+import { LightboxModal } from '@/features/lightbox/components/LightboxModal';
+import { ALL_43_PHOTOS } from '@/features/photo-tour/data/photoTourData';
 import {
   SOUTH_GOA_LISTINGS,
   NOIDA_LISTINGS,
@@ -16,6 +20,14 @@ import {
 } from '@/features/home/data/homeData';
 
 export default function HomePage() {
+  const {
+    activeView,
+    activePhotoIndex,
+    openLightbox,
+    closeToPhotoTour,
+    closeToListing,
+    setActivePhotoIndex,
+  } = useViewState();
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 w-full pb-16 md:pb-0">
       
@@ -77,6 +89,23 @@ export default function HomePage() {
           <span className="text-[10px] font-medium">Log in</span>
         </button>
       </nav>
+
+      {/* Fullscreen Photo Tour Overlay */}
+      <PhotoTourOverlay
+        isOpen={activeView === 'photo-tour'}
+        photos={ALL_43_PHOTOS}
+        onClose={closeToListing}
+        onSelectPhoto={(idx) => openLightbox(idx)}
+      />
+
+      {/* Single-Photo Lightbox Modal */}
+      <LightboxModal
+        isOpen={activeView === 'lightbox'}
+        photos={ALL_43_PHOTOS}
+        currentIndex={activePhotoIndex}
+        onClose={closeToPhotoTour}
+        onNavigate={setActivePhotoIndex}
+      />
 
     </div>
   );

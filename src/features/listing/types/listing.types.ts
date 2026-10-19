@@ -6,7 +6,7 @@ export interface ListingPhoto {
   id: string;
   url: string;
   alt: string;
-  category: 'hero' | 'living' | 'bedroom' | 'bathroom' | 'kitchen' | 'amenities' | 'exterior';
+  category: 'hero' | 'living' | 'bedroom' | 'bathroom' | 'kitchen' | 'amenities' | 'exterior' | string;
   roomLabel: string;
   caption?: string;
 }
