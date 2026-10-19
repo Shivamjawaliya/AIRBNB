@@ -2,10 +2,95 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Search, Minus, Plus, SlidersHorizontal, X } from 'lucide-react';
+import { Search, Minus, Plus, SlidersHorizontal, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function HomeHeader() {
+const SUGGESTED_DESTINATIONS = [
+  {
+    name: 'Nearby',
+    subtitle: "Find what's around you",
+    bgColor: 'bg-[#F0F5FA]',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#2E79B9] fill-none stroke-current stroke-[2.2] stroke-linecap-round stroke-linejoin-round">
+        <polygon points="3 11 22 2 13 21 11 13 3 11" fill="currentColor" fillOpacity="0.15" />
+      </svg>
+    ),
+  },
+  {
+    name: 'North Goa, Goa',
+    subtitle: 'Popular beach destination',
+    bgColor: 'bg-[#FFF5EE]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#C86400] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M5 25c4 0 5-2 8-2s4 2 8 2 4-2 6-2" />
+        <path d="M16 23c0-6 2-10 5-13" />
+        <path d="M21 10c-3-2-6-1-8 1m8-1c2-3 5-3 7-2m-7 2c0-3 2-6 5-7" />
+        <path d="M6 20h4v4H6z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Bhopal, Madhya Pradesh',
+    subtitle: 'Known for its lakes',
+    bgColor: 'bg-[#FFF0F3]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#D93B65] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M4 25c4-1 6 1 12 1s7-2 12-1" />
+        <path d="M4 21c4-1 6 1 12 1s7-2 12-1" />
+        <path d="M7 17V8h6v9m4 0V11h8v6" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Mumbai, Maharashtra',
+    subtitle: 'For sights like Gateway of India',
+    bgColor: 'bg-[#EFF9F3]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#1B8354] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M6 25V8h20v17M11 25v-8a5 5 0 0 1 10 0v8M6 12h20M4 25h24" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Varanasi, Uttar Pradesh',
+    subtitle: 'A hidden gem',
+    bgColor: 'bg-[#FFF2EE]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#E05638] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M16 4v3m0 0a6 6 0 0 0-6 6v12h12V13a6 6 0 0 0-6-6zM6 25h20M13 25v-5a3 3 0 0 1 6 0v5" />
+      </svg>
+    ),
+  },
+  {
+    name: 'New Delhi, Delhi',
+    subtitle: 'For its stunning architecture',
+    bgColor: 'bg-[#F0F8F5]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#2C7A4D] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M8 25V7h16v18M12 25v-8a4 4 0 0 1 8 0v8M7 11h18M5 25h22" />
+        <circle cx="25" cy="18" r="2.5" fill="currentColor" fillOpacity="0.2" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Pune City, Maharashtra',
+    subtitle: 'For sights like Dagdusheth Halwai Ganpati Temple',
+    bgColor: 'bg-[#F6F6F6]',
+    icon: (
+      <svg viewBox="0 0 32 32" className="w-5 h-5 text-[#666666] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round">
+        <path d="M7 25V14h6v11m0-5h6v5m0-15h6v15M5 25h22" />
+      </svg>
+    ),
+  },
+];
+
+export interface HomeHeaderProps {
+  mode?: 'home' | 'rooms';
+}
+
+export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
+  const isRoomsMode = mode === 'rooms';
+
   // Viewport detection
   const [isMobile, setIsMobile] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1280);
@@ -25,15 +110,18 @@ export function HomeHeader() {
   // Two strict endpoints:
   // Endpoint 1: Top of page (window.scrollY <= 8) -> Big search bar + category tabs
   // Endpoint 2: Scrolled (window.scrollY > 8) -> Small compact search bar docked in navbar
-  const [isScrolled, setIsScrolled] = useState(false);
+  // On rooms page: Always starts in Endpoint 2 (compact), never scroll-morphs
+  const [isScrolled, setIsScrolled] = useState(isRoomsMode);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<'all' | 'homes' | 'experiences' | 'services'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'homes' | 'experiences' | 'services'>(
+    isRoomsMode ? 'homes' : 'all'
+  );
   
-  // Track if user has interacted (scrolled) so first page load has ZERO animation
+  // Track if user has interacted (scrolled or clicked) so first page load has ZERO animation
   const [hasInteracted, setHasInteracted] = useState(false);
 
   // Strict scroll state refs
-  const isScrolledRef = useRef(false);
+  const isScrolledRef = useRef(isRoomsMode);
   const isExpandedRef = useRef(false);
   const prevScrollY = useRef(0);
 
@@ -46,12 +134,143 @@ export function HomeHeader() {
   const [datesText, setDatesText] = useState('');
   const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 });
 
+  // When Calendar selection states
+  const [whenTab, setWhenTab] = useState<'dates' | 'flexible'>('dates');
+  const [checkInDate, setCheckInDate] = useState<string | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<string | null>(null);
+  const [currentCalendarMonth, setCurrentCalendarMonth] = useState(0); // 0 = Oct/Nov 2026
+
   const totalGuests = guests.adults + guests.children;
-  const guestSummary = totalGuests > 0 ? `${totalGuests} guest${totalGuests > 1 ? 's' : ''}` : 'Add guests';
+  let guestSummary = 'Add guests';
+  if (totalGuests > 0) {
+    guestSummary = `${totalGuests} guest${totalGuests > 1 ? 's' : ''}`;
+    if (guests.infants > 0) {
+      guestSummary += `, ${guests.infants} infant${guests.infants > 1 ? 's' : ''}`;
+    }
+    if (guests.pets > 0) {
+      guestSummary += `, ${guests.pets} pet${guests.pets > 1 ? 's' : ''}`;
+    }
+  }
+
+  // Base calendar data (October 2026 base)
+  const baseYear = 2026;
+  const baseMonth = 9; // 0-indexed for October
+
+  const getCalendarMonthData = (year: number, month: number) => {
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    return { firstDay, daysInMonth, year, month };
+  };
+
+  const month1Data = getCalendarMonthData(
+    baseYear + Math.floor((baseMonth + currentCalendarMonth) / 12),
+    (baseMonth + currentCalendarMonth) % 12
+  );
+  const month2Data = getCalendarMonthData(
+    baseYear + Math.floor((baseMonth + currentCalendarMonth + 1) / 12),
+    (baseMonth + currentCalendarMonth + 1) % 12
+  );
+
+  const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  const handleDateClick = (dateStr: string) => {
+    if (!checkInDate || (checkInDate && checkOutDate)) {
+      setCheckInDate(dateStr);
+      setCheckOutDate(null);
+      const d = new Date(dateStr);
+      setDatesText(`${MONTH_NAMES[d.getMonth()].slice(0, 3)} ${d.getDate()}`);
+    } else {
+      if (dateStr < checkInDate) {
+        setCheckInDate(dateStr);
+        setCheckOutDate(null);
+        const d = new Date(dateStr);
+        setDatesText(`${MONTH_NAMES[d.getMonth()].slice(0, 3)} ${d.getDate()}`);
+      } else {
+        setCheckOutDate(dateStr);
+        const d1 = new Date(checkInDate);
+        const d2 = new Date(dateStr);
+        const m1 = MONTH_NAMES[d1.getMonth()].slice(0, 3);
+        const m2 = MONTH_NAMES[d2.getMonth()].slice(0, 3);
+        const formatted = d1.getMonth() === d2.getMonth()
+          ? `${m1} ${d1.getDate()} – ${d2.getDate()}`
+          : `${m1} ${d1.getDate()} – ${m2} ${d2.getDate()}`;
+        setDatesText(formatted);
+        setTimeout(() => {
+          setActiveSegment('who');
+        }, 350);
+      }
+    }
+  };
+
+  const formatBoxDate = (dateStr: string | null) => {
+    if (!dateStr) return 'Exact date';
+    const d = new Date(dateStr);
+    return `${MONTH_NAMES[d.getMonth()].slice(0, 3)} ${d.getDate()}`;
+  };
+
+  const renderMonthGrid = (data: ReturnType<typeof getCalendarMonthData>) => {
+    const { firstDay, daysInMonth, year, month } = data;
+    const cells = [];
+
+    // Empty cells before day 1
+    for (let i = 0; i < firstDay; i++) {
+      cells.push(<div key={`empty-${i}`} className="h-10" />);
+    }
+
+    // Days 1..daysInMonth
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const isPast = year === 2026 && month === 9 && day < 19;
+      const isStart = checkInDate === dateStr;
+      const isEnd = checkOutDate === dateStr;
+      const inRange = Boolean(checkInDate && checkOutDate && dateStr > checkInDate && dateStr < checkOutDate);
+
+      cells.push(
+        <div key={dateStr} className="h-10 flex items-center justify-center relative select-none">
+          {inRange && (
+            <div className="absolute inset-y-0 inset-x-0 bg-[#F7F7F7]" />
+          )}
+          {isStart && checkOutDate && (
+            <div className="absolute inset-y-0 right-0 left-1/2 bg-[#F7F7F7]" />
+          )}
+          {isEnd && checkInDate && (
+            <div className="absolute inset-y-0 left-0 right-1/2 bg-[#F7F7F7]" />
+          )}
+          {isStart || isEnd ? (
+            <button
+              onClick={() => !isPast && handleDateClick(dateStr)}
+              className="w-10 h-10 rounded-full bg-[#222222] text-white font-semibold flex items-center justify-center text-[14px] z-10 cursor-pointer shadow-xs"
+            >
+              {day}
+            </button>
+          ) : isPast ? (
+            <span className="w-10 h-10 flex items-center justify-center text-[#B0B0B0] font-normal text-[14px] cursor-not-allowed">
+              {day}
+            </span>
+          ) : (
+            <button
+              onClick={() => handleDateClick(dateStr)}
+              className={`w-10 h-10 rounded-full flex items-center justify-center text-[#222222] font-semibold text-[14px] cursor-pointer transition z-10 hover:border hover:border-[#222222] hover:bg-slate-50 ${
+                inRange ? 'text-[#222222]' : ''
+              }`}
+            >
+              {day}
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    return cells;
+  };
 
   const headerRef = useRef<HTMLDivElement>(null);
 
-  // Close active dropdown on outside click
+  // Close active dropdown on outside click or Escape key
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
@@ -63,17 +282,41 @@ export function HomeHeader() {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveSegment(null);
+        if (isScrolled) {
+          isExpandedRef.current = false;
+          setIsExpanded(false);
+        }
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isScrolled]);
 
-  // Synchronous Wheel and Scroll listeners for instant 1-rotation responsiveness
+  // Synchronous Wheel and Scroll listeners
   useEffect(() => {
     prevScrollY.current = window.scrollY;
     const TOP_THRESHOLD = 40;
 
     const handleWheel = (e: WheelEvent) => {
       if (window.innerWidth < 768) return;
+
+      // In rooms mode: Never auto-morph on scroll; if user opened search bar, close it on wheel
+      if (isRoomsMode) {
+        if (isExpandedRef.current) {
+          isExpandedRef.current = false;
+          setIsExpanded(false);
+          setActiveSegment(null);
+        }
+        return;
+      }
 
       // 1. One rotation DOWN (e.deltaY > 0): immediately collapse to Endpoint 2 (compact)
       if (e.deltaY > 4) {
@@ -100,6 +343,17 @@ export function HomeHeader() {
 
     const handleScroll = () => {
       if (window.innerWidth < 768) return;
+
+      // In rooms mode: Never auto-morph on scroll; if user opened search bar, close it on scroll
+      if (isRoomsMode) {
+        if (isExpandedRef.current) {
+          isExpandedRef.current = false;
+          setIsExpanded(false);
+          setActiveSegment(null);
+        }
+        return;
+      }
+
       const currentScroll = window.scrollY;
       const delta = currentScroll - prevScrollY.current;
 
@@ -134,7 +388,7 @@ export function HomeHeader() {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [hasInteracted]);
+  }, [hasInteracted, isRoomsMode]);
 
   // Active state: True if Endpoint 2 (compact), False if Endpoint 1 (big)
   const isEndpoint2 = isScrolled && !isExpanded;
@@ -156,7 +410,11 @@ export function HomeHeader() {
   const updateGuests = (type: keyof typeof guests, delta: number) => {
     setGuests((prev) => {
       const updated = Math.max(0, prev[type] + delta);
-      return { ...prev, [type]: updated };
+      let newAdults = prev.adults;
+      if (type !== 'adults' && delta > 0 && prev.adults === 0) {
+        newAdults = 1;
+      }
+      return { ...prev, adults: newAdults, [type]: updated };
     });
   };
 
@@ -191,7 +449,9 @@ export function HomeHeader() {
         }}
         transition={activeTransition}
         style={{
-          background: 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-quaternary) 54%, var(--palette-bg-primary)) 100%))',
+          background: isRoomsMode
+            ? '#ffffff'
+            : 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-quaternary) 54%, var(--palette-bg-primary)) 100%))',
         }}
         className={`fixed top-0 left-0 right-0 z-40 border-b border-slate-200 select-none overflow-visible w-full pt-2 sm:pt-2.5 ${
           isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.06)]' : ''
@@ -200,7 +460,11 @@ export function HomeHeader() {
         {/* ========================================================================= */}
         {/* 1. DESKTOP HEADER (hidden on mobile, visible on desktop md+)              */}
         {/* ========================================================================= */}
-        <div className="hidden md:block max-w-[1760px] mx-auto px-6 md:px-8 min-[1138px]:px-20 h-full relative">
+        <div className={`hidden md:block mx-auto h-full relative ${
+          isRoomsMode
+            ? 'max-w-7xl px-4 sm:px-8'
+            : 'max-w-[1760px] px-6 md:px-8 min-[1138px]:px-20'
+        }`}>
           
           {/* Top Bar Row (80px height) */}
           <div className="h-20 flex items-center justify-between relative">
@@ -208,7 +472,9 @@ export function HomeHeader() {
             {/* Left: Airbnb Brand Logo - shifted left, decreased size, lighter wordmark weight */}
             <Link
               href="/"
-              className="flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group -ml-1 md:-ml-2 min-[1138px]:-ml-8"
+              className={`flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group ${
+                isRoomsMode ? '' : '-ml-1 md:-ml-2 min-[1138px]:-ml-8'
+              }`}
               aria-label="Airbnb homepage"
             >
               <svg
@@ -246,22 +512,24 @@ export function HomeHeader() {
               transition={activeTransition}
               className="hidden md:flex items-center gap-3.5 md:gap-4 lg:gap-6 min-[1138px]:gap-9 absolute left-1/2 -translate-x-1/2 z-10"
             >
-              <button
-                onClick={() => setActiveTab('all')}
-                className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
-                  activeTab === 'all' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
-                }`}
-              >
-                <img src="/icons/categories/all.png" alt="All" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
-                <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">All</span>
-                {activeTab === 'all' && (
-                  <motion.div
-                    layoutId="activeHeaderTabLine"
-                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                    className="absolute -bottom-2 left-0 right-0 h-[2.5px] bg-[#222222] rounded-full"
-                  />
-                )}
-              </button>
+              {!isRoomsMode && (
+                <button
+                  onClick={() => setActiveTab('all')}
+                  className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
+                    activeTab === 'all' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
+                  }`}
+                >
+                  <img src="/icons/categories/all.png" alt="All" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
+                  <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">All</span>
+                  {activeTab === 'all' && (
+                    <motion.div
+                      layoutId="activeHeaderTabLine"
+                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                      className="absolute -bottom-2 left-0 right-0 h-[2.5px] bg-[#222222] rounded-full"
+                    />
+                  )}
+                </button>
+              )}
 
               <button
                 onClick={() => setActiveTab('homes')}
@@ -388,20 +656,53 @@ export function HomeHeader() {
               transition={innerFadeTransition}
               className="absolute inset-0 flex items-center justify-between pl-3.5 pr-13 text-[14px] select-none"
             >
-              <div className="flex items-center gap-2.5 flex-shrink-0 pl-0.5">
+              <div
+                onClick={(e) => {
+                  if (isEndpoint2) {
+                    e.stopPropagation();
+                    setHasInteracted(true);
+                    isExpandedRef.current = true;
+                    setIsExpanded(true);
+                    setActiveSegment('where');
+                  }
+                }}
+                className="flex items-center gap-2.5 flex-shrink-0 pl-0.5 cursor-pointer"
+              >
                 <img src="/icons/categories/homes.png" alt="Homes" className="w-7 h-7 sm:w-7 sm:h-7 object-contain flex-shrink-0" />
                 <span className="truncate max-w-[100px] text-[14px] font-semibold text-[#222222]">{destination || 'Anywhere'}</span>
               </div>
 
               <div className="h-5 w-px bg-slate-300 flex-shrink-0 mx-1" />
 
-              <div className="px-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0">
+              <div
+                onClick={(e) => {
+                  if (isEndpoint2) {
+                    e.stopPropagation();
+                    setHasInteracted(true);
+                    isExpandedRef.current = true;
+                    setIsExpanded(true);
+                    setActiveSegment('when');
+                  }
+                }}
+                className="px-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0 cursor-pointer"
+              >
                 <span>{datesText || 'Anytime'}</span>
               </div>
 
               <div className="h-5 w-px bg-slate-300 flex-shrink-0 mx-1" />
 
-              <div className="pl-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0">
+              <div
+                onClick={(e) => {
+                  if (isEndpoint2) {
+                    e.stopPropagation();
+                    setHasInteracted(true);
+                    isExpandedRef.current = true;
+                    setIsExpanded(true);
+                    setActiveSegment('who');
+                  }
+                }}
+                className="pl-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0 cursor-pointer"
+              >
                 <span>{guestSummary}</span>
               </div>
             </motion.div>
@@ -538,181 +839,342 @@ export function HomeHeader() {
 
             {/* -------------------------------------------------------------------- */}
             {/* SEARCH BUTTON: LOCKED TO THE RIGHT EDGE AT ALL TIMES (NO HORIZONTAL DRIFT) */}
-            {/* Scales between 48px (Endpoint 1) and 32px (Endpoint 2) in place       */}
+            {/* Scales between 48px/104px (Endpoint 1) and 32px (Endpoint 2) in place */}
             {/* -------------------------------------------------------------------- */}
             <motion.div
               initial={false}
               animate={{
-                width: isEndpoint2 ? 32 : 48,
+                width: isEndpoint2 ? 32 : (activeSegment ? 108 : 48),
                 height: isEndpoint2 ? 32 : 48,
               }}
               transition={activeTransition}
               onClick={(e) => {
                 e.stopPropagation();
-                setActiveSegment(null);
+                if (isEndpoint2) {
+                  setHasInteracted(true);
+                  isExpandedRef.current = true;
+                  setIsExpanded(true);
+                  setActiveSegment('where');
+                } else {
+                  setActiveSegment(null);
+                  if (isScrolled) {
+                    isExpandedRef.current = false;
+                    setIsExpanded(false);
+                  }
+                }
               }}
-              className="rounded-full bg-[#FF385C] hover:bg-[#E00B41] text-white flex items-center justify-center flex-shrink-0 ml-auto mr-2 z-20 cursor-pointer transition-colors shadow-md hover:scale-104 active:scale-96"
+              className={`rounded-full bg-[#FF385C] hover:bg-[#E00B41] text-white flex items-center justify-center flex-shrink-0 ml-auto mr-2 z-20 cursor-pointer transition-colors shadow-md hover:scale-104 active:scale-96 ${
+                !isEndpoint2 && activeSegment ? 'px-4.5 gap-2' : ''
+              }`}
             >
-              <Search className={isEndpoint2 ? 'w-3.5 h-3.5 stroke-[2.8]' : 'w-4 h-4 stroke-[2.5]'} />
+              <Search className={isEndpoint2 ? 'w-3.5 h-3.5 stroke-[2.8]' : 'w-4 h-4 stroke-[2.8]'} />
+              {!isEndpoint2 && activeSegment && (
+                <span className="text-[14px] font-semibold text-white tracking-tight select-none pr-1">Search</span>
+              )}
             </motion.div>
 
             {/* Popovers anchored under the searchbar in Endpoint 1 */}
             <AnimatePresence>
-              {/* WHERE POPOVER */}
+              {/* WHERE POPOVER (Matches Screenshot 1) */}
               {!isEndpoint2 && activeSegment === 'where' && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                  initial={{ opacity: 0, scale: 0.96, y: 12 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 12 }}
+                  exit={{ opacity: 0, scale: 0.96, y: 12 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-[76px] left-0 w-[420px] bg-white rounded-3xl p-6 shadow-[0_6px_28px_rgba(0,0,0,0.18)] border border-slate-200 z-50 text-left"
+                  className="absolute top-[76px] left-0 w-[490px] bg-white rounded-[32px] p-6 sm:p-7 shadow-[0_8px_28px_rgba(0,0,0,0.18)] border border-slate-100 z-50 text-left"
                 >
-                  <div className="text-xs font-bold text-slate-900 mb-3">Search by destination</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    {[
-                      { name: 'South Goa, India', desc: 'Beach towns & luxury villas' },
-                      { name: 'North Goa, India', desc: 'Vibrant nightlife & cafes' },
-                      { name: 'Noida, India', desc: 'Planned city near Delhi' },
-                      { name: 'Pune, India', desc: 'Koregaon Park & cultural stays' },
-                      { name: 'Dubai, UAE', desc: 'Prime beach spot & towers' },
-                      { name: "I'm flexible", desc: 'Explore anywhere in India' },
-                    ].map((dest, i) => (
+                  <div className="text-[14px] font-semibold text-[#222222] mb-3 px-2">
+                    Suggested destinations
+                  </div>
+                  <div className="max-h-[380px] overflow-y-auto custom-scrollbar pr-1 space-y-1">
+                    {SUGGESTED_DESTINATIONS.map((dest, i) => (
                       <div
                         key={i}
                         onClick={() => {
                           setDestination(dest.name);
                           setActiveSegment('when');
                         }}
-                        className="p-3 rounded-xl border border-slate-100 hover:border-slate-800 hover:bg-slate-50 cursor-pointer transition"
+                        className="flex items-center gap-4 p-2.5 rounded-2xl hover:bg-slate-100/80 cursor-pointer transition"
                       >
-                        <div className="font-bold text-slate-900">{dest.name}</div>
-                        <div className="text-[10px] text-slate-500 mt-0.5">{dest.desc}</div>
+                        <div className={`w-12 h-12 rounded-2xl ${dest.bgColor} flex items-center justify-center flex-shrink-0`}>
+                          {dest.icon}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-[15px] font-semibold text-[#222222] leading-snug truncate">
+                            {dest.name}
+                          </div>
+                          <div className="text-[13px] text-[#717171] font-normal leading-snug truncate">
+                            {dest.subtitle}
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </motion.div>
               )}
 
-              {/* WHEN POPOVER */}
+              {/* WHEN POPOVER (Matches Screenshot 2) */}
               {!isEndpoint2 && activeSegment === 'when' && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                  initial={{ opacity: 0, scale: 0.96, y: 12 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 12 }}
+                  exit={{ opacity: 0, scale: 0.96, y: 12 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-[76px] left-1/2 -translate-x-1/2 w-[520px] bg-white rounded-3xl p-6 shadow-[0_6px_28px_rgba(0,0,0,0.18)] border border-slate-200 z-50 text-center"
+                  className="absolute top-[76px] left-1/2 -translate-x-1/2 w-[848px] bg-white rounded-[32px] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.18)] border border-slate-100 z-50 text-left"
                 >
-                  <div className="text-xs font-bold text-slate-900 mb-4">Choose date preference</div>
-                  <div className="grid grid-cols-3 gap-3 text-xs mb-4">
-                    {[
-                      { label: 'Weekend getaway', val: 'Oct 24 – Oct 26' },
-                      { label: 'Next 5 days', val: 'Oct 20 – Oct 25' },
-                      { label: 'Any week in Nov', val: 'Nov 10 – Nov 17' },
-                    ].map((opt, i) => (
-                      <div
-                        key={i}
-                        onClick={() => {
-                          setDatesText(opt.val);
-                          setActiveSegment('who');
-                        }}
-                        className="p-3.5 rounded-2xl border border-slate-200 hover:border-slate-800 hover:bg-slate-50 cursor-pointer transition font-medium"
-                      >
-                        <div className="font-bold text-slate-900">{opt.label}</div>
-                        <div className="text-[11px] text-slate-500 mt-1">{opt.val}</div>
+                  {/* Top Switcher: Dates / Flexible */}
+                  <div className="bg-[#EBEBEB] p-1 rounded-full flex gap-1 w-fit mx-auto mb-8">
+                    <button
+                      onClick={() => setWhenTab('dates')}
+                      className={`text-[14px] font-semibold py-2 px-6 rounded-full transition cursor-pointer ${
+                        whenTab === 'dates'
+                          ? 'bg-white text-[#222222] shadow-xs'
+                          : 'text-[#222222] hover:bg-slate-200/50'
+                      }`}
+                    >
+                      Dates
+                    </button>
+                    <button
+                      onClick={() => setWhenTab('flexible')}
+                      className={`text-[14px] font-semibold py-2 px-6 rounded-full transition cursor-pointer ${
+                        whenTab === 'flexible'
+                          ? 'bg-white text-[#222222] shadow-xs'
+                          : 'text-[#222222] hover:bg-slate-200/50'
+                      }`}
+                    >
+                      Flexible
+                    </button>
+                  </div>
+
+                  {whenTab === 'dates' ? (
+                    <div>
+                      {/* Two Months Side-by-Side */}
+                      <div className="grid grid-cols-2 gap-12">
+                        {/* Month 1 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-4">
+                            <button
+                              onClick={() => setCurrentCalendarMonth((prev) => Math.max(0, prev - 1))}
+                              disabled={currentCalendarMonth === 0}
+                              className="p-2 rounded-full hover:bg-slate-100 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed transition"
+                              aria-label="Previous month"
+                            >
+                              <ChevronLeft className="w-4 h-4 text-[#222222]" />
+                            </button>
+                            <span className="text-[16px] font-semibold text-[#222222]">
+                              {MONTH_NAMES[month1Data.month]} {month1Data.year}
+                            </span>
+                            <div className="w-8" />
+                          </div>
+
+                          <div className="grid grid-cols-7 text-center mb-2">
+                            {WEEKDAYS.map((day, i) => (
+                              <div key={i} className="text-[12px] font-semibold text-[#717171]">
+                                {day}
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="grid grid-cols-7 gap-y-1">
+                            {renderMonthGrid(month1Data)}
+                          </div>
+                        </div>
+
+                        {/* Month 2 */}
+                        <div>
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="w-8" />
+                            <span className="text-[16px] font-semibold text-[#222222]">
+                              {MONTH_NAMES[month2Data.month]} {month2Data.year}
+                            </span>
+                            <button
+                              onClick={() => setCurrentCalendarMonth((prev) => prev + 1)}
+                              className="p-2 rounded-full hover:bg-slate-100 cursor-pointer transition"
+                              aria-label="Next month"
+                            >
+                              <ChevronRight className="w-4 h-4 text-[#222222]" />
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-7 text-center mb-2">
+                            {WEEKDAYS.map((day, i) => (
+                              <div key={i} className="text-[12px] font-semibold text-[#717171]">
+                                {day}
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="grid grid-cols-7 gap-y-1">
+                            {renderMonthGrid(month2Data)}
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="text-[11px] text-slate-400">
-                    Dates automatically sync with your selected property reservation
-                  </div>
+
+                      {/* Bottom Check-in & Checkout boxes */}
+                      <div className="grid grid-cols-2 gap-4 mt-8 pt-4 border-t border-slate-100">
+                        <div className="border border-slate-300 rounded-2xl p-2.5 px-4 flex items-center justify-between cursor-pointer hover:border-slate-800 transition">
+                          <div>
+                            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                              Check-in
+                            </div>
+                            <div className="text-[14px] font-semibold text-[#222222]">
+                              {formatBoxDate(checkInDate)}
+                            </div>
+                          </div>
+                          <ChevronDown className="w-4 h-4 text-slate-700" />
+                        </div>
+
+                        <div className="border border-slate-300 rounded-2xl p-2.5 px-4 flex items-center justify-between cursor-pointer hover:border-slate-800 transition">
+                          <div>
+                            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                              Checkout
+                            </div>
+                            <div className="text-[14px] font-semibold text-[#222222]">
+                              {formatBoxDate(checkOutDate)}
+                            </div>
+                          </div>
+                          <ChevronDown className="w-4 h-4 text-slate-700" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Flexible tab */
+                    <div className="py-6 text-center space-y-4">
+                      <div className="text-[16px] font-semibold text-[#222222]">Stay for a week or weekend</div>
+                      <div className="grid grid-cols-3 gap-3 text-xs max-w-lg mx-auto">
+                        {[
+                          { label: 'Weekend getaway', val: 'Oct 24 – Oct 26' },
+                          { label: 'Next 5 days', val: 'Oct 20 – Oct 25' },
+                          { label: 'Any week in Nov', val: 'Nov 10 – Nov 17' },
+                        ].map((opt, i) => (
+                          <div
+                            key={i}
+                            onClick={() => {
+                              setDatesText(opt.val);
+                              setActiveSegment('who');
+                            }}
+                            className="p-3.5 rounded-2xl border border-slate-200 hover:border-slate-800 hover:bg-slate-50 cursor-pointer transition font-medium text-left"
+                          >
+                            <div className="font-bold text-slate-900">{opt.label}</div>
+                            <div className="text-[11px] text-slate-500 mt-1">{opt.val}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               )}
 
-              {/* WHO POPOVER */}
+              {/* WHO POPOVER (Matches Screenshot 3) */}
               {!isEndpoint2 && activeSegment === 'who' && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                  initial={{ opacity: 0, scale: 0.96, y: 12 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 12 }}
+                  exit={{ opacity: 0, scale: 0.96, y: 12 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-[76px] right-0 w-[380px] bg-white rounded-3xl p-6 shadow-[0_6px_28px_rgba(0,0,0,0.18)] border border-slate-200 z-50 divide-y divide-slate-100 text-left"
+                  className="absolute top-[76px] right-0 w-[400px] bg-white rounded-[32px] p-6 sm:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.18)] border border-slate-100 z-50 divide-y divide-slate-100 text-left"
                 >
-                  <div className="py-3 flex items-center justify-between first:pt-0">
+                  {/* Adults */}
+                  <div className="py-4 flex items-center justify-between first:pt-0">
                     <div>
-                      <div className="text-xs font-bold text-slate-900">Adults</div>
-                      <div className="text-[11px] text-slate-500">Ages 13 or above</div>
+                      <div className="text-[16px] font-semibold text-[#222222]">Adults</div>
+                      <div className="text-[14px] text-[#717171] font-normal mt-0.5">Ages 13 or above</div>
                     </div>
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateGuests('adults', -1)}
                         disabled={guests.adults <= 0}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-25 disabled:border-slate-200 hover:border-slate-800 cursor-pointer disabled:cursor-not-allowed transition"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
-                      <span className="w-4 text-center text-xs font-bold text-slate-900">{guests.adults}</span>
+                      <span className="w-6 text-center text-[16px] font-normal text-[#222222]">{guests.adults}</span>
                       <button
                         onClick={() => updateGuests('adults', 1)}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800 cursor-pointer transition"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
                     </div>
                   </div>
 
-                  <div className="py-3 flex items-center justify-between">
+                  {/* Children */}
+                  <div className="py-4 flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-bold text-slate-900">Children</div>
-                      <div className="text-[11px] text-slate-500">Ages 2–12</div>
+                      <div className="text-[16px] font-semibold text-[#222222]">Children</div>
+                      <div className="text-[14px] text-[#717171] font-normal mt-0.5">Ages 2–12</div>
                     </div>
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateGuests('children', -1)}
                         disabled={guests.children <= 0}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-25 disabled:border-slate-200 hover:border-slate-800 cursor-pointer disabled:cursor-not-allowed transition"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
-                      <span className="w-4 text-center text-xs font-bold text-slate-900">{guests.children}</span>
+                      <span className="w-6 text-center text-[16px] font-normal text-[#222222]">{guests.children}</span>
                       <button
                         onClick={() => updateGuests('children', 1)}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800 cursor-pointer transition"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
                     </div>
                   </div>
 
-                  <div className="py-3 flex items-center justify-between">
+                  {/* Infants */}
+                  <div className="py-4 flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-bold text-slate-900">Infants</div>
-                      <div className="text-[11px] text-slate-500">Under 2</div>
+                      <div className="text-[16px] font-semibold text-[#222222]">Infants</div>
+                      <div className="text-[14px] text-[#717171] font-normal mt-0.5">Under 2</div>
                     </div>
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateGuests('infants', -1)}
                         disabled={guests.infants <= 0}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-25 disabled:border-slate-200 hover:border-slate-800 cursor-pointer disabled:cursor-not-allowed transition"
                       >
-                        <Minus className="w-3.5 h-3.5" />
+                        <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
-                      <span className="w-4 text-center text-xs font-bold text-slate-900">{guests.infants}</span>
+                      <span className="w-6 text-center text-[16px] font-normal text-[#222222]">{guests.infants}</span>
                       <button
                         onClick={() => updateGuests('infants', 1)}
-                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800"
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800 cursor-pointer transition"
                       >
-                        <Plus className="w-3.5 h-3.5" />
+                        <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
                       </button>
                     </div>
                   </div>
 
-                  <div className="pt-3 text-right">
-                    <button
-                      onClick={() => setActiveSegment(null)}
-                      className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition"
-                    >
-                      Done
-                    </button>
+                  {/* Pets */}
+                  <div className="py-4 flex items-center justify-between last:pb-0">
+                    <div>
+                      <div className="text-[16px] font-semibold text-[#222222]">Pets</div>
+                      <a
+                        href="#service-animal"
+                        onClick={(e) => e.preventDefault()}
+                        className="text-[14px] text-[#717171] font-normal mt-0.5 underline cursor-pointer hover:text-slate-900 block"
+                      >
+                        Bringing a service animal?
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => updateGuests('pets', -1)}
+                        disabled={guests.pets <= 0}
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 disabled:opacity-25 disabled:border-slate-200 hover:border-slate-800 cursor-pointer disabled:cursor-not-allowed transition"
+                      >
+                        <Minus className="w-3.5 h-3.5 stroke-[2.2]" />
+                      </button>
+                      <span className="w-6 text-center text-[16px] font-normal text-[#222222]">{guests.pets}</span>
+                      <button
+                        onClick={() => updateGuests('pets', 1)}
+                        className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:border-slate-800 cursor-pointer transition"
+                      >
+                        <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -749,59 +1211,61 @@ export function HomeHeader() {
           </div>
 
           {/* Mobile Category Tabs */}
-          <div className="flex items-center justify-around px-1 pt-2 pb-0.5 mt-0.5 border-t border-slate-100/60">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
-                activeTab === 'all' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
-              }`}
-            >
-              <img src="/icons/categories/all.png" alt="All" className="w-7 h-7 object-contain flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-tight tracking-tight">All</span>
-              {activeTab === 'all' && (
-                <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
-              )}
-            </button>
+          {!isRoomsMode && (
+            <div className="flex items-center justify-around px-1 pt-2 pb-0.5 mt-0.5 border-t border-slate-100/60">
+              <button
+                onClick={() => setActiveTab('all')}
+                className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
+                  activeTab === 'all' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
+                }`}
+              >
+                <img src="/icons/categories/all.png" alt="All" className="w-7 h-7 object-contain flex-shrink-0" />
+                <span className="text-[11px] font-medium leading-tight tracking-tight">All</span>
+                {activeTab === 'all' && (
+                  <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
+                )}
+              </button>
 
-            <button
-              onClick={() => setActiveTab('homes')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
-                activeTab === 'homes' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
-              }`}
-            >
-              <img src="/icons/categories/homes.png" alt="Homes" className="w-7 h-7 object-contain flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-tight tracking-tight">Homes</span>
-              {activeTab === 'homes' && (
-                <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
-              )}
-            </button>
+              <button
+                onClick={() => setActiveTab('homes')}
+                className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
+                  activeTab === 'homes' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
+                }`}
+              >
+                <img src="/icons/categories/homes.png" alt="Homes" className="w-7 h-7 object-contain flex-shrink-0" />
+                <span className="text-[11px] font-medium leading-tight tracking-tight">Homes</span>
+                {activeTab === 'homes' && (
+                  <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
+                )}
+              </button>
 
-            <button
-              onClick={() => setActiveTab('experiences')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
-                activeTab === 'experiences' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
-              }`}
-            >
-              <img src="/icons/categories/experiences.png" alt="Experiences" className="w-7 h-7 object-contain flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-tight tracking-tight">Experiences</span>
-              {activeTab === 'experiences' && (
-                <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
-              )}
-            </button>
+              <button
+                onClick={() => setActiveTab('experiences')}
+                className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
+                  activeTab === 'experiences' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
+                }`}
+              >
+                <img src="/icons/categories/experiences.png" alt="Experiences" className="w-7 h-7 object-contain flex-shrink-0" />
+                <span className="text-[11px] font-medium leading-tight tracking-tight">Experiences</span>
+                {activeTab === 'experiences' && (
+                  <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
+                )}
+              </button>
 
-            <button
-              onClick={() => setActiveTab('services')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
-                activeTab === 'services' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
-              }`}
-            >
-              <img src="/icons/categories/services.png" alt="Services" className="w-7 h-7 object-contain flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-tight tracking-tight">Services</span>
-              {activeTab === 'services' && (
-                <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
-              )}
-            </button>
-          </div>
+              <button
+                onClick={() => setActiveTab('services')}
+                className={`flex flex-col items-center gap-1 py-1 px-2.5 relative cursor-pointer ${
+                  activeTab === 'services' ? 'text-[#222222] font-semibold' : 'text-[#717171]'
+                }`}
+              >
+                <img src="/icons/categories/services.png" alt="Services" className="w-7 h-7 object-contain flex-shrink-0" />
+                <span className="text-[11px] font-medium leading-tight tracking-tight">Services</span>
+                {activeTab === 'services' && (
+                  <div className="absolute -bottom-1 left-1.5 right-1.5 h-[2px] bg-[#222222] rounded-full" />
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </motion.header>
 
@@ -809,7 +1273,7 @@ export function HomeHeader() {
       <motion.div
         initial={false}
         animate={{
-          height: isMobile ? 126 : (isScrolled ? 86 : 180),
+          height: isMobile ? (isRoomsMode ? 72 : 126) : (isScrolled ? 86 : 180),
         }}
         transition={activeTransition}
         className="w-full flex-shrink-0"

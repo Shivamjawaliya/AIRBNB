@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Navbar } from '@/components/layout/Navbar';
+import { HomeHeader } from '@/features/home/components/HomeHeader';
 import { Footer } from '@/components/layout/Footer';
 import { ListingHeader } from '@/features/listing/components/ListingHeader';
 import { PhotoBentoGrid } from '@/features/listing/components/PhotoBentoGrid';
@@ -31,8 +31,8 @@ export default function ListingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* 1. Global Navigation Bar */}
-      <Navbar />
+      {/* 1. Global Navigation Bar with smooth expandable search */}
+      <HomeHeader mode="rooms" />
 
       {/* Main Page Container (Desktop-optimized max-w-7xl) */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8">
