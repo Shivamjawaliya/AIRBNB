@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { LayoutGrid } from 'lucide-react';
 import { ListingPhoto } from '@/types';
 
 interface PhotoBentoGridProps {
@@ -59,9 +58,15 @@ export function PhotoBentoGrid({
                     e.stopPropagation();
                     onOpenPhotoTour();
                   }}
-                  className="absolute bottom-4 right-4 bg-white/95 hover:bg-white text-slate-900 border border-slate-900 px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-md flex items-center gap-2 transition hover:scale-102"
+                  className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 bg-white hover:bg-[#F7F7F7] active:scale-[0.98] text-[#222222] border border-[#222222] px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[14px] font-semibold shadow-xs flex items-center gap-2 transition cursor-pointer select-none"
                 >
-                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <svg
+                    viewBox="0 0 16 16"
+                    className="w-4 h-4 fill-current flex-shrink-0"
+                    aria-hidden="true"
+                  >
+                    <path d="m3 1.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm-13 6.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm-13 6.5a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 0 1 3 0z" />
+                  </svg>
                   <span>Show all photos</span>
                 </button>
               )}
