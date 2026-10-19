@@ -1,69 +1,83 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React from 'react';
+import Link from 'next/link';
+import { Search, Heart } from 'lucide-react';
+import { HomeHeader } from '@/features/home/components/HomeHeader';
+import { ListingCarousel } from '@/features/home/components/ListingCarousel';
+import { DestinationCarousel } from '@/features/home/components/DestinationCarousel';
+import { InspirationSection } from '@/features/home/components/InspirationSection';
+import { HomeFooter } from '@/features/home/components/HomeFooter';
+import {
+  SOUTH_GOA_LISTINGS,
+  NOIDA_LISTINGS,
+  PUNE_LISTINGS,
+  DESTINATIONS_FOR_YOU,
+} from '@/features/home/data/homeData';
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col bg-white text-slate-800 w-full pb-16 md:pb-0">
+      
+      {/* 1. Dynamic Animated Header (Morphs from Expanded to Compact on Scroll on desktop, floating pill on mobile) */}
+      <HomeHeader />
+
+      {/* Main Content Container (Max width matching real Airbnb 1760px) */}
+      <main className="flex-1 max-w-[1760px] w-full mx-auto px-4 sm:px-12 md:px-20 space-y-6 pt-2 sm:pt-4 overflow-x-clip">
+        
+        {/* Section 1: South Goa (Matches Screenshot 1 & 2) */}
+        <ListingCarousel
+          title="Available next month in South Goa"
+          subtitle="Indian coast with beach towns"
+          listings={SOUTH_GOA_LISTINGS}
+          showSeeAll={true}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* Section 2: Noida (Matches Screenshot 1 & 2) */}
+        <ListingCarousel
+          title="Check out homes in Noida"
+          subtitle="Planned city near New Delhi"
+          listings={NOIDA_LISTINGS}
+          showSeeAll={false}
+        />
+
+        {/* Section 3: Pune (Matches Screenshot 2) */}
+        <ListingCarousel
+          title="Places to stay in Pune"
+          listings={PUNE_LISTINGS}
+          showSeeAll={false}
+        />
+
+        {/* Section 4: Destinations for you (Matches Screenshot 3) */}
+        <DestinationCarousel destinations={DESTINATIONS_FOR_YOU} />
+
+        {/* Section 5: Inspiration for future getaways (Matches Screenshot 3 & 4) */}
+        <InspirationSection />
+
       </main>
+
+      {/* 6. Footer matching Screenshot 4 */}
+      <HomeFooter />
+
+      {/* 7. Mobile Bottom Navigation Bar (Docked on phone viewports) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 flex items-center justify-around py-2 px-2 shadow-[0_-2px_10px_rgba(0,0,0,0.06)] select-none">
+        <Link href="/" className="flex flex-col items-center gap-1 text-[#FF385C] flex-1">
+          <Search className="w-5 h-5 stroke-[2.6]" />
+          <span className="text-[10px] font-semibold">Explore</span>
+        </Link>
+        <Link href="/rooms/terracotta-serene-candolim" className="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-900 flex-1">
+          <Heart className="w-5 h-5 stroke-[2]" />
+          <span className="text-[10px] font-medium">Wishlists</span>
+        </Link>
+        <button className="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-900 flex-1 cursor-pointer">
+          <svg viewBox="0 0 32 32" className="w-5 h-5 fill-none stroke-current stroke-[2.2]">
+            <circle cx="16" cy="16" r="14" />
+            <path d="m26.46 25.62c-1.58-2.81-4.26-4.9-7.46-5.73v-.72c1.79-1.04 3-2.96 3-5.17 0-3.31-2.69-6-6-6s-6 2.69-6 6c0 2.22 1.21 4.14 3 5.17v.72c-3.16.82-5.83 2.87-7.42 5.64" />
+          </svg>
+          <span className="text-[10px] font-medium">Log in</span>
+        </button>
+      </nav>
+
     </div>
   );
 }
