@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Terracotta Serene - 1BHK Candolim | Whirlpool/WiFi - Condominiums for Rent in Candolim, Goa, India - Airbnb',
-  description: 'Entire rental unit in Candolim, India. 4 guests · 1 bedroom · 1 bed · 1 bathroom. High-speed WiFi, Private whirlpool hot tub, and luxury furnishings.',
+  title: 'Entire rental unit in Pune City, India - Airbnb',
+  description: 'Entire rental unit in Pune City, India. 6 guests · 2 bedrooms · 2 beds · 2 bathrooms. Hosted by Hitesh.',
   icons: {
     icon: '/favicon.ico',
   },

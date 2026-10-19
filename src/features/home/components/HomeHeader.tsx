@@ -453,7 +453,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
             ? '#ffffff'
             : 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-quaternary) 54%, var(--palette-bg-primary)) 100%))',
         }}
-        className={`fixed top-0 left-0 right-0 z-40 border-b border-slate-200 select-none overflow-visible w-full pt-2 sm:pt-2.5 ${
+        className={`${isRoomsMode ? 'relative' : 'fixed top-0 left-0 right-0'} z-40 border-b border-slate-200 select-none overflow-visible w-full pt-2 sm:pt-2.5 ${
           isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.06)]' : ''
         }`}
       >
@@ -462,7 +462,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         {/* ========================================================================= */}
         <div className={`hidden md:block mx-auto h-full relative ${
           isRoomsMode
-            ? 'max-w-7xl px-4 sm:px-8'
+            ? 'max-w-[1120px] px-4 sm:px-8 md:px-12 lg:px-16'
             : 'max-w-[1760px] px-6 md:px-8 min-[1138px]:px-20'
         }`}>
           
@@ -1273,7 +1273,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
       <motion.div
         initial={false}
         animate={{
-          height: isMobile ? (isRoomsMode ? 72 : 126) : (isScrolled ? 86 : 180),
+          height: isRoomsMode ? 0 : (isMobile ? 126 : (isScrolled ? 86 : 180)),
         }}
         transition={activeTransition}
         className="w-full flex-shrink-0"
