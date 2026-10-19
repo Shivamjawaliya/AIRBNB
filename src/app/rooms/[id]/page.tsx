@@ -195,138 +195,229 @@ export default function ListingPage() {
           </div>
 
           {/* B. 7-Column Rating Breakdown Strip */}
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-y-6 text-left py-6 border-b border-slate-100">
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-y-6 text-left py-6">
             {/* 1. Overall rating */}
-            <div className="pr-4 md:pr-6 md:border-r md:border-slate-200">
-              <div className="text-[14px] font-semibold text-[#222222] mb-3">Overall rating</div>
-              <div className="space-y-1 text-[11px] text-[#717171]">
+            <div className="pr-4 md:pr-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
+              <div className="text-[14px] font-semibold text-[#222222]">Overall rating</div>
+              <div className="space-y-1 text-[11px] text-[#717171] pb-1">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 font-medium text-[#222222]">5</span>
-                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="flex-1 h-[3.5px] bg-slate-100 rounded-full overflow-hidden">
                     <div className="h-full bg-[#222222] rounded-full w-[90%]" />
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 font-medium text-[#222222]">4</span>
-                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="flex-1 h-[3.5px] bg-slate-100 rounded-full overflow-hidden">
                     <div className="h-full bg-[#222222] rounded-full w-[10%]" />
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 font-medium text-[#222222]">3</span>
-                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden" />
+                  <div className="flex-1 h-[3.5px] bg-slate-100 rounded-full overflow-hidden" />
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 font-medium text-[#222222]">2</span>
-                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden" />
+                  <div className="flex-1 h-[3.5px] bg-slate-100 rounded-full overflow-hidden" />
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 font-medium text-[#222222]">1</span>
-                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden" />
+                  <div className="flex-1 h-[3.5px] bg-slate-100 rounded-full overflow-hidden" />
                 </div>
               </div>
             </div>
 
             {/* 2. Cleanliness */}
-            <div className="px-4 md:px-6 md:border-r md:border-slate-200 flex flex-col justify-between">
+            <div className="px-4 md:px-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Cleanliness</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">5.0</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">5.0</div>
               </div>
-              <div className="mt-4">
-                <img src="/icons/spray.png" alt="Cleanliness" className="w-6 h-6 object-contain" />
+              <div className="pb-1">
+                <svg
+                  viewBox="0 0 24 33"
+                  className="w-6 h-6 text-[#222222]"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M4,1h15v1h-15zM2,2h17v1h-17zM2,3h4v1h-4zM12,3h3v1h-3zM16,3h3v1h-3zM21,3h2v1h-2zM1,4h3v1h-3zM11,4h7v1h-7zM19,4h1v1h-1zM1,5h3v1h-3zM11,5h8v1h-8zM21,5h2v1h-2zM2,6h4v1h-4zM9,6h9v1h-9zM21,6h2v1h-2zM4,7h4v1h-4zM10,7h6v1h-6zM5,8h8v1h-8zM14,8h2v1h-2zM6,9h7v1h-7zM15,9h3v1h-3zM6,10h3v1h-3zM10,10h3v1h-3zM15,10h2v1h-2zM6,11h2v1h-2zM10,11h3v1h-3zM15,11h2v1h-2zM6,12h2v1h-2zM10,12h3v1h-3zM6,13h2v1h-2zM10,13h3v1h-3zM5,14h3v1h-3zM11,14h4v1h-4zM4,15h3v1h-3zM11,15h4v1h-4zM3,16h4v1h-4zM11,16h4v1h-4zM3,17h3v1h-3zM11,17h4v1h-4zM2,18h4v1h-4zM11,18h4v1h-4zM2,19h7v1h-7zM11,19h3v1h-3zM1,20h9v1h-9zM11,20h2v1h-2zM1,21h11v1h-11zM11,21h2v1h-2zM1,22h3v1h-3zM7,22h4v1h-4zM11,22h2v1h-2zM1,23h3v1h-3zM8,23h9v1h-9zM1,24h3v1h-3zM9,24h8v1h-8zM1,25h3v1h-3zM12,25h5v1h-5zM1,26h3v1h-3zM14,26h2v1h-2zM1,27h3v1h-3zM14,27h2v1h-2zM1,28h3v1h-3zM14,28h2v1h-2zM1,29h18v1h-18zM2,30h16v1h-16zM4,31h13v1h-13z" />
+                </svg>
               </div>
             </div>
 
             {/* 3. Accuracy */}
-            <div className="px-4 md:px-6 md:border-r md:border-slate-200 flex flex-col justify-between">
+            <div className="px-4 md:px-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Accuracy</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">5.0</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">5.0</div>
               </div>
-              <div className="mt-4">
+              <div className="pb-1">
                 <CheckCircle2 className="w-6 h-6 stroke-[#222222] stroke-[1.8]" />
               </div>
             </div>
 
             {/* 4. Check-in */}
-            <div className="px-4 md:px-6 md:border-r md:border-slate-200 flex flex-col justify-between">
+            <div className="px-4 md:px-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Check-in</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">5.0</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">5.0</div>
               </div>
-              <div className="mt-4">
+              <div className="pb-1">
                 <Key className="w-6 h-6 stroke-[#222222] stroke-[1.8]" />
               </div>
             </div>
 
             {/* 5. Communication */}
-            <div className="px-4 md:px-6 md:border-r md:border-slate-200 flex flex-col justify-between">
+            <div className="px-4 md:px-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Communication</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">5.0</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">5.0</div>
               </div>
-              <div className="mt-4">
+              <div className="pb-1">
                 <MessageSquare className="w-6 h-6 stroke-[#222222] stroke-[1.8]" />
               </div>
             </div>
 
             {/* 6. Location */}
-            <div className="px-4 md:px-6 md:border-r md:border-slate-200 flex flex-col justify-between">
+            <div className="px-4 md:px-6 md:border-r md:border-[#dddddd] flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Location</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">4.8</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">4.8</div>
               </div>
-              <div className="mt-4">
+              <div className="pb-1">
                 <Map className="w-6 h-6 stroke-[#222222] stroke-[1.8]" />
               </div>
             </div>
 
             {/* 7. Value */}
-            <div className="pl-4 md:pl-6 flex flex-col justify-between">
+            <div className="pl-4 md:pl-6 flex flex-col justify-between h-[115px]">
               <div>
                 <div className="text-[14px] font-semibold text-[#222222]">Value</div>
-                <div className="text-[18px] font-bold text-[#222222] mt-1">4.8</div>
+                <div className="text-[18px] font-bold text-[#222222] mt-0.5">4.8</div>
               </div>
-              <div className="mt-4">
+              <div className="pb-1">
                 <Tag className="w-6 h-6 stroke-[#222222] stroke-[1.8]" />
               </div>
             </div>
           </div>
 
-          {/* C. Tag Pills Row matching Screenshot 1 */}
-          <div className="py-6 flex items-center gap-2.5 overflow-x-auto no-scrollbar select-none">
-            {[
-              { icon: '🛋️', label: 'Comfort', count: 6 },
-              { icon: '✓', label: 'Accuracy', count: 5 },
-              { icon: '🛁', label: 'Hot tub', count: 5 },
-              { icon: '🏡', label: 'Condition', count: 4 },
-              { icon: '🎁', label: 'Hospitality', count: 8 },
-              { icon: '🧼', label: 'Cleanliness', count: 4 },
-              { icon: '☕', label: 'Amenities', count: 2 },
-              { icon: '🖼️', label: 'Decor', count: 2 },
-            ].map((tag, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-2xl border border-[#dddddd] bg-white text-[14px] font-medium text-[#222222] flex-shrink-0 shadow-xs hover:border-black transition cursor-pointer"
-              >
-                <span className="text-sm">{tag.icon}</span>
-                <span>{tag.label}</span>
-                <span className="text-slate-400 font-normal">{tag.count}</span>
+          {/* D. Review Cards matching Screenshot 2 */}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-24 gap-y-10">
+            {/* Review 1: Amit */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="/reviews/amit.jpg"
+                  alt="Amit"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="text-[16px] font-semibold text-[#222222]">Amit</h4>
+                  <p className="text-[13px] text-[#717171]">2 months on Airbnb</p>
+                </div>
               </div>
-            ))}
-          </div>
+              <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#222222]">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#222222] text-[#222222]" />
+                  ))}
+                </div>
+                <span>·</span>
+                <span>1 week ago</span>
+              </div>
+              <p className="text-[15px] leading-relaxed text-[#222222]">
+                Very helpful and responsive team. Safe and peaceful stay. loved everything about the property.
+              </p>
+            </div>
 
-          {/* "Show more" link */}
-          <div className="pt-2 mb-8">
-            <button className="text-[14px] font-semibold text-[#222222] underline underline-offset-4 hover:text-black cursor-pointer">
-              Show more
-            </button>
-          </div>
+            {/* Review 2: Aheesh */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="/reviews/aheesh.jpg"
+                  alt="Aheesh"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="text-[16px] font-semibold text-[#222222]">Aheesh</h4>
+                  <p className="text-[13px] text-[#717171]">3 years on Airbnb</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#222222]">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#222222] text-[#222222]" />
+                  ))}
+                </div>
+                <span>·</span>
+                <span>2 weeks ago</span>
+              </div>
+              <p className="text-[15px] leading-relaxed text-[#222222]">
+                We had a wonderful stay. The apartment was clean, comfortable, and exactly as shown in the photos. The host was very responsive and helpful throughout our stay. We would definitely recommend this place and would love to stay here again.
+              </p>
+              <button className="text-[14px] font-semibold text-[#222222] underline underline-offset-4 cursor-pointer hover:text-black">
+                Show more
+              </button>
+            </div>
 
-          {/* D. Review Cards matching Screenshot 4 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
-            {/* Review 1: Vaibhav S */}
+            {/* Review 3: Samiksha */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="/reviews/samiksha.jpg"
+                  alt="Samiksha"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="text-[16px] font-semibold text-[#222222]">Samiksha</h4>
+                  <p className="text-[13px] text-[#717171]">8 months on Airbnb</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#222222]">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#222222] text-[#222222]" />
+                  ))}
+                </div>
+                <span>·</span>
+                <span>May 2026</span>
+              </div>
+              <p className="text-[15px] leading-relaxed text-[#222222]">
+                the host nitish was really great help
+              </p>
+            </div>
+
+            {/* Review 4: Vedant */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="/reviews/vedant.jpg"
+                  alt="Vedant"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="text-[16px] font-semibold text-[#222222]">Vedant</h4>
+                  <p className="text-[13px] text-[#717171]">4 years on Airbnb</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 text-[13px] font-medium text-[#222222]">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#222222] text-[#222222]" />
+                  ))}
+                </div>
+                <span>·</span>
+                <span>May 2026</span>
+              </div>
+              <p className="text-[15px] leading-relaxed text-[#222222]">
+                We had an amazing stay at this property in Goa! The entire home was spotless and exceptionally well-maintained, making us feel comfortable from the moment we arrived. The cleanliness standards were truly impressive, with every corner of the house looking fresh and pristine....
+              </p>
+              <button className="text-[14px] font-semibold text-[#222222] underline underline-offset-4 cursor-pointer hover:text-black">
+                Show more
+              </button>
+            </div>
+
+            {/* Review 5: Vaibhav S */}
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
@@ -353,7 +444,7 @@ export default function ListingPage() {
               </p>
             </div>
 
-            {/* Review 2: Mohd */}
+            {/* Review 6: Mohd */}
             <div className="space-y-3">
               <div className="flex items-center gap-3.5">
                 <img
@@ -382,7 +473,7 @@ export default function ListingPage() {
           </div>
 
           {/* Show all 19 reviews Button */}
-          <div className="mt-8">
+          <div className="mt-10">
             <button className="px-6 py-3.5 rounded-xl border border-[#222222] text-[15px] font-semibold text-[#222222] hover:bg-neutral-50 transition cursor-pointer select-none">
               Show all 19 reviews
             </button>
