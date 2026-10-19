@@ -23,7 +23,7 @@ export default function HomePage() {
       <HomeHeader />
 
       {/* Main Content Container (Max width matching real Airbnb 1760px) */}
-      <main className="flex-1 max-w-[1760px] w-full mx-auto px-4 sm:px-12 md:px-20 space-y-6 pt-2 sm:pt-4 overflow-x-clip">
+      <main className="flex-1 max-w-[1760px] w-full mx-auto px-4 sm:px-6 md:px-8 min-[1138px]:px-20 space-y-6 pt-2 sm:pt-4 overflow-x-clip">
         
         {/* Section 1: South Goa (Matches Screenshot 1 & 2) */}
         <ListingCarousel

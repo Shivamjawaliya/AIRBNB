@@ -6,15 +6,20 @@ import { Search, Minus, Plus, SlidersHorizontal, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function HomeHeader() {
-  // Mobile detection
+  // Viewport detection
   const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1280);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const handleResize = () => {
+      const w = window.innerWidth;
+      setWindowWidth(w);
+      setIsMobile(w < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Two strict endpoints:
@@ -133,6 +138,10 @@ export function HomeHeader() {
 
   // Active state: True if Endpoint 2 (compact), False if Endpoint 1 (big)
   const isEndpoint2 = isScrolled && !isExpanded;
+  const isTablet = windowWidth >= 768 && windowWidth < 1138;
+  const searchBarWidth = isEndpoint2
+    ? (isTablet ? 340 : 408)
+    : (isTablet ? Math.min(680, windowWidth - 48) : 848);
 
   // GPU-accelerated cubic-bezier transition matching real Airbnb
   const easeTransition = {
@@ -191,7 +200,7 @@ export function HomeHeader() {
         {/* ========================================================================= */}
         {/* 1. DESKTOP HEADER (hidden on mobile, visible on desktop md+)              */}
         {/* ========================================================================= */}
-        <div className="hidden md:block max-w-[1760px] mx-auto px-6 sm:px-12 md:px-20 h-full relative">
+        <div className="hidden md:block max-w-[1760px] mx-auto px-6 md:px-8 min-[1138px]:px-20 h-full relative">
           
           {/* Top Bar Row (80px height) */}
           <div className="h-20 flex items-center justify-between relative">
@@ -199,7 +208,7 @@ export function HomeHeader() {
             {/* Left: Airbnb Brand Logo - shifted left, decreased size, lighter wordmark weight */}
             <Link
               href="/"
-              className="flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group -ml-2 sm:-ml-4 md:-ml-6 lg:-ml-8"
+              className="flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group -ml-1 md:-ml-2 min-[1138px]:-ml-8"
               aria-label="Airbnb homepage"
             >
               <svg
@@ -235,16 +244,16 @@ export function HomeHeader() {
                 pointerEvents: isEndpoint2 ? 'none' : 'auto',
               }}
               transition={activeTransition}
-              className="hidden md:flex items-center gap-7 lg:gap-9 absolute left-1/2 -translate-x-1/2 z-10"
+              className="hidden md:flex items-center gap-3.5 md:gap-4 lg:gap-6 min-[1138px]:gap-9 absolute left-1/2 -translate-x-1/2 z-10"
             >
               <button
                 onClick={() => setActiveTab('all')}
-                className={`flex items-center gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
+                className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
                   activeTab === 'all' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
                 }`}
               >
-                <img src="/icons/categories/all.png" alt="All" className="w-9 h-9 sm:w-[44px] sm:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
-                <span className="text-[16px] tracking-tight">All</span>
+                <img src="/icons/categories/all.png" alt="All" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
+                <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">All</span>
                 {activeTab === 'all' && (
                   <motion.div
                     layoutId="activeHeaderTabLine"
@@ -256,12 +265,12 @@ export function HomeHeader() {
 
               <button
                 onClick={() => setActiveTab('homes')}
-                className={`flex items-center gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
+                className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
                   activeTab === 'homes' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
                 }`}
               >
-                <img src="/icons/categories/homes.png" alt="Homes" className="w-9 h-9 sm:w-[44px] sm:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
-                <span className="text-[16px] tracking-tight">Homes</span>
+                <img src="/icons/categories/homes.png" alt="Homes" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
+                <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">Homes</span>
                 {activeTab === 'homes' && (
                   <motion.div
                     layoutId="activeHeaderTabLine"
@@ -273,12 +282,12 @@ export function HomeHeader() {
 
               <button
                 onClick={() => setActiveTab('experiences')}
-                className={`flex items-center gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
+                className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
                   activeTab === 'experiences' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
                 }`}
               >
-                <img src="/icons/categories/experiences.png" alt="Experiences" className="w-9 h-9 sm:w-[44px] sm:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
-                <span className="text-[16px] tracking-tight">Experiences</span>
+                <img src="/icons/categories/experiences.png" alt="Experiences" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
+                <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">Experiences</span>
                 {activeTab === 'experiences' && (
                   <motion.div
                     layoutId="activeHeaderTabLine"
@@ -290,12 +299,12 @@ export function HomeHeader() {
 
               <button
                 onClick={() => setActiveTab('services')}
-                className={`flex items-center gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
+                className={`flex items-center gap-1.5 sm:gap-2 min-[1138px]:gap-2.5 pb-2 relative transition-colors cursor-pointer group ${
                   activeTab === 'services' ? 'text-[#222222] font-semibold' : 'text-[#717171] font-medium hover:text-[#222222]'
                 }`}
               >
-                <img src="/icons/categories/services.png" alt="Services" className="w-9 h-9 sm:w-[44px] sm:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
-                <span className="text-[16px] tracking-tight">Services</span>
+                <img src="/icons/categories/services.png" alt="Services" className="w-7 h-7 sm:w-8 sm:h-8 min-[1138px]:w-[44px] min-[1138px]:h-[34px] object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
+                <span className="text-[13px] sm:text-[14px] min-[1138px]:text-[16px] tracking-tight">Services</span>
                 {activeTab === 'services' && (
                   <motion.div
                     layoutId="activeHeaderTabLine"
@@ -308,7 +317,8 @@ export function HomeHeader() {
 
             {/* Right: User Actions matching Screenshot 1 & 2 */}
             <div className="flex items-center gap-2.5 z-20 flex-shrink-0">
-              <button className="text-[14px] font-semibold text-[#222222] py-2 px-3.5 rounded-full hover:bg-slate-100 transition cursor-pointer">
+              {/* Become a host button: hidden on 767px-1137px, visible on web >= 1138px */}
+              <button className="hidden min-[1138px]:block text-[14px] font-semibold text-[#222222] py-2 px-3.5 rounded-full hover:bg-slate-100 transition cursor-pointer">
                 Become a host
               </button>
 
@@ -345,7 +355,7 @@ export function HomeHeader() {
             initial={false}
             animate={{
               y: isEndpoint2 ? 0 : 74,
-              width: isEndpoint2 ? 408 : 848,
+              width: searchBarWidth,
               height: isEndpoint2 ? 48 : 66,
               boxShadow: isEndpoint2
                 ? '0 2px 4px rgba(0,0,0,0.08)'
@@ -416,7 +426,7 @@ export function HomeHeader() {
                   e.stopPropagation();
                   setActiveSegment('where');
                 }}
-                className="relative flex-1 h-full pl-8 pr-6 flex flex-col justify-center rounded-full cursor-pointer z-10"
+                className="relative flex-1 h-full pl-5 pr-2 min-[1138px]:pl-8 min-[1138px]:pr-6 flex flex-col justify-center rounded-full cursor-pointer z-10"
               >
                 {/* Sliding White Capsule Indicator */}
                 {(activeSegment === 'where' || (hoveredSegment === 'where' && !activeSegment)) && (
@@ -437,7 +447,7 @@ export function HomeHeader() {
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="Search destinations"
-                  className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-400 font-normal focus:outline-none truncate"
+                  className="w-full bg-transparent text-[13px] min-[1138px]:text-[14px] text-slate-900 placeholder:text-slate-400 font-normal focus:outline-none truncate"
                 />
               </div>
 
@@ -461,7 +471,7 @@ export function HomeHeader() {
                   e.stopPropagation();
                   setActiveSegment('when');
                 }}
-                className="relative flex-1 h-full px-6 flex flex-col justify-center rounded-full cursor-pointer z-10"
+                className="relative flex-1 h-full px-3 min-[1138px]:px-6 flex flex-col justify-center rounded-full cursor-pointer z-10"
               >
                 {(activeSegment === 'when' || (hoveredSegment === 'when' && !activeSegment)) && (
                   <motion.div
@@ -476,7 +486,7 @@ export function HomeHeader() {
                 )}
 
                 <div className="text-[12px] font-bold text-[#222222] leading-tight">When</div>
-                <div className="text-[14px] text-slate-500 font-normal truncate">
+                <div className="text-[13px] min-[1138px]:text-[14px] text-slate-500 font-normal truncate">
                   {datesText || 'Add dates'}
                 </div>
               </div>
@@ -501,7 +511,7 @@ export function HomeHeader() {
                   e.stopPropagation();
                   setActiveSegment('who');
                 }}
-                className="relative flex-1 h-full pl-6 pr-2 flex items-center justify-between rounded-full cursor-pointer z-10"
+                className="relative flex-1 h-full pl-3 pr-2 min-[1138px]:pl-6 flex items-center justify-between rounded-full cursor-pointer z-10"
               >
                 {(activeSegment === 'who' || (hoveredSegment === 'who' && !activeSegment)) && (
                   <motion.div
