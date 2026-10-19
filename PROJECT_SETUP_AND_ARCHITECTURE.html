@@ -598,6 +598,112 @@
       color: var(--text-heading);
       font-family: monospace;
     }
+
+    /* Screenshot Visual Showcase */
+    .screenshot-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s ease;
+    }
+
+    .screenshot-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-strong);
+    }
+
+    .screenshot-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--bg-surface-subtle);
+    }
+
+    .screenshot-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .screenshot-img-wrapper {
+      background: var(--bg-surface-elevated);
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .screenshot-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .screenshot-details {
+      padding: 20px 24px;
+    }
+
+    .screenshot-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      margin-bottom: 14px;
+      font-size: 12.5px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong {
+      color: var(--text-heading);
+    }
+
+    .screenshot-features-list {
+      list-style-type: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .screenshot-features-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .screenshot-features-list li {
+      font-size: 13px;
+      color: var(--text-body);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .screenshot-features-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -652,14 +758,17 @@
       <ul>
         <li><a href="#architecture">1. Big Picture System Architecture</a></li>
         <li><a href="#workflows">2. Complete User Workflows</a></li>
-        <li><a href="#problem1">3. Problem 1: Header Alignment Bug</a></li>
-        <li><a href="#problem2">4. Problem 2: Corrupted 404 Image in Noida</a></li>
-        <li><a href="#problem3">5. Problem 3: Bento Grid Photo Mismatch</a></li>
-        <li><a href="#problem4">6. Problem 4: Browser Back Button Bug</a></li>
-        <li><a href="#problem5">7. Problem 5: Floating Sticky Category Titles</a></li>
-        <li><a href="#problem6">8. Problem 6: Header Morphing Jitter</a></li>
-        <li><a href="#problem7">9. Problem 7: Mobile SubNavbar Overlap</a></li>
-        <li><a href="#problem8">10. Problem 8: Meet Your Host Card Sizing</a></li>
+        <li><a href="#screenshots">3. Visual Feature Map (Which Feature is Used Where)</a></li>
+        <li><a href="#problems">4. Engineering Problems & Solutions (Problems 1–8)</a></li>
+        <li><a href="#problem1">↳ Problem 1: Header Alignment Bug</a></li>
+        <li><a href="#problem2">↳ Problem 2: Corrupted 404 Image in Noida</a></li>
+        <li><a href="#problem3">↳ Problem 3: Bento Grid Photo Mismatch</a></li>
+        <li><a href="#problem4">↳ Problem 4: Browser Back Button Bug</a></li>
+        <li><a href="#problem5">↳ Problem 5: Floating Sticky Category Titles</a></li>
+        <li><a href="#problem6">↳ Problem 6: Header Morphing Jitter</a></li>
+        <li><a href="#problem7">↳ Problem 7: Mobile SubNavbar Overlap</a></li>
+        <li><a href="#problem8">↳ Problem 8: Meet Your Host Card Sizing</a></li>
+        <li><a href="#verify">5. How to Run, Build & Verify</a></li>
       </ul>
     </div>
 
@@ -832,10 +941,271 @@
       </div>
     </section>
 
-    <!-- 3. PROBLEMS & SOLUTIONS -->
-    <section id="problems">
+    <!-- 3. VISUAL FEATURE MAP: WHICH FEATURE IS USED WHERE -->
+    <section id="screenshots">
       <div class="section-title">
         <span class="number">3</span>
+        <h2>Visual Feature Map: Which Feature is Used Where</h2>
+      </div>
+      <p class="section-subtitle">
+        Direct web screen captures of our Airbnb clone, highlighting each key feature, its component file path, page route, and underlying engineering implementation.
+      </p>
+
+      <!-- Screenshot 1 -->
+      <div class="screenshot-card" id="feat-carousel">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 1</span>
+            Home Discovery Feed & Listing Carousels
+          </h3>
+          <span class="pill" style="color: var(--primary);">Route: /</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/home-carousel.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/home-carousel.png';}" alt="Home Discovery Feed Carousel" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Primary Component:</strong> <code>src/features/home/components/ListingCarousel.tsx</code></div>
+            <div class="meta-item"><strong>Page Route:</strong> <code>src/app/page.tsx</code> (<code>/</code>)</div>
+            <div class="meta-item"><strong>Component Type:</strong> Client Component (<code>'use client'</code>)</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Displayed on the primary discovery feed to showcase categorized listings ("Check out homes in Noida", "Beachfront villas in Goa"). Each card features a smooth multi-photo carousel with forward and backward navigation controls.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Resilient Image Fallback:</strong> Card 4 automatically catches dead CDN links via <code>onError</code> and replaces them with an Unsplash fallback.</li>
+            <li><strong>Wishlist Micro-Interactions:</strong> Heart button toggles saved state with smooth scale hover animations.</li>
+            <li><strong>Dynamic Pricing Badges:</strong> Computes night multiplier and displays bold per-night and total stay price.</li>
+            <li><strong>Scroll Snapping:</strong> Smooth horizontal carousel sliding with disabled state on boundary arrows.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 2 -->
+      <div class="screenshot-card" id="feat-bento">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 2</span>
+            Room Detail Bento Photo Grid & Unified Header
+          </h3>
+          <span class="pill" style="color: var(--primary);">Route: /rooms/[id]</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/room-bento-grid.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/room-bento-grid.png';}" alt="Room Bento Grid and Header" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Primary Component:</strong> <code>src/features/listing/components/PhotoBentoGrid.tsx</code></div>
+            <div class="meta-item"><strong>Header Component:</strong> <code>src/features/listing/components/ListingHeader.tsx</code></div>
+            <div class="meta-item"><strong>Page Route:</strong> <code>src/app/rooms/[id]/page.tsx</code> (<code>/rooms/terracotta-serene-candolim</code>)</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> The signature hero section on every room detail page, showing a 5-photo bento grid alongside the listing title, rating badge, superhost tag, and unified header.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Asymmetrical 5-Tile Grid:</strong> 1 large hero photo taking up 50% width on desktop, 4 smaller tiles in a 2x2 grid with rounded boundary corners.</li>
+            <li><strong>Direct Lightbox Launcher:</strong> Clicking *any* of the 5 photos directly opens the Single-Photo Lightbox Modal with that specific photo active.</li>
+            <li><strong>Show All Photos Pill:</strong> Floating button on the bottom right tile launching the full 43-photo tour overlay.</li>
+            <li><strong>Pixel-Perfect Unified Header:</strong> Container width (<code>max-w-[1760px]</code>), padding, and logo coordinates match the home page header down to the exact pixel.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 3 -->
+      <div class="screenshot-card" id="feat-lightbox">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 3</span>
+            Single-Photo Lightbox Modal with Keyboard Navigation
+          </h3>
+          <span class="pill" style="color: var(--primary);">Modal on /rooms/[id]</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/lightbox-modal.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/lightbox-modal.png';}" alt="Single-Photo Lightbox Modal" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Primary Component:</strong> <code>src/features/lightbox/components/LightboxModal.tsx</code></div>
+            <div class="meta-item"><strong>Keyboard Hook:</strong> <code>src/features/lightbox/hooks/useKeyboardNavigation.ts</code></div>
+            <div class="meta-item"><strong>Trigger:</strong> Any Photo Click in Bento Grid</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Focuses the user's attention completely on a single high-resolution image with a distraction-free dark backdrop and intuitive next/previous navigation controls.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Direct Photo Targeting:</strong> Clicking photo #3 immediately opens the Lightbox showing photo #3 with photo counter <code>3 / 43</code>.</li>
+            <li><strong>Keyboard Navigation Hook:</strong> Full keyboard accessibility (<code>Escape</code> to close, <code>ArrowLeft</code> for previous, <code>ArrowRight</code> for next).</li>
+            <li><strong>Dark Immersion Backdrop:</strong> Deep <code>bg-black/90</code> background with body scroll lock (<code>overflow-hidden</code>) to prevent page jitter.</li>
+            <li><strong>Aspect Ratio Preservation:</strong> Images render using <code>object-contain</code> so portrait and landscape photos scale naturally without cropping.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 4 -->
+      <div class="screenshot-card" id="feat-tour-overview">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 4</span>
+            Full 43-Photo Tour Modal Overview & Categories
+          </h3>
+          <span class="pill" style="color: var(--primary);">Query: ?modal=PHOTO_TOUR_SCROLLABLE</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/photo-tour-overview.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-overview.png';}" alt="Photo Tour Modal Overview" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Primary Component:</strong> <code>src/features/photo-tour/components/PhotoTourOverlay.tsx</code></div>
+            <div class="meta-item"><strong>Photo Catalog:</strong> <code>src/features/photo-tour/data/candolimPhotos.ts</code> (43 Photos)</div>
+            <div class="meta-item"><strong>URL Query:</strong> <code>?modal=PHOTO_TOUR_SCROLLABLE</code></div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Opened when the user clicks "Show all 43 photos" on the Bento Grid. Displays every photo grouped into 9 room sections with quick category navigation.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Browser Back Support:</strong> Modal state is driven by URL query parameter, so the browser Back button cleanly closes the overlay.</li>
+            <li><strong>Sticky Navigation Bar:</strong> Top bar stays fixed with back arrow, share button, and wishlist heart.</li>
+            <li><strong>Category Jump Chips:</strong> Horizontal scroll chip bar for jumping instantly to Living room, Kitchen, Bedroom, Bathroom, etc.</li>
+            <li><strong>High-Density Grid:</strong> Responsive masonry grid adapting from 1 column on mobile to 2-3 columns on desktop.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 5 -->
+      <div class="screenshot-card" id="feat-tour-floating">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 5</span>
+            Photo Tour Floating Sticky Headings (Living Room)
+          </h3>
+          <span class="pill" style="color: var(--primary);">Two-Column Sticky Scroll</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/photo-tour-floating-heading.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-floating-heading.png';}" alt="Photo Tour Floating Sticky Headings" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Component:</strong> <code>src/features/photo-tour/components/PhotoTourOverlay.tsx</code></div>
+            <div class="meta-item"><strong>Layout Structure:</strong> Two-Column Sticky Grid (<code>md:grid md:grid-cols-12</code>)</div>
+            <div class="meta-item"><strong>Section:</strong> Living Room (Photos 1–6)</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Inside the 43-photo tour modal. As the user scrolls vertically through photos of a room, the room's title and description remain pinned on the left side.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Floating Sticky Title:</strong> Left column (<code>md:col-span-4</code>) uses <code>md:sticky md:top-24</code> to stay pinned beside the photo column.</li>
+            <li><strong>Scroll Containment:</strong> Modal maintains its own scroll context via <code>overflow-y-auto</code> while body page scroll is locked.</li>
+            <li><strong>Boundary Hand-Off:</strong> When reaching the end of Living room photos, the heading unpins and gives way to the next room section.</li>
+            <li><strong>Responsive Stacking:</strong> Converts gracefully to single column stacking on mobile screens under 768px.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 6 -->
+      <div class="screenshot-card" id="feat-tour-kitchen">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 6</span>
+            Photo Tour Floating Sticky Headings (Full Kitchen)
+          </h3>
+          <span class="pill" style="color: var(--primary);">Contextual Room Inspection</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/photo-tour-kitchen.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-kitchen.png';}" alt="Photo Tour Kitchen Section" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Component:</strong> <code>src/features/photo-tour/components/PhotoTourOverlay.tsx</code></div>
+            <div class="meta-item"><strong>Photo Catalog:</strong> <code>candolimPhotos.ts</code> (Kitchen Section)</div>
+            <div class="meta-item"><strong>Section:</strong> Full Kitchen (Photos 7–12)</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Deeper in the photo tour scroll stream, showcasing kitchen amenities, appliance closeups, and cookware availability.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Persistent Room Anchor:</strong> "Full kitchen" heading remains visible while scanning all kitchen appliance photos.</li>
+            <li><strong>High-Resolution Appliance Closeups:</strong> Refrigerator, gas stove, microwave, and countertop details with captions.</li>
+            <li><strong>Zero Layout Shift:</strong> Pre-calculated image aspect ratios prevent cumulative layout shift (CLS) during image decode.</li>
+            <li><strong>Interactive Expand:</strong> Clicking any photo inside this section opens the full-screen Lightbox starting at that exact photo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 7 -->
+      <div class="screenshot-card" id="feat-reviews">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 7</span>
+            Guest Reviews, Ratings Breakdown & Cleanliness Badge
+          </h3>
+          <span class="pill" style="color: var(--primary);">Route: /rooms/[id]#reviews</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/reviews-section.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/reviews-section.png';}" alt="Reviews Section" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Page Route:</strong> <code>src/app/rooms/[id]/page.tsx</code></div>
+            <div class="meta-item"><strong>Overview Component:</strong> <code>src/features/listing/components/PropertyOverview.tsx</code></div>
+            <div class="meta-item"><strong>Custom Icon:</strong> SVG Spray Bottle Cleanliness Icon</div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> The guest social proof section on the room page, featuring the overall 5.0 score, category rating breakdown, and verified traveler feedback.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>5.0 Rating Scorecard:</strong> Large golden star rating with total review tally ("5.0 · 6 reviews") and "Guest favourite" badge.</li>
+            <li><strong>6 Rating Dimension Bars:</strong> Cleanliness, Accuracy, Communication, Location, Check-in, and Value rating bars.</li>
+            <li><strong>Custom Cleanliness Vector:</strong> Hand-crafted SVG spray bottle icon providing authentic Airbnb visual fidelity.</li>
+            <li><strong>2-Column Review Grid:</strong> Responsive card grid displaying reviewer avatars, names, dates, and verified stay reviews.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Screenshot 8 -->
+      <div class="screenshot-card" id="feat-host">
+        <div class="screenshot-header">
+          <h3>
+            <span class="badge-pill">Feature 8</span>
+            Meet Your Host Card & Co-Hosts Grid
+          </h3>
+          <span class="pill" style="color: var(--primary);">Route: /rooms/[id]#host</span>
+        </div>
+        <div class="screenshot-img-wrapper">
+          <img src="public/docs/screenshots/host-profile-card.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/host-profile-card.png';}" alt="Meet Your Host Card" class="screenshot-img" loading="lazy" />
+        </div>
+        <div class="screenshot-details">
+          <div class="screenshot-meta">
+            <div class="meta-item"><strong>Component:</strong> <code>src/features/listing/components/PropertyOverview.tsx</code></div>
+            <div class="meta-item"><strong>Host Assets:</strong> <code>public/images/profile.jpg</code> & <code>public/images/co-hosts/</code></div>
+            <div class="meta-item"><strong>Constraint:</strong> Desktop Card Width <code>max-w-[332px]</code></div>
+          </div>
+          <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
+            <strong>Where It Is Used:</strong> Towards the bottom of the room page, highlighting host credentials, Superhost verification status, and the supporting co-host management team.
+          </p>
+          <strong style="font-size: 13px; color: var(--text-heading);">Key Features & Engineering Highlights Visible Here:</strong>
+          <ul class="screenshot-features-list">
+            <li><strong>Proportional Card Sizing:</strong> Constrained to <code>max-w-[332px]</code> matching Airbnb's exact layout proportions rather than stretching wide.</li>
+            <li><strong>Host Portrait & Superhost Badge:</strong> High-resolution profile picture with pink verified badge overlay.</li>
+            <li><strong>Host Statistics:</strong> Verified 124 Reviews, 4.92 Rating, and 7 Years hosting milestone badge.</li>
+            <li><strong>6 Co-Host Avatars Grid:</strong> 2x3 grid displaying team co-hosts with round avatars and individual names.</li>
+            <li><strong>Interactive Message Button:</strong> "Message Host" primary CTA with Airbnb identity verification guarantee.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 4. PROBLEMS & SOLUTIONS -->
+    <section id="problems">
+      <div class="section-title">
+        <span class="number">4</span>
         <h2>Engineering Problems, Why They Happened & How We Solved Them</h2>
       </div>
       <p class="section-subtitle">
@@ -1078,10 +1448,10 @@
 
     </section>
 
-    <!-- 4. HOW TO RUN -->
+    <!-- 5. HOW TO RUN -->
     <section id="verify">
       <div class="section-title">
-        <span class="number">4</span>
+        <span class="number">5</span>
         <h2>How to Run, Build & Verify</h2>
       </div>
       <div class="card">
@@ -1131,6 +1501,15 @@ npm run build
       const saved = localStorage.getItem('airbnb_guide_theme') || 'dark';
       setTheme(saved);
     })();
+
+    // Ensure image paths adapt whether loaded from file:// or http://
+    if (window.location.protocol.startsWith('http')) {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('img[src^="public/"]').forEach(img => {
+          img.src = img.getAttribute('src').replace(/^public\//, '/');
+        });
+      });
+    }
   </script>
 
 </body>

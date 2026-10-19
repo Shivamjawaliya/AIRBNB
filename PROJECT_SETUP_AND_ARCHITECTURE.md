@@ -149,7 +149,24 @@ src/
 
 ---
 
-## 4. Comprehensive Engineering Problem Log
+## 4. Visual Feature Map: Which Feature is Used Where
+
+This visual reference maps each core UI feature to its screenshot, responsible component file, page route, and underlying engineering mechanism:
+
+| # | Feature Name | Page Route | Primary Component | Key Technology / Highlight | Screenshot File |
+|---|---|---|---|---|---|
+| **1** | **Discovery Carousel & Feed** | `/` (Home) | `src/features/home/components/ListingCarousel.tsx` | Fallback CDN handling via `onError`, wishlist micro-animations, dynamic pricing badges | [`public/docs/screenshots/home-carousel.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/home-carousel.png) |
+| **2** | **5-Photo Bento Grid & Unified Header** | `/rooms/[id]` | `src/features/listing/components/PhotoBentoGrid.tsx` & `ListingHeader.tsx` | 50% hero tile + 2x2 grid, direct lightbox launcher on any photo, pixel-matched header | [`public/docs/screenshots/room-bento-grid.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/room-bento-grid.png) |
+| **3** | **Single-Photo Lightbox Modal** | `/rooms/[id]` (on click) | `src/features/lightbox/components/LightboxModal.tsx` | Exact photo index targeting, `useKeyboardNavigation` hook (`ArrowLeft`, `ArrowRight`, `Esc`), body scroll lock | [`public/docs/screenshots/lightbox-modal.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/lightbox-modal.png) |
+| **4** | **43-Photo Tour Overview Modal** | `/rooms/[id]?modal=PHOTO_TOUR_SCROLLABLE` | `src/features/photo-tour/components/PhotoTourOverlay.tsx` | HTML5 History API URL state (`?modal=...`), native browser Back button support, room category chips | [`public/docs/screenshots/photo-tour-overview.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/photo-tour-overview.png) |
+| **5** | **Photo Tour Floating Headings (Living Room)** | Tour Modal (Living room) | `src/features/photo-tour/components/PhotoTourOverlay.tsx` | Two-column sticky scroll (`md:sticky md:top-24`), category title pins while photos scroll | [`public/docs/screenshots/photo-tour-floating-heading.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/photo-tour-floating-heading.png) |
+| **6** | **Photo Tour Floating Headings (Kitchen)** | Tour Modal (Kitchen) | `src/features/photo-tour/components/PhotoTourOverlay.tsx` | Appliance detail photo gallery, smooth scroll containment, zero cumulative layout shift (CLS) | [`public/docs/screenshots/photo-tour-kitchen.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/photo-tour-kitchen.png) |
+| **7** | **Guest Reviews & Cleanliness Badge** | `/rooms/[id]#reviews` | `src/app/rooms/[id]/page.tsx` & `src/features/reviews/` | 5.0 rating scorecard, 6 category breakdown bars, custom SVG spray bottle vector icon | [`public/docs/screenshots/reviews-section.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/reviews-section.png) |
+| **8** | **Meet Your Host Card & Co-Hosts Grid** | `/rooms/[id]#host` | `src/features/listing/components/PropertyOverview.tsx` | Constrained `max-w-[332px]` card width, Superhost badge, 2x3 grid of 6 local co-host avatars | [`public/docs/screenshots/host-profile-card.png`](file:///Users/shivamjawaliya/Downloads/Airbnb%20Clone/public/docs/screenshots/host-profile-card.png) |
+
+---
+
+## 5. Comprehensive Engineering Problem Log
 
 Every problem encountered during the development lifecycle, the root cause why we faced it, the exact technology used to resolve it, and the resulting code implementation.
 
@@ -373,7 +390,7 @@ The host container lacked fixed-width boundaries (`w-full` instead of `max-w-[33
 
 ---
 
-## 5. Chronological Implementation & Step-by-Step Action Log
+## 6. Chronological Implementation & Step-by-Step Action Log
 
 Every single step taken in the project codebase, organized chronologically:
 
@@ -435,7 +452,7 @@ Every single step taken in the project codebase, organized chronologically:
 
 ---
 
-## 6. How to Run, Test, and Verify
+## 7. How to Run, Test, and Verify
 
 ### Prerequisites:
 - Node.js `18.x` or higher (tested on `v22.14.0`)
