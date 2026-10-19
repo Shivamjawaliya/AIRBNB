@@ -1,16 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airbnb Clone — Project Architecture & Workflow Guide (Eye-Care Edition)</title>
+  <title>Airbnb Clone — Project Architecture, Workflows & Engineering Solutions</title>
   <style>
     /* ========================================================================= */
-    /* 1. EYE-CARE THEME SYSTEM (Zero Glare, Calibrated Contrast for Long Reading)*/
+    /* 1. SOFT LIGHT & EYE-CARE PALETTES (Gentle, Low-Glare, Soft Pastel Tints)  */
     /* ========================================================================= */
     
-    /* Default: Dark Dimmed Slate (Optimal for night reading & zero eye fatigue) */
-    :root, [data-theme="dark"] {
+    /* Default: Soft Calming Light (Gentle porcelain background, crisp cards, zero glare) */
+    :root, [data-theme="light"] {
+      --bg-body: #F8FAFC;              /* Gentle soft porcelain slate */
+      --bg-surface: #FFFFFF;           /* Crisp clean white surface */
+      --bg-surface-elevated: #FFFFFF;  /* Elevated white card */
+      --bg-surface-subtle: #F1F5F9;    /* Calm ice slate background */
+      --border-subtle: #E2E8F0;        /* Subtle delicate border */
+      --border-strong: #CBD5E1;        /* Interactive border */
+
+      --text-heading: #0F172A;         /* Deep rich charcoal slate */
+      --text-body: #334155;            /* Comfortable reading slate */
+      --text-muted: #64748B;           /* Clean secondary text */
+      --text-faint: #94A3B8;
+
+      --primary: #FF385C;              /* Signature Airbnb Coral Rose */
+      --primary-hover: #E00B41;
+      --primary-subtle: #FFF1F2;       /* Soft light rose tint */
+      --primary-border: #FECDD3;
+
+      --success: #059669;              /* Mint emerald */
+      --success-subtle: #ECFDF5;       /* Soft pastel mint */
+      --success-border: #A7F3D0;
+
+      --danger: #E11D48;              /* Soft crimson rose */
+      --danger-subtle: #FFF1F2;        /* Soft pastel blush */
+      --danger-border: #FECDD3;
+
+      --info: #0284C7;                /* Ocean sky blue */
+      --info-subtle: #F0F9FF;          /* Soft ice blue */
+      --info-border: #BAE6FD;
+
+      --warning: #D97706;             /* Warm honey amber */
+      --warning-subtle: #FFFBEB;       /* Soft warm cream */
+      --warning-border: #FDE68A;
+
+      --code-bg: #0F172A;
+      --code-text: #F1F5F9;
+      --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+      --card-shadow-hover: 0 14px 32px -4px rgba(15, 23, 42, 0.09), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+    }
+
+    /* Theme 2: Warm Sepia / Reading Paper (Zero blue-light fatigue) */
+    [data-theme="sepia"] {
+      --bg-body: #F4EFEA;
+      --bg-surface: #FAF7F2;
+      --bg-surface-elevated: #FFFFFF;
+      --bg-surface-subtle: #EDE5DC;
+      --border-subtle: #D8CCC0;
+      --border-strong: #C4B5A5;
+
+      --text-heading: #2E2721;
+      --text-body: #4A3E36;
+      --text-muted: #78685C;
+      --text-faint: #A49384;
+
+      --primary: #D9405E;
+      --primary-hover: #C22F4C;
+      --primary-subtle: #FDE8EC;
+      --primary-border: #F6BDC8;
+
+      --success: #2B8A5A;
+      --success-subtle: #E8F5EE;
+      --success-border: #B7E2CB;
+
+      --danger: #B9382B;
+      --danger-subtle: #FBECEB;
+      --danger-border: #F2BBB6;
+
+      --info: #2275A4;
+      --info-subtle: #E7F3FA;
+      --info-border: #AFD5EC;
+
+      --warning: #B47814;
+      --warning-subtle: #FAF2E3;
+      --warning-border: #EED4A2;
+
+      --code-bg: #2C241E;
+      --code-text: #F4EFEA;
+      --card-shadow: 0 4px 18px rgba(60, 40, 30, 0.06);
+      --card-shadow-hover: 0 12px 28px rgba(60, 40, 30, 0.12);
+    }
+
+    /* Theme 3: Dark Dimmed Slate (For low-light reading) */
+    [data-theme="dark"] {
       --bg-body: #0B0F19;
       --bg-surface: #131B2E;
       --bg-surface-elevated: #1A243B;
@@ -25,108 +107,29 @@
 
       --primary: #FF5A78;
       --primary-hover: #FF738D;
-      --primary-subtle: rgba(255, 90, 120, 0.12);
-      --primary-border: rgba(255, 90, 120, 0.3);
+      --primary-subtle: rgba(255, 90, 120, 0.14);
+      --primary-border: rgba(255, 90, 120, 0.35);
 
       --success: #34D399;
-      --success-subtle: rgba(52, 211, 153, 0.12);
-      --success-border: rgba(52, 211, 153, 0.3);
+      --success-subtle: rgba(52, 211, 153, 0.14);
+      --success-border: rgba(52, 211, 153, 0.35);
 
       --danger: #FB7185;
-      --danger-subtle: rgba(251, 113, 133, 0.12);
-      --danger-border: rgba(251, 113, 133, 0.3);
+      --danger-subtle: rgba(251, 113, 133, 0.14);
+      --danger-border: rgba(251, 113, 133, 0.35);
 
       --info: #38BDF8;
-      --info-subtle: rgba(56, 189, 248, 0.12);
-      --info-border: rgba(56, 189, 248, 0.3);
+      --info-subtle: rgba(56, 189, 248, 0.14);
+      --info-border: rgba(56, 189, 248, 0.35);
 
       --warning: #FBBF24;
-      --warning-subtle: rgba(251, 191, 36, 0.12);
-      --warning-border: rgba(251, 191, 36, 0.3);
+      --warning-subtle: rgba(251, 191, 36, 0.14);
+      --warning-border: rgba(251, 191, 36, 0.35);
 
       --code-bg: #070B13;
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.45);
-    }
-
-    /* Theme 2: Warm Sepia / Reading Paper (Zero blue-light fatigue) */
-    [data-theme="sepia"] {
-      --bg-body: #F4EFEA;
-      --bg-surface: #EDE5DC;
-      --bg-surface-elevated: #E4DACF;
-      --bg-surface-subtle: #F8F5F1;
-      --border-subtle: #D8CCC0;
-      --border-strong: #C4B5A5;
-
-      --text-heading: #2E2721;
-      --text-body: #4A3E36;
-      --text-muted: #78685C;
-      --text-faint: #A49384;
-
-      --primary: #D9405E;
-      --primary-hover: #C22F4C;
-      --primary-subtle: rgba(217, 64, 94, 0.12);
-      --primary-border: rgba(217, 64, 94, 0.3);
-
-      --success: #2B8A5A;
-      --success-subtle: rgba(43, 138, 90, 0.12);
-      --success-border: rgba(43, 138, 90, 0.3);
-
-      --danger: #B9382B;
-      --danger-subtle: rgba(185, 56, 43, 0.12);
-      --danger-border: rgba(185, 56, 43, 0.3);
-
-      --info: #2275A4;
-      --info-subtle: rgba(34, 117, 164, 0.12);
-      --info-border: rgba(34, 117, 164, 0.3);
-
-      --warning: #B47814;
-      --warning-subtle: rgba(180, 120, 20, 0.12);
-      --warning-border: rgba(180, 120, 20, 0.3);
-
-      --code-bg: #322A24;
-      --card-shadow: 0 4px 16px rgba(60, 40, 30, 0.06);
-      --card-shadow-hover: 0 8px 24px rgba(60, 40, 30, 0.12);
-    }
-
-    /* Theme 3: Soft Low-Glare Light (Muted gray-cream instead of harsh pure white) */
-    [data-theme="light"] {
-      --bg-body: #ECEEF2;
-      --bg-surface: #F8F9FA;
-      --bg-surface-elevated: #FFFFFF;
-      --bg-surface-subtle: #F1F3F6;
-      --border-subtle: #D5DBE4;
-      --border-strong: #BDC6D4;
-
-      --text-heading: #1A2230;
-      --text-body: #334155;
-      --text-muted: #64748B;
-      --text-faint: #94A3B8;
-
-      --primary: #E11D48;
-      --primary-hover: #BE123C;
-      --primary-subtle: rgba(225, 29, 72, 0.08);
-      --primary-border: rgba(225, 29, 72, 0.25);
-
-      --success: #059669;
-      --success-subtle: rgba(5, 150, 105, 0.08);
-      --success-border: rgba(5, 150, 105, 0.25);
-
-      --danger: #DC2626;
-      --danger-subtle: rgba(220, 38, 38, 0.08);
-      --danger-border: rgba(220, 38, 38, 0.25);
-
-      --info: #0284C7;
-      --info-subtle: rgba(2, 132, 199, 0.08);
-      --info-border: rgba(2, 132, 199, 0.25);
-
-      --warning: #D97706;
-      --warning-subtle: rgba(217, 119, 6, 0.08);
-      --warning-border: rgba(217, 119, 6, 0.25);
-
-      --code-bg: #1E293B;
-      --card-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-      --card-shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.12);
+      --code-text: #E2E8F0;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      --card-shadow-hover: 0 10px 32px rgba(0, 0, 0, 0.5);
     }
 
     /* Base Reset */
@@ -153,8 +156,8 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+      backdrop-filter: blur(12px);
     }
 
     .header-container {
@@ -173,7 +176,7 @@
       gap: 10px;
       text-decoration: none;
       color: var(--primary);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 19px;
       letter-spacing: -0.3px;
     }
@@ -184,7 +187,7 @@
       background: var(--bg-surface-subtle);
       border: 1px solid var(--border-subtle);
       border-radius: 999px;
-      padding: 3px;
+      padding: 4px;
       gap: 4px;
     }
 
@@ -194,7 +197,7 @@
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 600;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 999px;
       cursor: pointer;
       display: flex;
@@ -208,25 +211,26 @@
     }
 
     .theme-btn.active {
-      background: var(--bg-surface-elevated);
+      background: var(--bg-surface);
       color: var(--primary);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      font-weight: 700;
     }
 
-    /* Main Container */
+    /* Main Container with Comfortable Width */
     .container {
-      max-width: 1140px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 36px 24px 0 24px;
+      padding: 40px 24px 0 24px;
     }
 
-    /* Eye-Care Hero */
+    /* Hero Card */
     .hero {
-      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-surface-elevated) 100%);
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-surface-subtle) 100%);
       border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 36px 40px;
-      margin-bottom: 36px;
+      border-radius: 24px;
+      padding: 44px 48px;
+      margin-bottom: 44px;
       box-shadow: var(--card-shadow);
       position: relative;
       overflow: hidden;
@@ -237,11 +241,11 @@
       position: absolute;
       top: -60px;
       right: -60px;
-      width: 200px;
-      height: 200px;
+      width: 240px;
+      height: 240px;
       background: var(--primary-subtle);
       border-radius: 50%;
-      filter: blur(50px);
+      filter: blur(60px);
       pointer-events: none;
     }
 
@@ -251,43 +255,43 @@
       gap: 8px;
       background: var(--primary-subtle);
       color: var(--primary);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 12px;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 14px;
       border-radius: 999px;
       border: 1px solid var(--primary-border);
       margin-bottom: 16px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
     }
 
     .hero h1 {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 800;
       color: var(--text-heading);
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      letter-spacing: -0.6px;
       line-height: 1.3;
     }
 
     .hero p {
       font-size: 16px;
       color: var(--text-muted);
-      max-width: 860px;
+      max-width: 880px;
       margin-bottom: 24px;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .hero-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .tag {
-      background: var(--bg-surface-subtle);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
@@ -295,52 +299,58 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     }
 
-    /* Section Headings */
+    /* Section Headings with Clear Block Separation */
     section {
-      margin-bottom: 48px;
+      margin-bottom: 68px;
+      scroll-margin-top: 100px;
     }
 
     .section-title {
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 25px;
+      font-weight: 800;
       margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       color: var(--text-heading);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.4px;
     }
 
     .section-title span.number {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, #E00B41 100%);
       color: white;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 800;
       flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(255, 56, 92, 0.28);
     }
 
     .section-subtitle {
-      font-size: 15px;
+      font-size: 15.5px;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+      max-width: 860px;
     }
 
-    /* Cards */
+    /* Cards with Elegant Rounded Corners & Spacing */
     .card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
       box-shadow: var(--card-shadow);
+      transition: all 0.25s ease;
     }
 
     .card:hover {
@@ -349,9 +359,9 @@
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       color: var(--text-heading);
       display: flex;
       align-items: center;
@@ -359,26 +369,38 @@
       gap: 12px;
     }
 
+    /* Structured Callout Blocks */
+    .cause-box {
+      background: var(--bg-surface-subtle);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 10px 10px 0;
+      margin: 14px 0;
+      font-size: 13.5px;
+      color: var(--text-body);
+    }
+
     /* Eye-Friendly Block Diagrams */
     .diagram-wrapper {
       background: var(--bg-surface-subtle);
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 22px;
-      margin: 18px 0;
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
       overflow-x: auto;
+      box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.02);
     }
 
     .diagram-title {
-      font-size: 11px;
+      font-size: 11.5px;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-muted);
-      font-weight: 700;
-      margin-bottom: 16px;
+      font-weight: 800;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .block-flow {
@@ -389,16 +411,16 @@
     }
 
     .block {
-      background: var(--bg-surface-elevated);
+      background: var(--bg-surface);
       border: 1.5px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-weight: 600;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 700;
       font-size: 13px;
       color: var(--text-heading);
-      min-width: 130px;
+      min-width: 140px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
 
     .block.accent {
@@ -427,10 +449,10 @@
 
     .block small {
       display: block;
-      font-weight: 400;
+      font-weight: 500;
       font-size: 11px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
     .arrow {
@@ -443,8 +465,8 @@
     .comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin: 16px 0;
+      gap: 20px;
+      margin: 18px 0;
     }
 
     @media (max-width: 768px) {
@@ -454,8 +476,8 @@
     }
 
     .compare-card {
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 14px;
+      padding: 18px 20px;
       border: 1px solid;
     }
 
@@ -471,11 +493,11 @@
 
     .compare-header {
       font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-weight: 800;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .compare-card.bad .compare-header {
@@ -486,34 +508,34 @@
       color: var(--success);
     }
 
-    /* Code Snippet - Dimmed with gentle highlight */
-    pre.code-snippet {
+    /* Code Snippets */
+    .code-snippet {
       background: var(--code-bg);
-      border: 1px solid var(--border-subtle);
-      color: #93C5FD;
-      padding: 14px 18px;
-      border-radius: 10px;
+      color: var(--code-text);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 13px;
       overflow-x: auto;
       margin: 14px 0;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-      line-height: 1.5;
+      line-height: 1.6;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     /* Tables */
     table.spec-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 16px 0;
+      margin: 18px 0;
       font-size: 13px;
       background: var(--bg-surface);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--border-subtle);
     }
 
     table.spec-table th, table.spec-table td {
-      padding: 12px 16px;
+      padding: 14px 18px;
       text-align: left;
       border-bottom: 1px solid var(--border-subtle);
     }
@@ -528,58 +550,82 @@
       border-bottom: none;
     }
 
-    /* Table of contents */
+    /* Table of contents Grid Cards */
     .toc {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin-bottom: 36px;
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      box-shadow: var(--card-shadow);
     }
 
     .toc h3 {
-      font-size: 15px;
-      margin-bottom: 12px;
+      font-size: 14px;
+      margin-bottom: 14px;
       color: var(--text-heading);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
+      font-weight: 800;
     }
 
-    .toc ul {
-      list-style-type: none;
+    .toc-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
     }
 
-    @media (max-width: 640px) {
-      .toc ul {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .toc a {
-      color: var(--info);
+    .toc-item {
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 18px;
       text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 500;
+      display: block;
+      transition: all 0.2s ease;
     }
 
-    .toc a:hover {
-      text-decoration: underline;
+    .toc-item:hover {
+      background: var(--bg-surface);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    }
+
+    .toc-item-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-item-title span.badge {
+      font-size: 10px;
+      background: var(--primary-subtle);
       color: var(--primary);
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .toc-item-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
     .badge-pill {
       background: var(--primary-subtle);
       color: var(--primary);
       font-size: 11px;
-      font-weight: 700;
-      padding: 3px 10px;
+      font-weight: 800;
+      padding: 4px 12px;
       border-radius: 999px;
       border: 1px solid var(--primary-border);
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
     }
 
     .pill-list {
@@ -591,21 +637,23 @@
 
     .pill {
       font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: var(--bg-surface-elevated);
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: var(--bg-surface-subtle);
       border: 1px solid var(--border-subtle);
       color: var(--text-heading);
-      font-family: monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
-    /* Screenshot Visual Showcase */
+    /* ========================================================================= */
+    /* 4. FITTED SCREENSHOT BROWSER MOCKUP FRAME                                 */
+    /* ========================================================================= */
     .screenshot-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       box-shadow: var(--card-shadow);
       transition: all 0.25s ease;
     }
@@ -616,52 +664,152 @@
     }
 
     .screenshot-header {
-      padding: 18px 24px;
+      padding: 20px 28px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      background: var(--bg-surface-subtle);
+      background: var(--bg-surface);
     }
 
     .screenshot-header h3 {
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 800;
       color: var(--text-heading);
       display: flex;
       align-items: center;
       gap: 10px;
+      letter-spacing: -0.2px;
     }
 
-    .screenshot-img-wrapper {
-      background: var(--bg-surface-elevated);
-      padding: 16px;
-      text-align: center;
+    /* Browser Window Mockup Frame */
+    .browser-mockup {
+      background: var(--bg-surface-subtle);
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .screenshot-img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
+    .browser-topbar {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 12px;
+      background: var(--bg-surface-subtle);
+    }
+
+    .browser-dots {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .browser-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .browser-dot.red { background: #FF5F56; }
+    .browser-dot.yellow { background: #FFBD2E; }
+    .browser-dot.green { background: #27C93F; }
+
+    .browser-address-pill {
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-      display: block;
+      border-radius: 8px;
+      padding: 5px 14px;
+      font-size: 12.5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 520px;
       margin: 0 auto;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+
+    .browser-address-pill svg {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    .browser-open-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--info);
+      text-decoration: none;
+      background: var(--info-subtle);
+      border: 1px solid var(--info-border);
+      padding: 5px 12px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .browser-open-btn:hover {
+      background: var(--info);
+      color: white;
+    }
+
+    /* Fitted Screenshot Viewport: No Overflow, Beautiful Aspect Ratio */
+    .screenshot-viewport {
+      background: linear-gradient(180deg, var(--bg-surface-subtle) 0%, var(--bg-surface) 100%);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 240px;
+    }
+
+    .screenshot-img-fitted {
+      max-width: 100%;
+      max-height: 480px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+      display: block;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+
+    .screenshot-img-fitted:hover {
+      transform: scale(1.008);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.14);
+    }
+
+    @media (max-width: 768px) {
+      .screenshot-viewport {
+        padding: 12px;
+      }
+      .screenshot-img-fitted {
+        max-height: 280px;
+      }
+      .browser-topbar {
+        padding: 8px 12px;
+      }
     }
 
     .screenshot-details {
-      padding: 20px 24px;
+      padding: 24px 28px;
     }
 
     .screenshot-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px 20px;
-      margin-bottom: 14px;
-      font-size: 12.5px;
+      gap: 12px 24px;
+      margin-bottom: 16px;
+      font-size: 13px;
     }
 
     .meta-item {
@@ -679,8 +827,8 @@
       list-style-type: none;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 20px;
-      margin-top: 10px;
+      gap: 10px 24px;
+      margin-top: 12px;
     }
 
     @media (max-width: 768px) {
@@ -690,7 +838,7 @@
     }
 
     .screenshot-features-list li {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-body);
       display: flex;
       align-items: flex-start;
@@ -698,11 +846,11 @@
     }
 
     .screenshot-features-list li::before {
-      content: "•";
-      color: var(--primary);
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 1;
+      content: "✓";
+      color: var(--success);
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.3;
     }
   </style>
 </head>
@@ -718,16 +866,16 @@
         <span>Airbnb Clone Guide</span>
       </a>
 
-      <!-- 3 Eye-Friendly Color Modes -->
+      <!-- 3 Eye-Friendly Color Modes (Soft Light Default) -->
       <div class="theme-switcher">
-        <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')">
-          🌙 Dark Dimmed
+        <button class="theme-btn active" id="btn-light" onclick="setTheme('light')">
+          🌸 Soft Light
         </button>
         <button class="theme-btn" id="btn-sepia" onclick="setTheme('sepia')">
           ☕ Warm Sepia
         </button>
-        <button class="theme-btn" id="btn-light" onclick="setTheme('light')">
-          ☀️ Soft Light
+        <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">
+          🌙 Dark Dimmed
         </button>
       </div>
     </div>
@@ -737,10 +885,10 @@
 
     <!-- Hero Card -->
     <div class="hero">
-      <div class="hero-badge">Zero Eye Strain Edition</div>
-      <h1>Project Architecture, Workflows & Problem Solutions</h1>
+      <div class="hero-badge">Soft Light Edition • Zero Glare</div>
+      <h1>Project Architecture, Workflows & Engineering Solutions</h1>
       <p>
-        A calm, comfortable visual guide designed for long reading without eye fatigue. Explains how our Airbnb clone works, every single bug faced, why it happened, and how we solved it with simple block diagrams.
+        A calm, comfortable visual guide designed for effortless reading. Explains how our Airbnb clone works, every engineering challenge faced, why it happened, and how we solved it with simple block diagrams and fitted web screenshots.
       </p>
       <div class="hero-tags">
         <span class="tag">⚡ Next.js 16.4 (App Router)</span>
@@ -748,28 +896,51 @@
         <span class="tag">🎨 Tailwind CSS v4</span>
         <span class="tag">🎬 Framer Motion</span>
         <span class="tag">🛡️ Strict TypeScript 5</span>
-        <span class="tag">🚀 Turbopack (< 2s builds)</span>
+        <span class="tag">📱 100% Mobile Responsive</span>
+        <span class="tag">🚀 Turbopack (&lt; 2.5s builds)</span>
       </div>
     </div>
 
-    <!-- Table of Contents -->
+    <!-- Redesigned Table of Contents Grid -->
     <div class="toc">
-      <h3>Quick Navigation</h3>
-      <ul>
-        <li><a href="#architecture">1. Big Picture System Architecture</a></li>
-        <li><a href="#workflows">2. Complete User Workflows</a></li>
-        <li><a href="#screenshots">3. Visual Feature Map (Which Feature is Used Where)</a></li>
-        <li><a href="#problems">4. Engineering Problems & Solutions (Problems 1–8)</a></li>
-        <li><a href="#problem1">↳ Problem 1: Header Alignment Bug</a></li>
-        <li><a href="#problem2">↳ Problem 2: Corrupted 404 Image in Noida</a></li>
-        <li><a href="#problem3">↳ Problem 3: Bento Grid Photo Mismatch</a></li>
-        <li><a href="#problem4">↳ Problem 4: Browser Back Button Bug</a></li>
-        <li><a href="#problem5">↳ Problem 5: Floating Sticky Category Titles</a></li>
-        <li><a href="#problem6">↳ Problem 6: Header Morphing Jitter</a></li>
-        <li><a href="#problem7">↳ Problem 7: Mobile SubNavbar Overlap</a></li>
-        <li><a href="#problem8">↳ Problem 8: Meet Your Host Card Sizing</a></li>
-        <li><a href="#verify">5. How to Run, Build & Verify</a></li>
-      </ul>
+      <h3>Quick Navigation & Index</h3>
+      <div class="toc-grid">
+        <a href="#architecture" class="toc-item">
+          <div class="toc-item-title">
+            <span class="badge">Section 1</span>
+            System Architecture
+          </div>
+          <div class="toc-item-sub">Feature-sliced domain tree & responsibilities</div>
+        </a>
+        <a href="#workflows" class="toc-item">
+          <div class="toc-item-title">
+            <span class="badge">Section 2</span>
+            User Workflows
+          </div>
+          <div class="toc-item-sub">Header morphing, booking math & modal flows</div>
+        </a>
+        <a href="#screenshots" class="toc-item">
+          <div class="toc-item-title">
+            <span class="badge">Section 3</span>
+            Visual Feature Map
+          </div>
+          <div class="toc-item-sub">8 fitted screenshots with routes & components</div>
+        </a>
+        <a href="#problems" class="toc-item">
+          <div class="toc-item-title">
+            <span class="badge">Section 4</span>
+            Engineering Problems (1–8)
+          </div>
+          <div class="toc-item-sub">Header alignment, 404 recovery, back button & host sizing</div>
+        </a>
+        <a href="#verify" class="toc-item">
+          <div class="toc-item-title">
+            <span class="badge">Section 5</span>
+            Build & Verification
+          </div>
+          <div class="toc-item-sub">Commands, TypeScript health & checklist</div>
+        </a>
+      </div>
     </div>
 
     <!-- 1. BIG PICTURE ARCHITECTURE -->
@@ -960,8 +1131,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Route: /</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/home-carousel.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/home-carousel.png';}" alt="Home Discovery Feed Carousel" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/</span>
+            </div>
+            <a href="public/docs/screenshots/home-carousel.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/home-carousel.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/home-carousel.png';}" alt="Home Discovery Feed Carousel" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -991,14 +1179,31 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Route: /rooms/[id]</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/room-bento-grid.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/room-bento-grid.png';}" alt="Room Bento Grid and Header" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim</span>
+            </div>
+            <a href="public/docs/screenshots/room-bento-grid.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/room-bento-grid.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/room-bento-grid.png';}" alt="Room Bento Grid and Header" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
             <div class="meta-item"><strong>Primary Component:</strong> <code>src/features/listing/components/PhotoBentoGrid.tsx</code></div>
             <div class="meta-item"><strong>Header Component:</strong> <code>src/features/listing/components/ListingHeader.tsx</code></div>
-            <div class="meta-item"><strong>Page Route:</strong> <code>src/app/rooms/[id]/page.tsx</code> (<code>/rooms/terracotta-serene-candolim</code>)</div>
+            <div class="meta-item"><strong>Page Route:</strong> <code>src/app/rooms/[id]/page.tsx</code></div>
           </div>
           <p style="font-size: 13.5px; color: var(--text-body); margin-bottom: 12px;">
             <strong>Where It Is Used:</strong> The signature hero section on every room detail page, showing a 5-photo bento grid alongside the listing title, rating badge, superhost tag, and unified header.
@@ -1022,8 +1227,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Modal on /rooms/[id]</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/lightbox-modal.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/lightbox-modal.png';}" alt="Single-Photo Lightbox Modal" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim (Lightbox Modal)</span>
+            </div>
+            <a href="public/docs/screenshots/lightbox-modal.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/lightbox-modal.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/lightbox-modal.png';}" alt="Single-Photo Lightbox Modal" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1053,8 +1275,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Query: ?modal=PHOTO_TOUR_SCROLLABLE</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/photo-tour-overview.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-overview.png';}" alt="Photo Tour Modal Overview" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim?modal=PHOTO_TOUR_SCROLLABLE</span>
+            </div>
+            <a href="public/docs/screenshots/photo-tour-overview.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/photo-tour-overview.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-overview.png';}" alt="Photo Tour Modal Overview" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1084,8 +1323,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Two-Column Sticky Scroll</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/photo-tour-floating-heading.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-floating-heading.png';}" alt="Photo Tour Floating Sticky Headings" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim (Photo Tour: Living Room)</span>
+            </div>
+            <a href="public/docs/screenshots/photo-tour-floating-heading.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/photo-tour-floating-heading.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-floating-heading.png';}" alt="Photo Tour Floating Sticky Headings" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1115,8 +1371,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Contextual Room Inspection</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/photo-tour-kitchen.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-kitchen.png';}" alt="Photo Tour Kitchen Section" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim (Photo Tour: Full Kitchen)</span>
+            </div>
+            <a href="public/docs/screenshots/photo-tour-kitchen.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/photo-tour-kitchen.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/photo-tour-kitchen.png';}" alt="Photo Tour Kitchen Section" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1146,8 +1419,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Route: /rooms/[id]#reviews</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/reviews-section.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/reviews-section.png';}" alt="Reviews Section" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim#reviews</span>
+            </div>
+            <a href="public/docs/screenshots/reviews-section.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/reviews-section.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/reviews-section.png';}" alt="Reviews Section" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1177,8 +1467,25 @@
           </h3>
           <span class="pill" style="color: var(--primary);">Route: /rooms/[id]#host</span>
         </div>
-        <div class="screenshot-img-wrapper">
-          <img src="public/docs/screenshots/host-profile-card.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/host-profile-card.png';}" alt="Meet Your Host Card" class="screenshot-img" loading="lazy" />
+        <div class="browser-mockup">
+          <div class="browser-topbar">
+            <div class="browser-dots">
+              <span class="browser-dot red"></span>
+              <span class="browser-dot yellow"></span>
+              <span class="browser-dot green"></span>
+            </div>
+            <div class="browser-address-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>localhost:3000/rooms/terracotta-serene-candolim#host</span>
+            </div>
+            <a href="public/docs/screenshots/host-profile-card.png" target="_blank" class="browser-open-btn" title="View Full High-Resolution Screenshot">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Full View
+            </a>
+          </div>
+          <div class="screenshot-viewport">
+            <img src="public/docs/screenshots/host-profile-card.png" onerror="if(!this.dataset.fixed){this.dataset.fixed='1';this.src='/docs/screenshots/host-profile-card.png';}" alt="Meet Your Host Card" class="screenshot-img-fitted" loading="lazy" />
+          </div>
         </div>
         <div class="screenshot-details">
           <div class="screenshot-meta">
@@ -1483,8 +1790,8 @@ npm run build
 
   </div>
 
-  <footer style="text-align: center; padding: 28px; border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 13px;">
-    Airbnb Clone Architecture Guide • Eye-Care Edition (Dark Dimmed / Warm Sepia / Soft Light) • Production Ready
+  <footer style="text-align: center; padding: 32px 24px; border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 13.5px; background: var(--bg-surface);">
+    Airbnb Clone Architecture Guide • <strong>Soft Light Edition (Calm & Low-Glare)</strong> • Production Ready
   </footer>
 
   <script>
@@ -1496,17 +1803,20 @@ npm run build
       localStorage.setItem('airbnb_guide_theme', theme);
     }
 
-    // Auto-restore user preferred theme
+    // Auto-restore user preferred theme (Default: light)
     (function() {
-      const saved = localStorage.getItem('airbnb_guide_theme') || 'dark';
+      const saved = localStorage.getItem('airbnb_guide_theme') || 'light';
       setTheme(saved);
     })();
 
-    // Ensure image paths adapt whether loaded from file:// or http://
+    // Ensure image paths and links adapt whether loaded from file:// or http://
     if (window.location.protocol.startsWith('http')) {
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('img[src^="public/"]').forEach(img => {
           img.src = img.getAttribute('src').replace(/^public\//, '/');
+        });
+        document.querySelectorAll('a.browser-open-btn[href^="public/"]').forEach(link => {
+          link.href = link.getAttribute('href').replace(/^public\//, '/');
         });
       });
     }
