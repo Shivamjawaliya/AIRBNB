@@ -636,7 +636,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                 setHasInteracted(true);
                 isExpandedRef.current = true;
                 setIsExpanded(true);
-                setActiveSegment('where');
+                setActiveSegment(null);
               }
             }}
             className={`absolute top-4 left-1/2 -translate-x-1/2 rounded-full border border-slate-200 flex items-center z-30 cursor-pointer overflow-visible transition-colors duration-150 ${
@@ -663,7 +663,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                     setHasInteracted(true);
                     isExpandedRef.current = true;
                     setIsExpanded(true);
-                    setActiveSegment('where');
+                    setActiveSegment(null);
                   }
                 }}
                 className="flex items-center gap-2.5 flex-shrink-0 pl-0.5 cursor-pointer"
@@ -681,7 +681,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                     setHasInteracted(true);
                     isExpandedRef.current = true;
                     setIsExpanded(true);
-                    setActiveSegment('when');
+                    setActiveSegment(null);
                   }
                 }}
                 className="px-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0 cursor-pointer"
@@ -698,7 +698,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                     setHasInteracted(true);
                     isExpandedRef.current = true;
                     setIsExpanded(true);
-                    setActiveSegment('who');
+                    setActiveSegment(null);
                   }
                 }}
                 className="pl-1 truncate font-semibold text-[14px] text-[#222222] flex-shrink-0 cursor-pointer"
@@ -854,7 +854,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                   setHasInteracted(true);
                   isExpandedRef.current = true;
                   setIsExpanded(true);
-                  setActiveSegment('where');
+                  setActiveSegment(null);
                 } else {
                   setActiveSegment(null);
                   if (isScrolled) {
