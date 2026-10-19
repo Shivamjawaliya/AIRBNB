@@ -19,7 +19,7 @@ export function StickyBookingWidget({
   endDate,
   onOpenCalendar,
 }: StickyBookingWidgetProps) {
-  const [guests, setGuests] = useState({ adults: 2, children: 0, infants: 0, pets: 0 });
+  const [guests] = useState({ adults: 2, children: 0, infants: 0, pets: 0 });
   const [isGuestOpen, setIsGuestOpen] = useState(false);
 
   const pricing = useBookingPricing({

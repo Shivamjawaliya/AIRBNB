@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { ActiveView, ViewState } from '@/types';
+import { ViewState } from '@/types';
 
 /**
  * Global Hook to manage view transitions:

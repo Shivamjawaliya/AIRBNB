@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { LayoutGrid } from 'lucide-react';
 import { ListingPhoto } from '@/types';
 

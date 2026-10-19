@@ -884,7 +884,7 @@ export function HomeHeader() {
 
               {/* Who Card */}
               <div className="bg-white rounded-2xl p-4 shadow-xs border border-slate-200 space-y-4">
-                <div className="text-[17px] font-bold text-[#222222]">Who's coming?</div>
+                <div className="text-[17px] font-bold text-[#222222]">Who&apos;s coming?</div>
                 
                 <div className="flex items-center justify-between">
                   <div>
