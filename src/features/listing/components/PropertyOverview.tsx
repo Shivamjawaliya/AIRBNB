@@ -136,8 +136,8 @@ export function PropertyOverview({
   return (
     <div className="space-y-8">
       {/* 1. Entire rental unit in Pune City, India & Capacity Subtitle */}
-      <div>
-        <h2 className="text-[26px] font-semibold text-[#222222] tracking-tight leading-snug">
+      <div className="pt-2 sm:pt-4">
+        <h2 className="text-[24px] sm:text-[26px] md:text-[28px] font-semibold text-[#222222] tracking-tight leading-snug">
           {listing.propertyType} in {listing.location.city}, {listing.location.country}
         </h2>
         <p className="text-[16px] text-[#222222] mt-1 font-normal">
@@ -332,7 +332,7 @@ export function PropertyOverview({
           {/* Bedroom 2 */}
           <div className="p-4 rounded-2xl border border-[#dddddd] bg-white">
             <img
-              src="https://images.unsplash.com/photo-1540518614846-7ede433c4ef3?auto=format&fit=crop&w=800&q=80"
+              src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80"
               alt="Bedroom 2"
               className="w-full h-44 object-cover rounded-xl"
             />

@@ -21,8 +21,8 @@ export function ListingHeader({ title }: ListingHeaderProps) {
   };
 
   return (
-    <div className="pt-5 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <h1 className="text-[19px] sm:text-[21px] md:text-[23px] leading-[26px] font-semibold text-[#222222] tracking-[-0.015em]">
+    <div className="pt-7 sm:pt-8 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <h1 className="text-[24px] sm:text-[26px] leading-[32px] font-semibold text-[#222222] tracking-[-0.02em]">
         {title}
       </h1>
 

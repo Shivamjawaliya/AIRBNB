@@ -455,7 +455,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         }}
         className={`${isRoomsMode ? 'relative' : 'fixed top-0 left-0 right-0'} z-40 border-b border-slate-200 select-none overflow-visible w-full pt-2 sm:pt-2.5 ${
           isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.06)]' : ''
-        }`}
+        }`} 
       >
         {/* ========================================================================= */}
         {/* 1. DESKTOP HEADER (hidden on mobile, visible on desktop md+)              */}

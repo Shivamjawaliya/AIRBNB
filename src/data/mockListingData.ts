@@ -136,7 +136,7 @@ PS5 is also available on request at an additional charge.`,
     },
     {
       id: 'p4',
-      url: 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef3?auto=format&fit=crop&w=800&q=80',
+      url: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
       alt: 'Bedroom 2 with large window, wardrobe, and queen bed',
       category: 'bedroom',
       roomLabel: 'Bedroom 2',

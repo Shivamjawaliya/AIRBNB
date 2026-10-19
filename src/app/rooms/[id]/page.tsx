@@ -44,7 +44,7 @@ export default function ListingPage() {
       <HomeHeader mode="rooms" />
 
       {/* Main Page Container */}
-      <main className="flex-1 max-w-[1120px] w-full mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8">
         {/* 2. Listing Title & Action Bar */}
         <ListingHeader title={MOCK_LISTING_DATA.title} />
 
@@ -58,13 +58,11 @@ export default function ListingPage() {
         </div>
 
         {/* 4. Sticky Secondary Navigation Bar (Photos, Amenities, Reviews, Location) */}
-        <div className="mt-6">
-          <SubNavbar />
-        </div>
+        <SubNavbar />
 
         {/* 5. Two-Column Layout Container: Left Details vs Right Sticky Widget */}
-        {/* The sticky widget is bound strictly to this container and stops sticking after the calendar */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-12 relative items-start">
+        {/* The sticky widget is bound strictly to this container and floats on display until after the calendar */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
           
           {/* Left Column (2 Cols): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
           <div className="lg:col-span-2">
@@ -74,11 +72,22 @@ export default function ListingPage() {
               endDate={dateRange.endDate}
               onDatesChange={(start, end) => setDateRange({ startDate: start, endDate: end })}
             />
+
+            {/* Mobile Booking Widget (visible on small screens only) */}
+            <div className="lg:hidden mt-8">
+              <StickyBookingWidget
+                listing={MOCK_LISTING_DATA}
+                startDate={dateRange.startDate}
+                endDate={dateRange.endDate}
+                onDatesChange={(start, end) => setDateRange({ startDate: start, endDate: end })}
+                onOpenCalendar={handleScrollToCalendar}
+              />
+            </div>
           </div>
 
           {/* Right Column (1 Col): Floating Sticky Booking Widget */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-20 space-y-4">
+          <div className="hidden lg:block lg:col-span-1 relative">
+            <div className="sticky top-20">
               <StickyBookingWidget
                 listing={MOCK_LISTING_DATA}
                 startDate={dateRange.startDate}

@@ -54,7 +54,7 @@ export function SubNavbar({ onScrollToSection }: SubNavbarProps) {
 
   return (
     <nav className="sticky top-0 z-30 bg-white border-b border-[#dddddd] transition-all duration-200">
-      <div className="max-w-[1120px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 flex items-center justify-between h-12 sm:h-14">
+      <div className="w-full flex items-center justify-between h-12 sm:h-14">
         {/* Navigation Tabs */}
         <div className="flex items-center gap-6 sm:gap-8 h-full">
           <button
