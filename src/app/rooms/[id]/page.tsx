@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { HomeHeader } from '@/features/home/components/HomeHeader';
 import { Footer } from '@/components/layout/Footer';
 import { ListingHeader } from '@/features/listing/components/ListingHeader';
@@ -31,6 +32,36 @@ export default function ListingPage() {
     endDate: new Date('2026-11-08'),
   });
 
+  const [showStickyNav, setShowStickyNav] = useState(false);
+  const mainSectionRef = useRef<HTMLDivElement>(null);
+
+  const nights = dateRange.startDate && dateRange.endDate
+    ? Math.max(1, Math.round((dateRange.endDate.getTime() - dateRange.startDate.getTime()) / (1000 * 60 * 60 * 24)))
+    : 2;
+  const totalPrice = nights * (MOCK_LISTING_DATA.pricing?.basePricePerNight || 4349);
+
+  // Trigger sticky top bar with top-to-bottom slide/fade-in animation
+  // at the exact moment the reservation template fixes its position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!mainSectionRef.current) return;
+      const rect = mainSectionRef.current.getBoundingClientRect();
+      setShowStickyNav(rect.top <= 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Support deep link or testing scroll parameter
+    const params = new URLSearchParams(window.location.search);
+    const scrollVal = params.get('scroll');
+    if (scrollVal) {
+      window.scrollTo(0, parseInt(scrollVal, 10));
+    }
+
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleScrollToCalendar = () => {
     const el = document.getElementById('amenities');
     if (el) {
@@ -43,8 +74,20 @@ export default function ListingPage() {
       {/* 1. Global Navigation Bar with smooth expandable search */}
       <HomeHeader mode="rooms" />
 
+      {/* Floating Animated SubNavbar (Photos, Amenities, Reviews, Location + Mini Reserve Block) */}
+      <AnimatePresence>
+        {showStickyNav && (
+          <SubNavbar
+            listing={MOCK_LISTING_DATA}
+            nights={nights}
+            totalPrice={totalPrice}
+            onReserveClick={handleScrollToCalendar}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Main Page Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8">
         {/* 2. Listing Title & Action Bar */}
         <ListingHeader title={MOCK_LISTING_DATA.title} />
 
@@ -57,12 +100,12 @@ export default function ListingPage() {
           />
         </div>
 
-        {/* 4. Sticky Secondary Navigation Bar (Photos, Amenities, Reviews, Location) */}
-        <SubNavbar />
-
-        {/* 5. Two-Column Layout Container: Left Details vs Right Sticky Widget */}
+        {/* 4. Two-Column Layout Container: Left Details vs Right Sticky Widget */}
         {/* The sticky widget is bound strictly to this container and floats on display until after the calendar */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+        <div
+          ref={mainSectionRef}
+          className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-12 relative"
+        >
           
           {/* Left Column (2 Cols): Overview, Highlights, Description, Where you'll sleep, Amenities, Calendar */}
           <div className="lg:col-span-2">

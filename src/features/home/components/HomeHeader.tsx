@@ -440,20 +440,22 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         )}
       </AnimatePresence>
 
-      {/* Header Container that transitions height smoothly between Endpoint 1 (180px) and Endpoint 2 (86px) on desktop */}
+      {/* Header Container that transitions height smoothly between Endpoint 1 (180px) and Endpoint 2 (86px/80px) on desktop */}
       <motion.header
         ref={headerRef}
         initial={false}
         animate={{
-          height: isMobile ? 'auto' : (isEndpoint2 ? 86 : 180),
+          height: isMobile ? 'auto' : (isEndpoint2 ? (isRoomsMode ? 80 : 86) : 180),
         }}
         transition={activeTransition}
         style={{
           background: isRoomsMode
             ? '#ffffff'
-            : 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-quaternary) 54%, var(--palette-bg-primary)) 100%))',
+            : 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-primary)) 100%))',
         }}
-        className={`${isRoomsMode ? 'relative' : 'fixed top-0 left-0 right-0'} z-40 border-b border-slate-200 select-none overflow-visible w-full pt-2 sm:pt-2.5 ${
+        className={`${isRoomsMode ? 'relative' : 'fixed top-0 left-0 right-0'} z-40 border-b border-slate-200 select-none overflow-visible w-full ${
+          isRoomsMode ? 'pt-0' : 'pt-2 sm:pt-2.5'
+        } ${
           isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.06)]' : ''
         }`} 
       >
@@ -462,7 +464,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         {/* ========================================================================= */}
         <div className={`hidden md:block mx-auto h-full relative ${
           isRoomsMode
-             ? 'max-w-7xl px-4 sm:px-8'
+            ? 'max-w-7xl px-4 sm:px-8'
             : 'max-w-[1760px] px-6 md:px-8 min-[1138px]:px-20'
         }`}>
           
@@ -473,7 +475,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
             <Link
               href="/"
               className={`flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group ${
-                isRoomsMode ? '' : '-ml-1 md:-ml-2 min-[1138px]:-ml-8'
+                isRoomsMode ? '-ml-2' : '-ml-1 md:-ml-2 min-[1138px]:-ml-8'
               }`}
               aria-label="Airbnb homepage"
             >

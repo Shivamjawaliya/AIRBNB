@@ -263,7 +263,10 @@ export function StickyBookingWidget({
         </div>
 
         {/* Reserve Button matching Screenshot */}
-        <button className="w-full py-3.5 rounded-lg bg-[#E00B41] hover:bg-[#D70466] text-white font-semibold text-[16px] transition cursor-pointer active:scale-[0.99] shadow-xs">
+        <button
+          onClick={onOpenCalendar}
+          className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#E61E4D] via-[#E31C5F] to-[#D70466] hover:opacity-95 text-white font-semibold text-[16px] transition cursor-pointer active:scale-[0.98] shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#E00B41]"
+        >
           Reserve
         </button>
 
