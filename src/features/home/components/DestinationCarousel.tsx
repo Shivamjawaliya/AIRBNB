@@ -63,6 +63,12 @@ export function DestinationCarousel({ destinations }: DestinationCarouselProps) 
                 src={dest.imageUrl}
                 alt={dest.city}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('photo-1502602898657-3e91760cbb34')) {
+                    target.src = 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80';
+                  }
+                }}
               />
             </div>
 

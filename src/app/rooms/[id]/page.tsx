@@ -115,6 +115,55 @@ const NEARBY_STAYS_PAGE_2: NearbyStay[] = [
   },
 ];
 
+interface CoHost {
+  name: string;
+  avatarUrl: string;
+  localFallback: string;
+}
+
+const CO_HOSTS: CoHost[] = [
+  {
+    name: 'Sharath',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/sharath.jpg',
+  },
+  {
+    name: 'Aman Dev Pahwa',
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/aman.jpg',
+  },
+  {
+    name: 'Maria Karen Priyanka',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/maria.jpg',
+  },
+  {
+    name: 'Simran',
+    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/simran.jpg',
+  },
+  {
+    name: 'Pallavi',
+    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/pallavi.jpg',
+  },
+  {
+    name: 'Sanyukta',
+    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/sanyukta.jpg',
+  },
+  {
+    name: 'Shruti',
+    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/shruti.jpg',
+  },
+  {
+    name: 'Amisha',
+    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&h=120&q=80',
+    localFallback: '/hosts/amisha.jpg',
+  },
+];
+
 export default function ListingPage() {
   const {
     activeView,
@@ -673,6 +722,9 @@ export default function ListingPage() {
                   <div className="relative inline-block">
                     <img
                       src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+                      onError={(e) => {
+                        e.currentTarget.src = '/hosts/mirashya.jpg';
+                      }}
                       alt="Mirashya Homes"
                       className="w-[104px] h-[104px] rounded-full object-cover shadow-sm"
                     />
@@ -732,38 +784,19 @@ export default function ListingPage() {
               </h4>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/sharath.png" alt="Sharath" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Sharath</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/aman.png" alt="Aman Dev Pahwa" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Aman Dev Pahwa</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/maria.png" alt="Maria Karen Priyanka" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Maria Karen Priyanka</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/simran.png" alt="Simran" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Simran</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/pallavi.png" alt="Pallavi" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Pallavi</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <img src="/hosts/sanyukta.png" alt="Sanyukta" className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                  <span>Sanyukta</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <span className="w-8 h-8 rounded-full bg-pink-100 text-[#D70466] font-semibold text-[13px] flex items-center justify-center flex-shrink-0">S</span>
-                  <span>Shruti</span>
-                </div>
-                <div className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
-                  <span className="w-8 h-8 rounded-full bg-[#E8F0FE] text-[#1A73E8] font-semibold text-[13px] flex items-center justify-center flex-shrink-0">A</span>
-                  <span>Amisha</span>
-                </div>
+                {CO_HOSTS.map((cohost) => (
+                  <div key={cohost.name} className="flex items-center gap-3 text-[14px] font-medium text-[#222222]">
+                    <img
+                      src={cohost.avatarUrl}
+                      onError={(e) => {
+                        e.currentTarget.src = cohost.localFallback;
+                      }}
+                      alt={cohost.name}
+                      className="w-8 h-8 rounded-full object-cover flex-shrink-0 border border-slate-200 shadow-xs"
+                    />
+                    <span className="truncate">{cohost.name}</span>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-8">

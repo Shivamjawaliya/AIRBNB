@@ -440,12 +440,12 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
         )}
       </AnimatePresence>
 
-      {/* Header Container that transitions height smoothly between Endpoint 1 (180px) and Endpoint 2 (86px/80px) on desktop */}
+      {/* Header Container that transitions height smoothly between Endpoint 1 (180px) and Endpoint 2 (80px) on desktop */}
       <motion.header
         ref={headerRef}
         initial={false}
         animate={{
-          height: isMobile ? 'auto' : (isEndpoint2 ? (isRoomsMode ? 80 : 86) : 180),
+          height: isMobile ? 'auto' : (isEndpoint2 ? 80 : 180),
         }}
         transition={activeTransition}
         style={{
@@ -454,29 +454,21 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
             : 'var(--search-input_background, linear-gradient(in srgb, var(--palette-bg-primary) 39.9%, color-mix(in srgb, var(--palette-bg-primary)) 100%))',
         }}
         className={`${isRoomsMode ? 'relative' : 'fixed top-0 left-0 right-0'} z-40 border-b border-slate-200 select-none overflow-visible w-full ${
-          isRoomsMode ? 'pt-0' : 'pt-2 sm:pt-2.5'
-        } ${
           isScrolled ? 'shadow-[0_2px_4px_rgba(0,0,0,0.06)]' : ''
         }`} 
       >
         {/* ========================================================================= */}
         {/* 1. DESKTOP HEADER (hidden on mobile, visible on desktop md+)              */}
         {/* ========================================================================= */}
-        <div className={`hidden md:block mx-auto h-full relative ${
-          isRoomsMode
-            ? 'max-w-7xl px-4 sm:px-8'
-            : 'max-w-[1760px] px-6 md:px-8 min-[1138px]:px-20'
-        }`}>
+        <div className="hidden md:block mx-auto h-full relative max-w-[1760px] px-8 sm:px-10 md:px-12 min-[1138px]:px-20">
           
-          {/* Top Bar Row (80px height) */}
-          <div className="h-20 flex items-center justify-between relative">
+          {/* Top Bar Row (80px height) with comfortable left & right padding */}
+          <div className="h-20 flex items-center justify-between relative px-2 sm:px-4">
             
-            {/* Left: Airbnb Brand Logo - shifted left, decreased size, lighter wordmark weight */}
+            {/* Left: Airbnb Brand Logo */}
             <Link
               href="/"
-              className={`flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group ${
-                isRoomsMode ? '-ml-2' : '-ml-1 md:-ml-2 min-[1138px]:-ml-8'
-              }`}
+              className="flex items-center gap-1.5 cursor-pointer z-20 flex-shrink-0 group"
               aria-label="Airbnb homepage"
             >
               <svg
@@ -641,7 +633,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
                 setActiveSegment(null);
               }
             }}
-            className={`absolute ${isRoomsMode ? 'top-[15px]' : 'top-4'} left-1/2 -translate-x-1/2 rounded-full border border-slate-200 flex items-center z-30 cursor-pointer overflow-visible transition-colors duration-150 ${
+            className={`absolute top-4 left-1/2 -translate-x-1/2 rounded-full border border-slate-200 flex items-center z-30 cursor-pointer overflow-visible transition-colors duration-150 ${
               isEndpoint2 ? 'hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]' : ''
             }`}
           >
@@ -1275,7 +1267,7 @@ export function HomeHeader({ mode = 'home' }: HomeHeaderProps = {}) {
       <motion.div
         initial={false}
         animate={{
-          height: isRoomsMode ? 0 : (isMobile ? 126 : (isScrolled ? 86 : 180)),
+          height: isRoomsMode ? 0 : (isMobile ? 126 : (isScrolled ? 80 : 180)),
         }}
         transition={activeTransition}
         className="w-full flex-shrink-0"

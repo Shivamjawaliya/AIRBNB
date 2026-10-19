@@ -161,7 +161,7 @@ export const NOIDA_LISTINGS: HomeListingItem[] = [
     rating: 4.93,
     isGuestFavorite: true,
     images: [
-      'https://images.unsplash.com/photo-1540518614846-7ede433c4ef3?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
     ],
   },
   {

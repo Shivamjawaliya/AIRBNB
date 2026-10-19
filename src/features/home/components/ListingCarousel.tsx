@@ -125,6 +125,12 @@ export function ListingCarousel({
                   src={item.images[0]}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.includes('photo-1590490360182-c33d57733427')) {
+                      target.src = 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80';
+                    }
+                  }}
                 />
 
                 {/* Guest Favourite Badge */}

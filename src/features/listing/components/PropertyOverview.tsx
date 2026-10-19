@@ -210,6 +210,9 @@ export function PropertyOverview({
         <div className="relative">
           <img
             src={listing.host.avatarUrl}
+            onError={(e) => {
+              e.currentTarget.src = '/hosts/mirashya.jpg';
+            }}
             alt={listing.host.name}
             className="w-12 h-12 rounded-full object-cover border border-slate-200"
           />

@@ -26,23 +26,7 @@ export function PhotoTourOverlay({
   const [isSaved, setIsSaved] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  // Sync modal=PHOTO_TOUR_SCROLLABLE query param with browser URL
-  useEffect(() => {
-    if (isOpen) {
-      const url = new URL(window.location.href);
-      if (url.searchParams.get('modal') !== 'PHOTO_TOUR_SCROLLABLE') {
-        url.searchParams.set('modal', 'PHOTO_TOUR_SCROLLABLE');
-        window.history.pushState({ modal: 'PHOTO_TOUR_SCROLLABLE' }, '', url.toString());
-      }
-    } else {
-      const url = new URL(window.location.href);
-      if (url.searchParams.get('modal') === 'PHOTO_TOUR_SCROLLABLE') {
-        url.searchParams.delete('modal');
-        const nextUrl = url.pathname + (url.search ? url.search : '');
-        window.history.pushState({}, '', nextUrl);
-      }
-    }
-  }, [isOpen]);
+  // URL and history synchronization is managed centrally by useViewState
 
   // Handle Escape key listener
   useEffect(() => {
