@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/claude-settings.json",
+  "version": "1.0.0",
+  "skills": {
+    "code-reviewer": {
+      "enabled": true,
+      "autoTrigger": "onFileChange",
+      "rules": [
+        "strict-types",
+        "no-implicit-any",
+        "responsive-layout-integrity",
+        "passive-scroll-listeners"
+      ]
+    },
+    "simplify": {
+      "enabled": true,
+      "promptBeforeRemoval": true,
+      "rules": [
+        "dead-code-elimination",
+        "unused-imports",
+        "duplicate-css-classes"
+      ]
+    },
+    "coderabbit": {
+      "enabled": true,
+      "reviewLevel": "strict",
+      "securityScanning": true
+    }
+  },
+  "architecture": {
+    "pattern": "3-tier-layered",
+    "routerDirectory": "src/app",
+    "controllerDirectory": "src/features",
+    "serviceDirectory": "src/data",
+    "enforceStrictBoundaries": true
+  }
+}
