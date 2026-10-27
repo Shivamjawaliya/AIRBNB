@@ -23,3 +23,34 @@ export interface PricingBreakdown {
   taxAmount: number;
   grandTotal: number;
 }
+
+export interface ConfigPricing {
+  currency: string;
+  nightlyRate: number;
+  cleaningFee: number;
+}
+
+export interface GuestConstraints {
+  min: number;
+  max: number;
+}
+
+export interface StayConstraints {
+  minNights: number;
+  maxNights: number;
+}
+
+export interface HouseRulesConfig {
+  petsAllowed: boolean;
+  smokingAllowed: boolean;
+  partiesAllowed: boolean;
+}
+
+export interface ListingConfigResponse {
+  disabledDates: string[];
+  guestConstraints: GuestConstraints;
+  stayConstraints: StayConstraints;
+  pricing: ConfigPricing;
+  houseRules: HouseRulesConfig;
+}
+

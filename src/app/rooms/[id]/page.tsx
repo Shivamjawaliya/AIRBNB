@@ -13,6 +13,8 @@ import { PhotoTourOverlay } from '@/features/photo-tour/components/PhotoTourOver
 import { LightboxModal } from '@/features/lightbox/components/LightboxModal';
 import { useViewState } from '@/hooks/useViewState';
 import { MOCK_LISTING_DATA } from '@/data/mockListingData';
+import { fetchListingConfig } from '@/services/configService';
+import { ListingConfigResponse } from '@/features/booking/types/booking.types';
 import {
   Star,
   ShieldCheck,
@@ -185,7 +187,26 @@ export default function ListingPage() {
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [nearbyPage, setNearbyPage] = useState<number>(1);
   const [savedStays, setSavedStays] = useState<Record<string, boolean>>({});
+  const [listingConfig, setListingConfig] = useState<ListingConfigResponse | null>(null);
   const mainSectionRef = useRef<HTMLDivElement>(null);
+
+  // Fetch live listing configuration (pricing, disabled dates, constraints) from external API
+  useEffect(() => {
+    let isMounted = true;
+    fetchListingConfig()
+      .then((config) => {
+        if (isMounted && config) {
+          setListingConfig(config);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to load listing configuration:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const toggleSaveStay = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
@@ -195,7 +216,9 @@ export default function ListingPage() {
   const nights = dateRange.startDate && dateRange.endDate
     ? Math.max(1, Math.round((dateRange.endDate.getTime() - dateRange.startDate.getTime()) / (1000 * 60 * 60 * 24)))
     : 2;
-  const totalPrice = nights * (MOCK_LISTING_DATA.pricing?.basePricePerNight || 4349);
+
+  const effectiveNightlyRate = listingConfig?.pricing?.nightlyRate ?? (MOCK_LISTING_DATA.pricing?.basePricePerNight || 4500);
+  const totalPrice = nights * effectiveNightlyRate;
 
   // Trigger sticky top bar with top-to-bottom slide/fade-in animation
   // at the exact moment the reservation template fixes its position
@@ -277,6 +300,7 @@ export default function ListingPage() {
             <div className="lg:hidden mt-8">
               <StickyBookingWidget
                 listing={MOCK_LISTING_DATA}
+                pricing={listingConfig?.pricing}
                 startDate={dateRange.startDate}
                 endDate={dateRange.endDate}
                 onDatesChange={(start, end) => setDateRange({ startDate: start, endDate: end })}
@@ -290,6 +314,7 @@ export default function ListingPage() {
             <div className="sticky top-20">
               <StickyBookingWidget
                 listing={MOCK_LISTING_DATA}
+                pricing={listingConfig?.pricing}
                 startDate={dateRange.startDate}
                 endDate={dateRange.endDate}
                 onDatesChange={(start, end) => setDateRange({ startDate: start, endDate: end })}

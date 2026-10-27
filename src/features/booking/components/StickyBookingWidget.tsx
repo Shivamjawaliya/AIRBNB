@@ -4,9 +4,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Flag, Minus, Plus } from 'lucide-react';
 import { formatCurrency } from '@/lib/formatters';
 import { ListingDetail } from '@/types';
+import { ConfigPricing } from '@/features/booking/types/booking.types';
 
 interface StickyBookingWidgetProps {
   listing: ListingDetail;
+  pricing?: ConfigPricing;
   startDate: Date | null;
   endDate: Date | null;
   onOpenCalendar?: () => void;
@@ -15,6 +17,7 @@ interface StickyBookingWidgetProps {
 
 export function StickyBookingWidget({
   listing,
+  pricing,
   startDate,
   endDate,
   onOpenCalendar,
@@ -52,8 +55,10 @@ export function StickyBookingWidget({
     ? Math.max(1, Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)))
     : 2;
 
-  const basePricePerNight = listing.pricing?.basePricePerNight || 4349;
-  const totalPrice = nights * basePricePerNight;
+  const basePricePerNight = pricing?.nightlyRate || listing.pricing?.basePricePerNight || 4500;
+  const cleaningFee = pricing?.cleaningFee ?? (listing.pricing?.cleaningFee || 0);
+  const baseTotal = nights * basePricePerNight;
+  const totalBeforeTaxes = baseTotal + cleaningFee;
 
   const updateGuestCount = (type: 'adults' | 'children' | 'infants' | 'pets', delta: number) => {
     setGuests((prev) => {
@@ -106,7 +111,7 @@ export function StickyBookingWidget({
         <div className="flex items-baseline justify-between">
           <div>
             <span className="text-[22px] font-semibold text-[#222222] tracking-tight">
-              {formatCurrency(totalPrice)}
+              {formatCurrency(baseTotal)}
             </span>
             <span className="text-[16px] text-[#222222] font-normal">
               {' '}for {nights} night{nights > 1 ? 's' : ''}
@@ -126,11 +131,11 @@ export function StickyBookingWidget({
           <div className="py-3 px-3.5 bg-[#f7f7f7] rounded-xl text-xs space-y-2 border border-slate-200">
             <div className="flex justify-between text-slate-700">
               <span>{formatCurrency(basePricePerNight)} × {nights} nights</span>
-              <span>{formatCurrency(totalPrice)}</span>
+              <span>{formatCurrency(baseTotal)}</span>
             </div>
             <div className="flex justify-between text-slate-700">
               <span>Cleaning fee</span>
-              <span className="text-emerald-700 font-medium">Free</span>
+              <span>{cleaningFee > 0 ? formatCurrency(cleaningFee) : <span className="text-emerald-700 font-medium">Free</span>}</span>
             </div>
             <div className="flex justify-between text-slate-700">
               <span>Airbnb service fee</span>
@@ -138,7 +143,7 @@ export function StickyBookingWidget({
             </div>
             <div className="border-t border-slate-200 pt-2 flex justify-between font-bold text-slate-900">
               <span>Total before taxes</span>
-              <span>{formatCurrency(totalPrice)}</span>
+              <span>{formatCurrency(totalBeforeTaxes)}</span>
             </div>
           </div>
         )}
